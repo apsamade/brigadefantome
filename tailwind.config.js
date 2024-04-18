@@ -11,10 +11,10 @@ module.exports = {
         montserrat: ['Montserrat', 'sans-serif']
       },
       colors: {
-        
+        fond: '#0d1720'
       },
       backgroundImage: {
-        
+        'header': "url('/assets/background/fond-header.jpg')"
       }
     },
   },

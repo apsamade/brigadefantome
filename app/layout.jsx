@@ -1,4 +1,5 @@
 import '@styles/global.css'
+import Footer from '@components/Footer'
 
 export const metadata = {
     title: 'Brigade Fantôme',
@@ -21,8 +22,9 @@ const RootLayout = ({ children }) => {
                 <meta property="og:url" content="https://brigadefantome.vercel.app/" />
 
             </head>
-            <body>
+            <body className='bg-fond text-white'>
                 {children}
+                <Footer />
             </body>
         </html>
     )
