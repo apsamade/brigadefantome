@@ -15,7 +15,7 @@ const RootLayout = ({ children }) => {
                 <meta property="og:type" content="website" />
                 <meta property="og:locale" content="fr_FR" />
                 <link rel="shortcut icon" href="/logo/logo_brigade_2.png" type="image/x-icon" />
-                <meta charset="UTF-8" />
+                <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
                 <meta property="og:title" content="Tournoi de la Brigade Fantôme" />
                 <meta property="og:description" content="Site officiel de la Brigade Fantôme organisation de tournoi de jeux vidéo compétitif tel que Warzone / League of Legends / NBA et autre." />
                 <meta property="og:image" content="/logo/logo_brigade_2.png" />
