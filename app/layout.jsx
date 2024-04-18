@@ -2,8 +2,8 @@ import '@styles/global.css'
 import { LayoutRouter } from 'next/dist/server/app-render/entry-base'
 
 export const metadata = {
-    title: 'Game Game Room',
-    description: 'Site officiel de la Game Game Room organisation de tournoi de jeux vidéo compétitif.'
+    title: 'Brigade Fantôme',
+    description: 'Site officiel de la Brigade Fantôme organisation de tournoi de jeux vidéo compétitif.'
 }
 
 const RootLayout = ({ children }) => {
