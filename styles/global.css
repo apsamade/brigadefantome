@@ -1,0 +1,25 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+*{
+    font-family: 'Montserrat', sans-serif;
+}
+/* Barre de défilement verticale */
+::-webkit-scrollbar {
+    width: 8px; /* Largeur de la barre de défilement */
+}
+
+::-webkit-scrollbar-track {
+    background: #e05c9a81; /* Couleur de fond de la piste de défilement */
+}
+
+::-webkit-scrollbar-thumb {
+    background: #e05c9a;
+    border-radius: 6px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #e05c5c; /* Couleur de la poignée de défilement au survol */
+}
