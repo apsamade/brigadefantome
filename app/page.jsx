@@ -17,7 +17,7 @@ const Home = () => {
             </header>
             <section className="pt-16">
                 <div className="mx-auto max-w-[700px] pb-8 p-4">
-                    <h2 className="uppercase text-center p-8 text-2xl">Qui sommes-nous ?</h2>
+                    <h2 className="uppercase text-center mx-[-15px] px-0 p-8 text-2xl">Qui sommes-nous ?</h2>
                     <p className="font-light text-center">Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque autem, expedita provident sit quis blanditiis commodi. Quisquam optio assumenda, placeat, expedita.</p>
                 </div>
             </section>
