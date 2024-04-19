@@ -14,7 +14,9 @@ module.exports = {
         fond: '#0d1720'
       },
       backgroundImage: {
-        'header': "url('/assets/background/fond-header.jpg')"
+        'header': "url('/assets/background/fond-header.jpg')",
+        'from': "url('/assets/background/bg-form.jpg')",
+        'from-2': "url('/assets/background/bg-form-2.jpg')"
       }
     },
   },

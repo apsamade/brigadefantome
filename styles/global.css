@@ -23,3 +23,18 @@
 ::-webkit-scrollbar-thumb:hover {
     background: #1567ff; /* Couleur de la poignée de défilement au survol */
 }
+
+/* message & erreur */
+.message{
+    animation: fadeIn 0.5s 0s ease forwards;
+}
+@keyframes fadeIn {
+    0%{
+        opacity: 0;
+        transform: translateY(-100%);
+    }
+    100%{
+        opacity: 1;
+        transform: none;
+    }
+}
