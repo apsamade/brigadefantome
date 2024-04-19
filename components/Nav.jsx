@@ -87,7 +87,7 @@ const Nav = () => {
                 onClick={handleNav}
                 className='fixed z-50 top-0 hover:px-6 duration-200 right-0 lg:hidden cursor-pointer p-1'
             >
-                <AiOutlineMenu size={45} />
+                <AiOutlineMenu size={45} className='text-sky-300' />
             </div>
             <aside
                 className={openMenu ? 'fixed z-20 top-0 right-0 bottom-0 max-w-[350px] w-[70%] lg:hidden duration-200 p-2 bg-black ease-out justify-center flex-col flex items-center'
