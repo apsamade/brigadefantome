@@ -78,6 +78,7 @@ const Nav = () => {
                 <Link
                     href='/'
                     className='p-4 mb-4'
+                    onClick={handleNav}
                 >
                     <Image
                         src='/logo/logo_brigade_2.png'
@@ -90,6 +91,7 @@ const Nav = () => {
                 <ul className='flex px-4 my-4 w-full justify-center flex-col items-start'>
                     <li>
                         <Link
+                            onClick={handleNav}
                             href='/decouvrir'
                             className='p-4 block border-b border-transparent hover:border-white duration-200'
                         >
@@ -98,6 +100,7 @@ const Nav = () => {
                     </li>
                     <li>
                         <Link
+                            onClick={handleNav}
                             href='/evenements'
                             className='p-4 block border-b border-transparent hover:border-white duration-200'
                         >
@@ -106,6 +109,7 @@ const Nav = () => {
                     </li>
                     <li>
                         <Link
+                            onClick={handleNav}
                             href='/contact'
                             className='p-4 block border-b border-transparent hover:border-white duration-200'
                         >
@@ -117,6 +121,7 @@ const Nav = () => {
                 <ul className='flex m-4 mt-16 flex-col justify-center items-center'>
                     <li>
                         <Link
+                            onClick={handleNav}
                             href='/connexion'
                             className='p-4 rounded-full hover:bg-emerald-700 px-8 bg-red-600 duration-200'
                         >
