@@ -5,9 +5,11 @@ import Link from 'next/link'
 import { useState } from 'react'
 import { AiOutlineMenu } from "react-icons/ai"
 import { usePathname } from 'next/navigation'
+import { useSession } from 'next-auth/react'
 
 const Nav = () => {
     const pathname = usePathname()
+    const { data: session } = useSession()
     const [openMenu, setOpenMenu] = useState(false)
     const handleNav = () => {
         setOpenMenu(!openMenu)
@@ -56,12 +58,28 @@ const Nav = () => {
 
                 <ul className='flex justify-center items-center'>
                     <li>
-                        <Link
-                            href='/connexion'
-                            className='p-4 rounded-full hover:bg-emerald-700 px-8 bg-red-600 duration-200'
-                        >
-                            Connexion
-                        </Link>
+                        {session?.user ? (
+                            <Link
+                                onClick={handleNav}
+                                href='/profile'
+                            >
+                                <Image
+                                    src={session?.user.image}
+                                    alt='Photo de profile'
+                                    width={50}
+                                    height={50}
+                                    className='block hover:scale-110 duration-200 rounded-[100%] mr-2'
+                                />
+                            </Link>
+                        ) : (
+                            <Link
+                                onClick={handleNav}
+                                href='/connexion'
+                                className='p-4 rounded-full hover:bg-emerald-700 px-8 bg-red-600 duration-200'
+                            >
+                                Connexion
+                            </Link>
+                        )}
                     </li>
                 </ul>
             </nav>
@@ -93,7 +111,7 @@ const Nav = () => {
                         <Link
                             onClick={handleNav}
                             href='/decouvrir'
-                            className='p-4 block border-b border-transparent hover:border-white duration-200'
+                            className='p-4 py-2 my-2 block border-b border-transparent hover:border-white duration-200'
                         >
                             Découvrir
                         </Link>
@@ -102,7 +120,7 @@ const Nav = () => {
                         <Link
                             onClick={handleNav}
                             href='/evenements'
-                            className='p-4 block border-b border-transparent hover:border-white duration-200'
+                            className='p-4 py-2 my-2 block border-b border-transparent hover:border-white duration-200'
                         >
                             Évenements
                         </Link>
@@ -111,7 +129,7 @@ const Nav = () => {
                         <Link
                             onClick={handleNav}
                             href='/contact'
-                            className='p-4 block border-b border-transparent hover:border-white duration-200'
+                            className='p-4 py-2 my-2 block border-b border-transparent hover:border-white duration-200'
                         >
                             Contact & Support
                         </Link>
@@ -120,13 +138,30 @@ const Nav = () => {
 
                 <ul className='flex m-4 mt-16 flex-col justify-center items-center'>
                     <li>
-                        <Link
-                            onClick={handleNav}
-                            href='/connexion'
-                            className='p-4 rounded-full hover:bg-emerald-700 px-8 bg-red-600 duration-200'
-                        >
-                            Connexion
-                        </Link>
+                        {session?.user ? (
+                            <Link
+                                onClick={handleNav}
+                                href='/profile'
+                                className='rounded-md flex items-end justify-center hover:bg-white hover:text-black duration-200 p-2'
+                            >
+                                <Image
+                                    src={session?.user.image}
+                                    alt='Photo de profile'
+                                    width={50}
+                                    height={50}
+                                    className='block rounded-[100%] mr-2'
+                                />
+                                {session?.user.pseudo}
+                            </Link>
+                        ) : (
+                            <Link
+                                onClick={handleNav}
+                                href='/connexion'
+                                className='p-4 rounded-full hover:bg-emerald-700 px-8 bg-red-600 duration-200'
+                            >
+                                Connexion
+                            </Link>
+                        )}
                     </li>
                 </ul>
             </aside>

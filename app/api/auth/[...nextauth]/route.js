@@ -100,7 +100,9 @@ export const authOptions = {
 
             const sessionUser = await User.findOne({ email: session.user.email });
             if (sessionUser) {
+                session.user = sessionUser
                 session.user.id = sessionUser._id.toString()
+                
                 console.log('session return avec succès : ', session.user)
                 return session;
             } else {

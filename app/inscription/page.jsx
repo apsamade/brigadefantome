@@ -54,14 +54,14 @@ const Inscription = () => {
         } else if (mdp != mdpv) {
             setError('Mot de passe de confirmation erroné.')
             handlErr()
-        } else if (email != users.map(u => u.email)) {
+        } else if (email == users.map(u => u.email)) {
             setError('Email déja existant.')
             handlErr()
         } else {
             try {
                 const response = await signIn('credentials', {
                     ...credentials,
-                    redirect: false,
+                    redirect: true,
                 });
 
                 console.log(response)
@@ -85,13 +85,17 @@ const Inscription = () => {
             >
                 <h2 className='uppercase bg-gradient-to-r pt-5 lg:text-3xl text-2xl pb-8 text-center'>Inscription</h2>
                 <div className='flex flex-wrap items-center justify-center'>
-                    <input className='rounded-md p-3 m-2 bg-sky-200 basis-full duration-300 outline-transparent focus:outline focus:outline-sky-600' type="email" placeholder='E-mail' name='email' />
+                    <input className='rounded-md p-3 m-2 bg-sky-200 basis-2/5 grow duration-300 outline-transparent focus:outline focus:outline-sky-600' type="email" placeholder='E-mail' name='email' />
+                    <input className='rounded-md p-3 m-2 bg-sky-200 basis-2/5 grow duration-300 outline-transparent focus:outline focus:outline-sky-600' type="text" placeholder='Pseudo' name='pseudo' />
+                    <div>
+                        
+                    </div>
                     <input className='rounded-md p-3 m-2 bg-sky-200 basis-2/5 flex-grow duration-300 outline-transparent focus:outline focus:outline-sky-600' type="password" name="mdp" id="mdp" placeholder='Mot de passe' />
                     <input className='rounded-md p-3 m-2 bg-sky-200 basis-2/5 flex-grow duration-300 outline-transparent focus:outline focus:outline-sky-600' type="password" name="mdpv" id="mdpv" placeholder='Mot de passe Confirmation' />
                     <button
                         className={submitting ?
-                            'p-3 m-2 flex-grow rounded-3xl outline outline-1 outline-sky-600 bg-sky-600 text-white duration-300'
-                            : 'p-3 m-2 flex-grow rounded-3xl outline outline-1 outline-black hover:bg-black hover:text-white duration-300'}
+                            'p-3 m-2 flex-grow basis-full rounded-3xl outline outline-1 outline-sky-600 bg-sky-600 text-white duration-300'
+                            : 'p-3 m-2 flex-grow basis-full rounded-3xl outline outline-1 outline-black hover:bg-black hover:text-white duration-300'}
                         type="submit"
                         disabled={submitting}
                     >

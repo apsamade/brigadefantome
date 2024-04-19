@@ -1,6 +1,7 @@
 import '@styles/global.css'
 import Footer from '@components/Footer'
 import Nav from '@components/Nav'
+import Provider from '@components/Provider'
 
 export const metadata = {
     title: 'Brigade Fantôme',
@@ -23,9 +24,11 @@ const RootLayout = ({ children }) => {
                 <meta property="og:url" content="https://brigadefantome.vercel.app/" />
             </head>
             <body className='bg-fond text-white'>
-                <Nav />
-                {children}
-                <Footer />
+                <Provider>
+                    <Nav />
+                    {children}
+                    <Footer />
+                </Provider>
             </body>
         </html>
     )

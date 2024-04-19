@@ -6,8 +6,6 @@ export const GET = async (req) => {
     try {
         await connectToDB();
         const users = await User.find()
-        console.log('users : ', users)
-
         return NextResponse.json(users, {status : 200})
     } catch (error) {
         console.log(error)
