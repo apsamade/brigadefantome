@@ -5,7 +5,7 @@ import NavUser from '@components/NavUser'
 import { useSession } from "next-auth/react"
 import { redirect } from "next/navigation"
 
-export default function Layout({ children }) {
+const RootLayout = ({ children }) => {
     const { data: session, status } = useSession();
     if (status === 'unauthenticated') return redirect('/connexion')
 
@@ -23,3 +23,5 @@ export default function Layout({ children }) {
         </body>
     )
 }
+
+export default RootLayout
