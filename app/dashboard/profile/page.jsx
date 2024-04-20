@@ -1,7 +1,5 @@
 "use client"
 
-import { redirect } from "next/navigation"
-import { useEffect } from "react"
 import { useSession, signOut } from "next-auth/react"
 
 const Profile = () => {
