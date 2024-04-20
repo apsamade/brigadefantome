@@ -7,7 +7,6 @@ export const metadata = {
     title: 'Brigade Fantôme',
     description: 'Site officiel de la Brigade Fantôme organisation de tournoi de jeux vidéo compétitif.'
 }
-
 const RootLayout = ({ children }) => {
     return (
         <html lang="fr">
@@ -33,5 +32,4 @@ const RootLayout = ({ children }) => {
         </html>
     )
 }
-
 export default RootLayout

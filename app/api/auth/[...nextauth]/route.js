@@ -112,7 +112,7 @@ export const authOptions = {
 
         },
         async redirect({ url, baseUrl }) {
-            return baseUrl
+            return (baseUrl, '/dashboard')
         }
     }
 }

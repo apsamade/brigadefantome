@@ -61,7 +61,7 @@ const Nav = () => {
                         {session?.user ? (
                             <Link
                                 onClick={handleNav}
-                                href='/profile'
+                                href='/dashboard/profile'
                             >
                                 <Image
                                     src={session?.user.image}
@@ -141,7 +141,7 @@ const Nav = () => {
                         {session?.user ? (
                             <Link
                                 onClick={handleNav}
-                                href='/profile'
+                                href='/dashboard/profile'
                                 className='rounded-md flex items-end justify-center hover:bg-white hover:text-black duration-200 p-2'
                             >
                                 <Image
