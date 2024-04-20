@@ -12,7 +12,7 @@ const Dashboard = () => {
                 <h1>Dashboard {session?.user.pseudo}</h1>
                 <Link
                     href="/dashboard/profile"
-                    className="flex text-white items-center justify-center p-4 rounded-lg bg-fond-2"
+                    className="flex text-white items-center justify-center p-4 rounded-lg hover:bg-fond-3 duration-200 bg-fond-2"
                 >
                     <Image
                         src={session?.user.image}

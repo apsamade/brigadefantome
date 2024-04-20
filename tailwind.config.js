@@ -12,7 +12,8 @@ module.exports = {
       },
       colors: {
         'fond': '#0d1720',
-        'fond-2': '#16202c'
+        'fond-2': '#16202c',
+        'fond-3': '#1a2a3e'
       },
       backgroundImage: {
         'header': "url('/assets/background/fond-header.jpg')",

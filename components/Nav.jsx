@@ -9,7 +9,7 @@ import { useSession } from 'next-auth/react'
 
 const Nav = () => {
     const pathname = usePathname()
-    const { data: session } = useSession()
+    const { data: session, status } = useSession()
     const [openMenu, setOpenMenu] = useState(false)
     const handleNav = () => {
         setOpenMenu(!openMenu)
@@ -58,7 +58,10 @@ const Nav = () => {
 
                 <ul className='flex justify-center items-center'>
                     <li>
-                        {session?.user ? (
+                        {status === 'loading' && (
+                            <p className='bg-fond p-4 rounded-md'>loading ...</p>
+                        )}
+                        {status === 'authenticated' && (
                             <Link
                                 onClick={handleNav}
                                 href='/dashboard/profile'
@@ -71,7 +74,8 @@ const Nav = () => {
                                     className='block hover:scale-110 duration-200 rounded-[100%] mr-2'
                                 />
                             </Link>
-                        ) : (
+                        )}
+                        {status === 'unauthenticated' && (
                             <Link
                                 onClick={handleNav}
                                 href='/connexion'
