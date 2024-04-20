@@ -7,9 +7,6 @@ import { useSession, signOut } from "next-auth/react"
 const Profile = () => {
     const { data: session } = useSession()
     console.log('ma session user ?', session?.user)
-    if (!session?.user) {
-        redirect('/connexion')
-    }
     return (
         <>
             <section className="min-h-[75vh]">

@@ -11,7 +11,8 @@ module.exports = {
         montserrat: ['Montserrat', 'sans-serif']
       },
       colors: {
-        fond: '#0d1720'
+        'fond': '#0d1720',
+        'fond-2': '#16202c'
       },
       backgroundImage: {
         'header': "url('/assets/background/fond-header.jpg')",
