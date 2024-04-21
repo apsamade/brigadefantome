@@ -98,8 +98,6 @@ export const authOptions = {
             if (sessionUser) {
                 session.user = sessionUser
                 session.user.id = sessionUser._id.toString()
-                
-                console.log('session return avec succès : ', session.user)
                 return session;
             } else {
                 console.log('erreur lors de l\'ouverture de la session .')
