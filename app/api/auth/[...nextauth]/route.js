@@ -36,7 +36,7 @@ export const authOptions = {
 
                     return null
                 } catch (error) {
-                    console.log(error)
+                    console.log('une erreur est survenue dans le credentialProvider : ', error)
                     return null
                 }
             }
@@ -45,11 +45,6 @@ export const authOptions = {
 
     callbacks: {
         async signIn({ account, profile, user, credentials }) {
-
-            console.log('account : ', account)
-            console.log('profile : ', profile)
-            console.log('user : ', user)
-            console.log('credentials : ', credentials)
             await connectToDB();
             if (account.provider == 'google') {
                 try {
@@ -65,14 +60,16 @@ export const authOptions = {
                         })
                         await newUser.save()
                         console.log("user créer avec google !")
+                        return true
                     }
-                    return true
+                    if(userExists) return true
+
+                    return false
                 } catch (error) {
                     console.log("Error checking if user exists dans google: ", error);
                     return false
                 }
             }
-
 
             if (account.provider == 'credentials') {
                 try {
@@ -86,7 +83,6 @@ export const authOptions = {
                         console.log('erreur lors de la connexion.')
                         return false
                     }
-
                 } catch (error) {
                     console.log("Error checking if user exists dans credentials: ", error)
                     return false
@@ -109,7 +105,6 @@ export const authOptions = {
                 console.log('erreur lors de l\'ouverture de la session .')
                 return null
             }
-
         },
         async redirect({ url, baseUrl }) {
             return (baseUrl, '/dashboard')
