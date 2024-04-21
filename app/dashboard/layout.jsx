@@ -7,6 +7,7 @@ import { redirect } from "next/navigation"
 const LayoutDashboard = ({ children }) => {
     const { data: session, status } = useSession();
     if (status === 'unauthenticated') return redirect('/connexion')
+    console.log('status actuelle ? ', status)
 
     if (status === 'loading') {
         return (

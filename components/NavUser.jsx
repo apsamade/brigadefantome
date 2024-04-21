@@ -15,8 +15,8 @@ const Nav = () => {
     }
     return (
         <>
-            <div className='w-[350px] hidden lg:block mr-4'>
-                <aside className='lg:flex rounded-lg w-[350px] hidden bg-fond-2 top-4 bottom-4 fixed flex-col justify-between items-center'>
+            <div className='min-w-[350px] hidden lg:block mr-4'>
+                <aside className='lg:flex shadow-2xl rounded-lg w-[350px] hidden bg-fond-2 top-4 bottom-4 fixed flex-col justify-between items-center'>
                     <Link
                         href='/dashboard'
                         className='p-4 mb-4'
