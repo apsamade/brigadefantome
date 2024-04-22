@@ -140,6 +140,12 @@ const Dashboard = () => {
                     </div>
                 </div>
             </section>
+            <section className="h-[30vh]">
+                <h2 className="uppercase text-2xl font-light mt-5 lg:p-0 p-4 pt-8">Prochain Tournois</h2>
+                <div className="h-[100%] flex items-center justify-center">
+                    <p>Aucun tournois prévu pour le moment ...</p>
+                </div>
+            </section>
         </main>
     )
 }
