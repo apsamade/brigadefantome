@@ -93,6 +93,7 @@ export const authOptions = {
         },
         async session({ session }) {
             // store the user id from MongoDB to session
+            console.log('une session existe elle en argument ? ', session)
             await connectToDB();
             const sessionUser = await User.findOne({ email: session.user.email });
             if (sessionUser) {
