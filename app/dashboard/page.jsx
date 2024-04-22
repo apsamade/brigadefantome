@@ -24,7 +24,7 @@ const Dashboard = () => {
                     <span className="m-2">{session?.user.pseudo}</span>
                 </Link>
             </nav>
-            <section className="flex w-[100%] flex-wrap xl:flex-nowrap max-w-[1200px] h-[400px] mx-auto items-center justify-center p-4">
+            <section className="flex w-[100%] flex-wrap xl:flex-nowrap max-w-[1200px] min-h-[400px] xl:h-[400px] mx-auto items-center justify-center p-4">
                 <div className="shadow-2xl xl:h-[100%] overflow-hidden basis-[250px] grow xl:flex-[1.5] xl:hover:flex-[6] duration-200 m-1 rounded-md relative">
                     <Image
                         src='/assets/elements/FC24.png'
