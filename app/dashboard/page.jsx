@@ -72,7 +72,7 @@ const Dashboard = () => {
                         className="rounded-md object-contain xl:object-cover xl:h-[100%]"
                     />
                     <div className="absolute opacity-0 flex flex-col justify-end hover:opacity-100 duration-200 p-4 overflow-hidden  btn-decouvrir left-0 bottom-0 right-0 top-0 rounded-lg">
-                        <h3 className="text-3xl -mr-3">League Of Legends</h3>
+                        <h3 className="text-3xl -ml-2 -mr-3">League Of Legends</h3>
                         <p className="mt-1 mb-4 font-light">Lorem, ipsum dolor sit amet consectetur adipisicing elit.</p>
                         <Link
                             href="/dashboard/decouvrir"
