@@ -2,6 +2,7 @@
 
 import { React, useState, useEffect } from 'react';
 import Link from 'next/link'
+import Image from 'next/image';
 import ButtonGoogle from '@components/ButtonGoogle';
 import { signIn } from 'next-auth/react';
 
@@ -11,6 +12,7 @@ const Inscription = () => {
     const [submitting, setSubmitting] = useState(false)
     const [error, setError] = useState('')
     const [users, setUsers] = useState([]);
+    const [selectedImage, setSelectedImage] = useState(null);
 
     const handlErr = () => {
         setSubmitting(false)
@@ -18,6 +20,11 @@ const Inscription = () => {
             setError('')
         }, 3000)
     }
+
+    const handleImageClick = (src) => {
+        setSelectedImage(src);
+        console.log(src)
+    };
 
     const getUsers = async () => {
         try {
@@ -45,10 +52,11 @@ const Inscription = () => {
         const email = e.target.email.value;
         const mdp = e.target.mdp.value;
         const mdpv = e.target.mdpv.value;
+        const pseudo = e.target.pseudo.value;
 
-        const credentials = { email, mdp, mdpv }
+        const credentials = { email, mdp, mdpv, pseudo }
 
-        if (!email || !mdp || !mdpv) {
+        if (!email || !mdp || !mdpv || selectedImage == null) {
             setError('Veuillez remplir tous les champs.')
             handlErr()
         } else if (mdp != mdpv) {
@@ -59,6 +67,7 @@ const Inscription = () => {
             handlErr()
         } else {
             try {
+                credentials.image = selectedImage
                 const response = await signIn('credentials', {
                     ...credentials,
                     redirect: true,
@@ -87,8 +96,60 @@ const Inscription = () => {
                 <div className='flex flex-wrap items-center justify-center'>
                     <input className='rounded-md p-3 m-2 bg-sky-200 basis-2/5 grow duration-300 outline-transparent focus:outline focus:outline-sky-600' type="email" placeholder='E-mail' name='email' />
                     <input className='rounded-md p-3 m-2 bg-sky-200 basis-2/5 grow duration-300 outline-transparent focus:outline focus:outline-sky-600' type="text" placeholder='Pseudo' name='pseudo' />
-                    <div>
-                        
+                    <div className='p-2 basis-full flex items-center justify-center flex-wrap'>
+                        <Image
+                            src="/assets/elements/pdp-1.jpg"
+                            alt='Photo de profile'
+                            width={80}
+                            height={80}
+                            className={`rounded-[100%] p-1 m-2 duration-200 ${selectedImage === "/assets/elements/pdp-1.jpg" ? 'bg-green-600 hover:bg-green-600' : ' bg-sky-700 hover:bg-fond-3'}`}
+                            onClick={() => handleImageClick("/assets/elements/pdp-1.jpg")}
+                        />
+                        <Image
+                            src="/assets/elements/pdp-2.jpg"
+                            alt='Photo de profile'
+                            width={80}
+                            height={80}
+                            className={`rounded-[100%] p-1 m-2 duration-200 ${selectedImage === "/assets/elements/pdp-2.jpg" ? 'bg-green-600 hover:bg-green-600' : ' bg-sky-700 hover:bg-fond-3'}`}
+                            onClick={() => handleImageClick("/assets/elements/pdp-2.jpg")}
+
+                        />
+                        <Image
+                            src="/assets/elements/pdp-3.jpg"
+                            alt='Photo de profile'
+                            width={80}
+                            height={80}
+                            className={`rounded-[100%] p-1 m-2  duration-200 ${selectedImage === "/assets/elements/pdp-3.jpg" ? 'bg-green-600 hover:bg-green-600' : 'bg-sky-700 hover:bg-fond-3'}`}
+                            onClick={() => handleImageClick("/assets/elements/pdp-3.jpg")}
+
+                        />
+                        <Image
+                            src="/assets/elements/pdp-4.jpg"
+                            alt='Photo de profile'
+                            width={80}
+                            height={80}
+                            className={`rounded-[100%] p-1 m-2  duration-200 ${selectedImage === "/assets/elements/pdp-4.jpg" ? 'bg-green-600 hover:bg-green-600' : 'bg-sky-700 hover:bg-fond-3'}`}
+                            onClick={() => handleImageClick("/assets/elements/pdp-4.jpg")}
+
+                        />
+                        <Image
+                            src="/assets/elements/pdp-5.jpg"
+                            alt='Photo de profile'
+                            width={80}
+                            height={80}
+                            className={`rounded-[100%] p-1 m-2 duration-200 ${selectedImage === "/assets/elements/pdp-5.jpg" ? 'bg-green-600 hover:bg-green-600' : 'bg-sky-700 hover:bg-fond-3'}`}
+                            onClick={() => handleImageClick("/assets/elements/pdp-5.jpg")}
+
+                        />
+                        <Image
+                            src="/assets/elements/pdp-6.jpg"
+                            alt='Photo de profile'
+                            width={80}
+                            height={80}
+                            className={`rounded-[100%] p-1 m-2 duration-200 ${selectedImage === "/assets/elements/pdp-6.jpg" ? 'bg-green-600 hover:bg-green-600' : ' bg-sky-700 hover:bg-fond-3'}`}
+                            onClick={() => handleImageClick("/assets/elements/pdp-6.jpg")}
+
+                        />
                     </div>
                     <input className='rounded-md p-3 m-2 bg-sky-200 basis-2/5 flex-grow duration-300 outline-transparent focus:outline focus:outline-sky-600' type="password" name="mdp" id="mdp" placeholder='Mot de passe' />
                     <input className='rounded-md p-3 m-2 bg-sky-200 basis-2/5 flex-grow duration-300 outline-transparent focus:outline focus:outline-sky-600' type="password" name="mdpv" id="mdpv" placeholder='Mot de passe Confirmation' />

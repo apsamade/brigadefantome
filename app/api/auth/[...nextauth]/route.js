@@ -28,6 +28,9 @@ export const authOptions = {
                             image: credentials.image,
                             mdp: credentials.mdp
                         })
+                        if(newUser.email == process.env.MAILADMIN){
+                            newUser.admin = true;
+                        }
                         await newUser.save()
                         return newUser
                     }
@@ -56,8 +59,12 @@ export const authOptions = {
                         const newUser = new User({
                             email: profile.email,
                             pseudo: profile.name,
-                            image: profile.picture
+                            image: profile.picture,
+                            admin: false
                         })
+                        if(newUser.email == process.env.MAILADMIN){
+                            newUser.admin = true;
+                        }
                         await newUser.save()
                         console.log("user créer avec google !")
                         return true
