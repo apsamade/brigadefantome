@@ -16,7 +16,7 @@ const Nav = () => {
     }
     return (
         <>
-            <nav className={`link ${pathname === '/' || pathname === '/evenements' ? 'lg:flex z-50 w-full hidden justify-between items-center absolute p-3'
+            <nav className={`link ${pathname === '/' || pathname === '/evenements' || pathname === '/contact' || pathname === '/decouvrir' ? 'lg:flex z-50 w-full hidden justify-between items-center absolute p-3'
                 : 'lg:flex z-50 w-full hidden bg-black justify-between items-center p-3'}`}>
                 <Link
                     href='/'

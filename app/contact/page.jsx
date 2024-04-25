@@ -58,10 +58,10 @@ const Contact = () => {
     }
 
     return (
-        <div className='min-h-[75vh]'>
-            <h1 className='p-5 text-xl text-center uppercase'>Envoyer nous un message !</h1>
+        <main className='min-h-[75vh] bg-contact-bg bg-cover pt-24 pb-8'>
             <section id="contact">
                 <h2 className="text-center p-4 uppercase text-3xl">Contact & Support</h2>
+                <p className='p-5 text-md font-extralight text-center uppercase'>Envoyer nous un message ça nous fera extrèmement plaisir !</p>
                 <form
                     onSubmit={handleSubmit}
                     className="border text-black bg-white m-3 flex-wrap rounded-md py-12 px-4 shadow-2xl my-4 flex justify-center items-center mx-auto max-w-[800px]"
@@ -86,7 +86,7 @@ const Contact = () => {
                     }
                 </form>
             </section>
-        </div>
+        </main>
     )
 }
 

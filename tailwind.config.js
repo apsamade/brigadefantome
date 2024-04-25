@@ -19,7 +19,10 @@ module.exports = {
         'header': "url('/assets/background/fond-header.jpg')",
         'from': "url('/assets/background/bg-form.jpg')",
         'from-2': "url('/assets/background/bg-form-2.jpg')",
-        'header-evenement': "url('/assets/background/evenement-header.png')"
+        'header-evenement': "url('/assets/background/evenement-header.png')",
+        'contact-bg': "url('/assets/background/contact-bg.png')",
+        'decouvrir': "url('/assets/background/decouvrir.png')"
+      
       }
     },
   },
