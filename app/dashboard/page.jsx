@@ -25,7 +25,7 @@ const Dashboard = () => {
                 </Link>
             </nav>
             <section className="flex w-[100%] flex-wrap xl:flex-nowrap max-w-[1200px] min-h-[400px] xl:h-[400px] mx-auto items-center justify-center p-4">
-                <div className="shadow-2xl xl:h-[100%] overflow-hidden basis-[250px] grow xl:flex-[1.5] xl:hover:flex-[6] duration-200 m-1 rounded-md relative">
+                <div className="shadow-2xl xl:h-[100%] overflow-hidden basis-[300px] grow xl:flex-[1.5] xl:hover:flex-[6] duration-200 m-1 rounded-md relative">
                     <Image
                         src='/assets/elements/FC24.png'
                         alt="FC24"
@@ -44,7 +44,7 @@ const Dashboard = () => {
                         </Link>
                     </div>
                 </div>
-                <div className="shadow-2xl xl:h-[100%] overflow-hidden basis-[250px] grow xl:flex-[1.5] xl:hover:flex-[6] duration-200 m-1 rounded-md relative">
+                <div className="shadow-2xl xl:h-[100%] overflow-hidden basis-[300px] grow xl:flex-[1.5] xl:hover:flex-[6] duration-200 m-1 rounded-md relative">
                     <Image
                         src='/assets/elements/Fortnite.png'
                         alt="FC24"
@@ -63,7 +63,7 @@ const Dashboard = () => {
                         </Link>
                     </div>
                 </div>
-                <div className="shadow-2xl xl:h-[100%] overflow-hidden basis-[250px] grow xl:flex-[1.5] xl:hover:flex-[6] duration-200 m-1 rounded-md relative">
+                <div className="shadow-2xl xl:h-[100%] overflow-hidden basis-[300px] grow xl:flex-[1.5] xl:hover:flex-[6] duration-200 m-1 rounded-md relative">
                     <Image
                         src='/assets/elements/LOL.png'
                         alt="FC24"
@@ -72,7 +72,7 @@ const Dashboard = () => {
                         className="rounded-md object-contain xl:object-cover xl:h-[100%]"
                     />
                     <div className="absolute opacity-0 flex flex-col justify-end hover:opacity-100 duration-200 p-4 overflow-hidden  btn-decouvrir left-0 bottom-0 right-0 top-0 rounded-lg">
-                        <h3 className="text-3xl -ml-2 -mr-3">League Of Legends</h3>
+                        <h3 className="text-3xl">League Of Legends</h3>
                         <p className="mt-1 mb-4 font-light">Lorem, ipsum dolor sit amet consectetur adipisicing elit.</p>
                         <Link
                             href="/dashboard/decouvrir"
@@ -82,7 +82,7 @@ const Dashboard = () => {
                         </Link>
                     </div>
                 </div>
-                <div className="shadow-2xl xl:h-[100%] overflow-hidden basis-[250px] grow xl:flex-[1.5] xl:hover:flex-[6] duration-200 m-1 rounded-md relative">
+                <div className="shadow-2xl xl:h-[100%] overflow-hidden basis-[300px] grow xl:flex-[1.5] xl:hover:flex-[6] duration-200 m-1 rounded-md relative">
                     <Image
                         src='/assets/elements/NBA2K24.png'
                         alt="FC24"
@@ -101,7 +101,7 @@ const Dashboard = () => {
                         </Link>
                     </div>
                 </div>
-                <div className="shadow-2xl xl:h-[100%] overflow-hidden basis-[250px] grow xl:flex-[1.5] xl:hover:flex-[6] duration-200 m-1 rounded-md relative">
+                <div className="shadow-2xl xl:h-[100%] overflow-hidden basis-[300px] grow xl:flex-[1.5] xl:hover:flex-[6] duration-200 m-1 rounded-md relative">
                     <Image
                         src='/assets/elements/Warzone.png'
                         alt="FC24"
@@ -120,7 +120,7 @@ const Dashboard = () => {
                         </Link>
                     </div>
                 </div>
-                <div className="shadow-2xl xl:h-[100%] overflow-hidden basis-[250px] grow xl:flex-[1.5] xl:hover:flex-[6] duration-200 m-1 rounded-md relative">
+                <div className="shadow-2xl xl:h-[100%] overflow-hidden basis-[300px] grow xl:flex-[1.5] xl:hover:flex-[6] duration-200 m-1 rounded-md relative">
                     <Image
                         src='/assets/elements/Valorant.png'
                         alt="FC24"
