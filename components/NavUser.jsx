@@ -99,7 +99,7 @@ const Nav = () => {
                         <li>
 
                             <Link
-                                href='/dashboard/parametre'
+                                href='/dashboard/parametres'
                                 className='p-4 mb-2 block rounded-full hover:bg-emerald-700 px-8 bg-red-600 duration-200'
                             >
                                 Paramètres
@@ -206,7 +206,7 @@ const Nav = () => {
 
                         <Link
                             onClick={handleNav}
-                            href='/dashboard/parametre'
+                            href='/dashboard/parametres'
                             className='p-4 mb-2 block rounded-full hover:bg-emerald-700 px-8 bg-red-600 duration-200'
                         >
                             Paramètres

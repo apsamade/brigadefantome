@@ -8,6 +8,7 @@ import { usePathname } from 'next/navigation'
 
 const RootLayout = ({ children }) => {
     const pathname = usePathname()
+    
     return (
         <html lang="fr">
             <head>

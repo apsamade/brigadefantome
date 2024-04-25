@@ -24,22 +24,16 @@ const Admin = () => {
                 <h2 className="uppercase text-xl text-center py-4">Gestion de jeux</h2>
                 <div className="my-8">
                     <Link
-                        href="/dashboard/admin/add-game"
+                        href="/dashboard/admin/add-jeu"
                         className="min-w-[250px] my-4 block p-3 bg-fond-3 rounded-md duration-200 hover:bg-white hover:text-black"
                     >
                         Ajouter un jeux
                     </Link>
                     <Link
-                        href="/dashboard/admin/edit-game"
+                        href="/dashboard/admin/jeux"
                         className="min-w-[250px] my-4 block p-3 bg-fond-3 rounded-md duration-200 hover:bg-white hover:text-black"
                     >
-                        Modifier un jeux
-                    </Link>
-                    <Link
-                        href="/dashboard/admin/delete-game"
-                        className="min-w-[250px] my-4 block p-3 bg-fond-3 rounded-md duration-200 hover:bg-white hover:text-black"
-                    >
-                        Supprimer un jeux
+                        Modifier / Supprimer un jeux
                     </Link>
                 </div>
             </section>
@@ -53,21 +47,15 @@ const Admin = () => {
                         Ajouter un tournoi
                     </Link>
                     <Link
-                        href="/dashboard/admin/edit-tournoi"
+                        href="/dashboard/admin/tournois"
                         className="min-w-[250px] my-4 block p-3 bg-fond-3 rounded-md duration-200 hover:bg-white hover:text-black"
                     >
-                        Modifier un tournoi
-                    </Link>
-                    <Link
-                        href="/dashboard/admin/delete-tournoi"
-                        className="min-w-[250px] my-4 block p-3 bg-fond-3 rounded-md duration-200 hover:bg-white hover:text-black"
-                    >
-                        Supprimer un tournoi
+                        Modifier / Supprimer un tournoi
                     </Link>
                 </div>
             </section>
             <section className="mx-auto my-4 max-w-[600px] p-4 bg-black shadow-2xl">
-                <h2 className="uppercase text-xl text-center py-4">Gestion de Team</h2>
+                <h2 className="uppercase text-xl text-center py-4">Gestion de Teams</h2>
                 <div className="my-8">
                     <Link
                         href="/dashboard/admin/add-team"
@@ -76,16 +64,10 @@ const Admin = () => {
                         Ajouter une équipe
                     </Link>
                     <Link
-                        href="/dashboard/admin/edit-team"
+                        href="/dashboard/admin/teams"
                         className="min-w-[250px] my-4 block p-3 bg-fond-3 rounded-md duration-200 hover:bg-white hover:text-black"
                     >
-                        Modifier une équipe
-                    </Link>
-                    <Link
-                        href="/dashboard/admin/delete-team"
-                        className="min-w-[250px] my-4 block p-3 bg-fond-3 rounded-md duration-200 hover:bg-white hover:text-black"
-                    >
-                        Supprimer une équipe
+                        Modifier / Supprimer une équipe
                     </Link>
                 </div>
             </section>

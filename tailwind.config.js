@@ -18,7 +18,8 @@ module.exports = {
       backgroundImage: {
         'header': "url('/assets/background/fond-header.jpg')",
         'from': "url('/assets/background/bg-form.jpg')",
-        'from-2': "url('/assets/background/bg-form-2.jpg')"
+        'from-2': "url('/assets/background/bg-form-2.jpg')",
+        'header-evenement': "url('/assets/background/evenement-header.png')"
       }
     },
   },
