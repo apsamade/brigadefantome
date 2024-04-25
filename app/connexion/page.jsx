@@ -4,7 +4,6 @@ import Link from 'next/link'
 import { useState } from 'react'
 import ButtonGoogle from '@components/ButtonGoogle';
 import { signIn } from 'next-auth/react';
-import { redirect } from 'next/navigation';
 import { useRouter } from 'next/navigation';
 
 const Connexion = () => {
@@ -35,7 +34,8 @@ const Connexion = () => {
             try {
                 const response = await signIn('credentials', {
                     ...credentials,
-                    redirect: true,
+                    callbackUrl: '/dashboard',
+                    redirect: false,
                 });
                 console.log(response)
                 if (response.status == 403) {
@@ -46,6 +46,7 @@ const Connexion = () => {
                     setError('Utilisateur non existant.')
                     handlErr();
                 }
+                if(response.ok) return router.push(response.url)
             } catch (error) {
                 console.log('Erreur inattendu lors de l\'envoie de formulaire', error)
                 setError('Erreur inattendu lors de l\'envoie de formulaire')

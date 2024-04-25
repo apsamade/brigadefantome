@@ -2,6 +2,7 @@
 
 import { FcGoogle } from "react-icons/fc";
 import { signIn } from 'next-auth/react';
+import { redirect } from "next/dist/server/api-utils";
 
 const ButtonGoogle = ({ type }) => {
 
@@ -10,7 +11,7 @@ const ButtonGoogle = ({ type }) => {
             className='bg-black duration-300 hover:bg-green-50 hover:text-black mt-12 text-white flex items-center justify-center p-3 m-1 shadow-lg rounded-lg basis-full flex-grow'
             type="button"
             onClick={() => {
-                signIn("google")
+                signIn("google", {callbackUrl: '/dashboard', redirect: true})
             }
             }
         >

@@ -5,7 +5,7 @@ import Link from 'next/link'
 import Image from 'next/image';
 import ButtonGoogle from '@components/ButtonGoogle';
 import { signIn } from 'next-auth/react';
-
+import { useRouter } from 'next/navigation';
 
 
 const Inscription = () => {
@@ -13,6 +13,7 @@ const Inscription = () => {
     const [error, setError] = useState('')
     const [users, setUsers] = useState([]);
     const [selectedImage, setSelectedImage] = useState(null);
+    const router = useRouter()
 
     const handlErr = () => {
         setSubmitting(false)
@@ -70,6 +71,7 @@ const Inscription = () => {
                 credentials.image = selectedImage
                 const response = await signIn('credentials', {
                     ...credentials,
+                    callbackUrl: '/dashboard',
                     redirect: true,
                 });
 
@@ -78,6 +80,7 @@ const Inscription = () => {
                     setError('Une erreur est survenue')
                     handlErr();
                 }
+                if(response.ok) return router.push(response.url)
             } catch (error) {
                 console.log('Erreur lors de l\'envoie de formulaire', error)
                 setError(error)

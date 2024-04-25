@@ -112,9 +112,6 @@ export const authOptions = {
                 return null
             }
         },
-        async redirect({ url, baseUrl }) {
-            return (url)
-        }
     }
 }
 const handler = nextAuth(authOptions)
