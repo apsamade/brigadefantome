@@ -72,7 +72,7 @@ const Inscription = () => {
                 const response = await signIn('credentials', {
                     ...credentials,
                     callbackUrl: '/dashboard',
-                    redirect: true,
+                    redirect: false,
                 });
 
                 console.log(response)
