@@ -58,9 +58,9 @@ const Contact = () => {
     }
 
     return (
-        <main className='min-h-[75vh] bg-contact-bg bg-cover pt-24 pb-8'>
+        <main className='min-h-[75vh] px-3 xl:px-0 bg-contact-bg bg-cover pt-12 xl:pt-24 pb-8'>
             <section id="contact">
-                <h2 className="text-center p-4 uppercase text-3xl">Contact & Support</h2>
+                <h2 className="text-center -mx-3 p-4 uppercase text-3xl">Contact & Support</h2>
                 <p className='p-5 text-md font-extralight text-center uppercase'>Envoyer nous un message ça nous fera extrèmement plaisir !</p>
                 <form
                     onSubmit={handleSubmit}

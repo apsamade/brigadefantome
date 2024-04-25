@@ -132,12 +132,12 @@ const Nav = () => {
                     />
                 </Link>
                 {admin &&
-                        <ul className='flex px-4 my-4 w-full justify-center flex-col items-start'>
+                        <ul className='flex px-4 w-full justify-center flex-col items-start'>
                             <li>
                                 <Link
                                     onClick={handleNav}
                                     href='/dashboard/admin'
-                                    className='p-4 uppercase text-sky-300 pl-0 py-2 ml-2 my-2 block border-b border-transparent hover:border-sky-300 duration-200'
+                                    className='p-0 uppercase text-sky-300 ml-2 my-2 block border-b border-transparent hover:border-sky-300 duration-200'
                                 >
                                     Admin
                                 </Link>
