@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { useState } from 'react'
 import ButtonGoogle from '@components/ButtonGoogle';
 import { signIn } from 'next-auth/react';
+import { redirect } from 'next/navigation';
 import { useRouter } from 'next/navigation';
 
 const Connexion = () => {
@@ -30,12 +31,13 @@ const Connexion = () => {
             setError('Identifiants manquant.')
             handlErr();
         } else {
+
             try {
                 const response = await signIn('credentials', {
                     ...credentials,
-                    redirect: false,
+                    redirect: true,
                 });
-                console.log('response ? ', response)
+                console.log(response)
                 if (response.status == 403) {
                     setError('Mot de passe incorrect.')
                     handlErr();
@@ -44,12 +46,9 @@ const Connexion = () => {
                     setError('Utilisateur non existant.')
                     handlErr();
                 }
-                if (response.ok) {
-                    router.push('/')
-                }
             } catch (error) {
                 console.log('Erreur inattendu lors de l\'envoie de formulaire', error)
-                setError(error)
+                setError('Erreur inattendu lors de l\'envoie de formulaire')
                 handlErr();
             }
         }

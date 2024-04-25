@@ -2,6 +2,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 import nextAuth from "next-auth";
 import bcrypt from "bcrypt"
+import { NextResponse } from "next/server";
 
 import User from '@models/user';
 import { connectToDB } from "@utils/connectToDB";
@@ -100,7 +101,6 @@ export const authOptions = {
         },
         async session({ session }) {
             // store the user id from MongoDB to session
-            console.log('une session existe elle en argument ? ', session)
             await connectToDB();
             const sessionUser = await User.findOne({ email: session.user.email });
             if (sessionUser) {
@@ -113,7 +113,7 @@ export const authOptions = {
             }
         },
         async redirect({ url, baseUrl }) {
-            return (baseUrl, '/dashboard')
+            return (url)
         }
     }
 }

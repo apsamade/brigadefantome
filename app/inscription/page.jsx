@@ -75,7 +75,7 @@ const Inscription = () => {
 
                 console.log(response)
                 if (response.error) {
-                    setError('new erreur est surevenue')
+                    setError('Une erreur est survenue')
                     handlErr();
                 }
             } catch (error) {
