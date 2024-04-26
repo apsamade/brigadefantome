@@ -59,7 +59,7 @@ const Contact = () => {
 
     return (
         <main className='min-h-[85vh] px-3 xl:px-0 bg-contact-bg bg-cover pt-12 xl:pt-24 pb-8'>
-            <section id="contact">
+            <section>
                 <h2 className="text-center md:-mx-0 -mx-3 py-4 uppercase text-3xl">Contact & Support</h2>
                 <p className='py-5 text-md font-extralight text-center uppercase'>Envoyer nous un message ça nous fera extrèmement plaisir !</p>
                 <form
