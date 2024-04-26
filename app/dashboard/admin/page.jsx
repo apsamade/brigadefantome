@@ -16,11 +16,13 @@ const Admin = () => {
         )
     }
     return (
+        <>
+        <div className="fixed -z-50 top-0 right-0 left-0 bottom-0 bg-header-evenement bg-cover bg-fixed"></div>
         <main className='grow'>
             <h1 className='text-xl text-center uppercase py-8'>Dashboard Admin</h1>
             <p className='text-center uppercase font-light'>Ici tu pourras ajouter de nouveau jeux / tournois et gérer un peu tout le site fais pas de bêtise !</p>
         
-            <section className="mx-auto my-4 max-w-[600px] p-4 bg-black shadow-2xl">
+            <section className="mx-auto rounded-md my-4 max-w-[600px] p-4 bg-black shadow-2xl">
                 <h2 className="uppercase text-xl text-center py-4">Gestion de jeux</h2>
                 <div className="my-8">
                     <Link
@@ -37,7 +39,7 @@ const Admin = () => {
                     </Link>
                 </div>
             </section>
-            <section className="mx-auto my-4 max-w-[600px] p-4 bg-black shadow-2xl">
+            <section className="mx-auto rounded-md my-4 max-w-[600px] p-4 bg-black shadow-2xl">
                 <h2 className="uppercase text-xl text-center py-4">Gestion de Tournois</h2>
                 <div className="my-8">
                     <Link
@@ -54,7 +56,7 @@ const Admin = () => {
                     </Link>
                 </div>
             </section>
-            <section className="mx-auto my-4 max-w-[600px] p-4 bg-black shadow-2xl">
+            <section className="mx-auto rounded-md my-4 max-w-[600px] p-4 bg-black shadow-2xl">
                 <h2 className="uppercase text-xl text-center py-4">Gestion de Teams</h2>
                 <div className="my-8">
                     <Link
@@ -72,6 +74,7 @@ const Admin = () => {
                 </div>
             </section>
         </main>
+        </>
     )
 }
 
