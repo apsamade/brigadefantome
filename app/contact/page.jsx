@@ -58,10 +58,10 @@ const Contact = () => {
     }
 
     return (
-        <main className='min-h-[75vh] px-3 xl:px-0 bg-contact-bg bg-cover pt-12 xl:pt-24 pb-8'>
+        <main className='min-h-[85vh] px-3 xl:px-0 bg-contact-bg bg-cover pt-12 xl:pt-24 pb-8'>
             <section id="contact">
-                <h2 className="text-center -mx-3 p-4 uppercase text-3xl">Contact & Support</h2>
-                <p className='p-5 text-md font-extralight text-center uppercase'>Envoyer nous un message ça nous fera extrèmement plaisir !</p>
+                <h2 className="text-center md:-mx-0 -mx-3 py-4 uppercase text-3xl">Contact & Support</h2>
+                <p className='py-5 text-md font-extralight text-center uppercase'>Envoyer nous un message ça nous fera extrèmement plaisir !</p>
                 <form
                     onSubmit={handleSubmit}
                     className="border text-black bg-white m-3 flex-wrap rounded-md py-12 px-4 shadow-2xl my-4 flex justify-center items-center mx-auto max-w-[800px]"

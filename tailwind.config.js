@@ -20,7 +20,8 @@ module.exports = {
         'from': "url('/assets/background/bg-form.jpg')",
         'from-2': "url('/assets/background/bg-form-2.jpg')",
         'header-evenement': "url('/assets/background/evenement-header.png')",
-        'contact-bg': "url('/assets/background/contact-bg.png')",
+        'contact-bg': "url('/assets/background/profile-2.png')",
+        'profile-bg': "url('/assets/background/profile.png')",
         'decouvrir': "url('/assets/background/decouvrir.png')"
       
       }

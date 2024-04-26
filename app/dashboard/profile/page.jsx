@@ -30,6 +30,8 @@ const Profile = () => {
     }
     return (
         <>
+                <div className="fixed -z-50 top-0 right-0 left-0 bottom-0 bg-profile-bg bg-cover bg-fixed"></div>
+
             <section className="min-h-[75vh] grow">
                 <h1 className="p-8 text-center uppercase">Bienvenue {session?.user.pseudo}</h1>
                 <button
