@@ -79,7 +79,7 @@ const Nav = () => {
                         </li>
                         <li>
                             <Link
-                                href='/dashboard/evenements'
+                                href='/dashboard/event'
                                 className='p-4 pl-0 py-2 ml-2 my-2 block border-b border-transparent hover:border-white duration-200'
                             >
                                 Évenements
