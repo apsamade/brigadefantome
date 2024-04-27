@@ -1,9 +1,9 @@
 import Link from "next/link"
 import Image from "next/image"
 
-const CardJeu = ({image, nom, description, id}) => {
+const CardJeu = ({image, nom, description, id, classChange}) => {
     return (
-        <div className="shadow-2xl xl:h-[100%] overflow-hidden basis-[300px] grow xl:flex-[1.5] xl:hover:flex-[6] duration-200 m-1 rounded-md relative">
+        <div className={classChange}>
             <Image
                 src={image}
                 alt={nom}
@@ -15,7 +15,7 @@ const CardJeu = ({image, nom, description, id}) => {
                 <h3 className="text-3xl whitespace-nowrap overflow-hidden text-ellipsis">{nom}</h3>
                 <p className="mt-1 mb-4 font-light text-ellipsis">{description}</p>
                 <Link
-                    href={'/dashboard/decouvrir/jeu/' + id}
+                    href={id}
                     className="py-3 uppercase font-light hover:px-16 duration-200 hover:bg-black hover:text-white w-fit px-8 bg-white text-black rounded-md block text-center my-1"
                 >
                     Découvrir
