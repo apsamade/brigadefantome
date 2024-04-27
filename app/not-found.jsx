@@ -16,7 +16,7 @@ const notFound = ({ children }) => {
                         <p className='uppercase text-xl lg:text-2xl font-light text-center'>Erreur 404 | Ouppss page non trouvée éspèce de gros BEAU GOSSE</p>
                         <Image
                             src="/assets/elements/tk-404.gif"
-                            alt=""
+                            alt="oupsi 404 not found"
                             width={500}
                             height={500}
                             className='object-contain block rounded-lg mt-24'
