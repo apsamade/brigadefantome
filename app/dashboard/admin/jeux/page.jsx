@@ -33,8 +33,8 @@ const DeleteGame = () => {
                         nom={jeu.nom}
                         description={jeu.description}
                         image={jeu.image}
-                        modifier={'/dashboard/admin/jeu/modifier/' + jeu._id}
-                        supprimer={'/dashboard/admin/jeu/supprimer/' + jeu._id}
+                        modifier={'/dashboard/admin/jeux/modifier/' + jeu._id}
+                        supprimer={'/dashboard/admin/jeux/supprimer/' + jeu._id}
                     />
                 ))}
             </section>
