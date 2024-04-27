@@ -36,10 +36,10 @@ const Profile = () => {
                 <h1 className="p-8 text-3xl text-center uppercase">Mon Profile</h1>
                 
                 <section className="bg-black p-5 max-w-3xl mx-auto rounded-md shadow-2xl">
-                    <h2 className="text-xl uppercase text-center py-4">Mes informations personnelles</h2>
+                    <h2 className="text-xl uppercase text-center py-4">Informations personnelles</h2>
                     <ul>
-                        <li className="py-3">Pseudo : <span>{session?.user.pseudo}</span></li>
-                        <li className="py-3">Email : <span>{session?.user.email}</span></li>
+                        <li className="py-3">Pseudo : <span className="text-sm sm:text-base sm:font-normal font-light">{session?.user.pseudo}</span></li>
+                        <li className="py-3">Email : <span className="text-sm sm:text-base sm:font-normal font-light">{session?.user.email}</span></li>
                     </ul>
                 </section>
 

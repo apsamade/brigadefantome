@@ -14,6 +14,10 @@ const JeuxSchema = new Schema({
     image: {
         type: String,
         required: [true, 'Image obligatoire !']
+    },
+    top_jeu: {
+        type: Boolean,
+        default: false
     }
 
 }, { timestamps: true })

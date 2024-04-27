@@ -17,10 +17,10 @@ const Admin = () => {
     }
     return (
         <>
-        <div className="fixed -z-50 top-0 right-0 left-0 bottom-0 bg-profile-2-bg bg-cover bg-fixed"></div>
+        <div className="fixed -z-50 bg-center top-0 right-0 left-0 bottom-0 bg-profile-2-bg bg-cover bg-fixed"></div>
         <main className='grow'>
             <h1 className='text-xl text-center uppercase py-8'>Dashboard Admin</h1>
-            <p className='text-center uppercase font-light'>Ici tu pourras ajouter de nouveau jeux / tournois et gérer un peu tout le site fais pas de bêtise !</p>
+            <p className='text-center uppercase font-light'>Ici tu pourras ajouter de nouveau jeux / tournois et gérer un peu tout le site. <br /><span className="text-red-500 font-bold"> faite pas de bêtise !</span></p>
         
             <section className="mx-auto rounded-md my-4 max-w-[600px] p-4 bg-black shadow-2xl">
                 <h2 className="uppercase text-xl text-center py-4">Gestion de jeux</h2>
