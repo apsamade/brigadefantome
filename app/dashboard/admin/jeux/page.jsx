@@ -28,7 +28,7 @@ const DeleteGame = () => {
             <section className="flex w-[100%] flex-wrap max-w-[1200px] mx-auto items-center justify-center p-4">
                 {jeux.map((jeu) => (
                     <CardJeuAdmin
-                    classChange={"shadow-2xl xl:h-[100%] overflow-hidden min-h-[300px] xl:basis-[400px] grow duration-200 m-1 rounded-md relative"}
+                        classChange={"shadow-2xl xl:h-[100%] overflow-hidden min-h-[300px] xl:basis-[400px] grow duration-200 m-1 rounded-md relative"}
                         key={jeu._id}
                         nom={jeu.nom}
                         description={jeu.description}
