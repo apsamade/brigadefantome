@@ -25,10 +25,10 @@ const Jeux = () => {
     return (
         <main className='grow'>
             <h1 className='text-2xl py-8 uppercase text-center'>Nos Jeux</h1>
-            <section className="flex w-[100%] flex-wrap xl:flex-nowrap max-w-[1200px] min-h-[400px] xl:h-[400px] mx-auto items-center justify-center p-4">
+            <section className="flex w-[100%] flex-wrap max-w-[1200px] mx-auto items-center justify-center p-4">
                 {jeux.map((jeu) => ( 
                     <CardJeu
-                        classChange={"shadow-2xl xl:h-[100%] overflow-hidden basis-[400px] grow duration-200 m-1 rounded-md relative"}
+                        classChange={"shadow-2xl xl:h-[100%] overflow-hidden min-h-[300px] xl:basis-[400px] grow duration-200 m-1 rounded-md relative"}
                         key={jeu._id}
                         nom={jeu.nom}
                         description={jeu.description}
