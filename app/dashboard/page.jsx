@@ -50,7 +50,7 @@ const Dashboard = () => {
                         nom={jeu.nom}
                         description={jeu.description}
                         image={jeu.image}
-                        id={'/dashboard/decouvrir/jeu/' + jeu._id}
+                        id={'/dashboard/jeux/' + jeu._id}
                     />
                 ))}
             </section>
