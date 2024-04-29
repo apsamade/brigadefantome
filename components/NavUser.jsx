@@ -10,7 +10,7 @@ import { useSession } from 'next-auth/react'
 const Nav = () => {
     const { data: session } = useSession()
     let admin = false
-    if(session?.user.admin) admin = true
+    if (session?.user.admin) admin = true
     const [openMenu, setOpenMenu] = useState(false)
     const handleNav = () => {
         setOpenMenu(!openMenu)
@@ -19,19 +19,19 @@ const Nav = () => {
         <>
             <div className='min-w-[350px] hidden lg:block mr-4'>
                 <aside className='lg:flex shadow-2xl rounded-lg w-[350px] hidden bg-fond-2 top-4 bottom-4 fixed flex-col justify-between items-center'>
+
                     <Link
-                        href='/dashboard'
-                        className='p-4 mb-4'
+                        onClick={handleNav}
+                        href='/dashboard/profile'
                     >
                         <Image
-                            src='/logo/logo_brigade_2.png'
-                            alt='Logo Brigade Fantôme'
-                            width={85}
-                            height={85}
-                            className='rounded-[100%] bg-black p-3 hover:scale-110 duration-200'
+                            src={session?.user.image}
+                            alt='Photo de profile'
+                            width={90}
+                            height={50}
+                            className='rounded-[100%] mt-4 bg-black p-1 hover:scale-110 duration-200'
                         />
                     </Link>
-
                     {admin &&
                         <ul className='flex px-4 my-4 w-full justify-center flex-col items-start'>
                             <li>
@@ -119,31 +119,30 @@ const Nav = () => {
                     : 'fixed z-20 top-0 right-[-101%] bottom-0 max-w-[400px] w-[70%] lg:hidden duration-300 p-2 bg-black ease-out justify-center flex-col flex items-center'}
             >
                 <Link
-                    href='/dashboard'
-                    className='p-4 mb-4'
                     onClick={handleNav}
+                    href='/dashboard/profile'
                 >
                     <Image
-                        src='/logo/logo_brigade_2.png'
-                        alt='Logo Brigade Fantôme'
-                        width={85}
-                        height={85}
-                        className='rounded-[100%] bg-black p-3 hover:scale-110 duration-200'
+                        src={session?.user.image}
+                        alt='Photo de profile'
+                        width={50}
+                        height={50}
+                        className='block hover:scale-110 duration-200 rounded-[100%] mr-2'
                     />
                 </Link>
                 {admin &&
-                        <ul className='flex px-4 w-full justify-center flex-col items-start'>
-                            <li>
-                                <Link
-                                    onClick={handleNav}
-                                    href='/dashboard/admin'
-                                    className='p-0 uppercase text-sky-300 ml-2 my-2 block border-b border-transparent hover:border-sky-300 duration-200'
-                                >
-                                    Admin
-                                </Link>
-                            </li>
-                        </ul>
-                    }
+                    <ul className='flex px-4 w-full justify-center flex-col items-start'>
+                        <li>
+                            <Link
+                                onClick={handleNav}
+                                href='/dashboard/admin'
+                                className='p-0 uppercase text-sky-300 ml-2 my-2 block border-b border-transparent hover:border-sky-300 duration-200'
+                            >
+                                Admin
+                            </Link>
+                        </li>
+                    </ul>
+                }
                 <ul className='flex px-4 my-4 w-full justify-center flex-col items-start'>
                     <li>
                         <Link

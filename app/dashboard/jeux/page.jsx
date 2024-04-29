@@ -12,7 +12,7 @@ const Jeux = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch('/api/admin/jeux')
+                const response = await fetch('/api/jeux')
                 const data = await response.json();
                 setJeux(data);
             } catch (error) {

@@ -13,7 +13,7 @@ const Dashboard = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch('/api/admin/jeux')
+                const response = await fetch('/api/jeux')
                 const data = await response.json();
 
                 const jeuxTop = data.filter(jeu => jeu.top_jeu); // Filtrer les jeux avec top_jeu à true

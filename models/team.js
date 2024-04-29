@@ -1,4 +1,4 @@
-import {Schema, model, models} from "mongoose"
+import { Schema, model, models } from "mongoose"
 import bcrypt from "bcrypt"
 
 const TeamSchema = new Schema({
@@ -8,28 +8,28 @@ const TeamSchema = new Schema({
         unique: [true, 'Nom déjà existant !'],
         trim: true,
     },
-    players: [
-        {
-            user_id: {
-                type: Schema.Types.ObjectId,
-                ref: 'User'
-            },
-            chef: {
-                type: Boolean,
-                default: false,
-            },
-        }
-    ],
     jeux: [
         {
             jeu_id: {
                 type: Schema.Types.ObjectId,
                 ref: 'Jeu'
             },
-            jeu_nom: {
-                type: String,
-                required: [true, 'Nom du jeu obligatoire']
-            }
+            players: [
+                {
+                    user_id: {
+                        type: Schema.Types.ObjectId,
+                        ref: 'User'
+                    },
+                    chef: {
+                        type: Boolean,
+                        default: false,
+                    },
+                    jeu_pseudo: {
+                        type: String,
+                        required: [true, 'Nom du jeu obligatoire']
+                    }
+                }
+            ],
         }
     ],
     max_players: {
@@ -42,8 +42,8 @@ const TeamSchema = new Schema({
 
 }, { timestamps: true })
 
-TeamSchema.pre('save', async function(next) {
-    if(!this.isModified('mdp')) return next();
+TeamSchema.pre('save', async function (next) {
+    if (!this.isModified('mdp')) return next();
     const hash = await bcrypt.hash(this.mdp, 10)
     this.mdp = hash;
     next();
