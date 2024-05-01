@@ -32,7 +32,7 @@ const TeamSchema = new Schema({
             ],
         }
     ],
-    max_players: {
+    team_size: {
         type: Number,
         required: [true, 'Nombre de joueurs maximum dans l\'équipe obligatoire !']
     },

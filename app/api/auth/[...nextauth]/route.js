@@ -8,6 +8,10 @@ import User from '@models/user';
 import { connectToDB } from "@utils/connectToDB";
 
 export const authOptions = {
+    pages: {
+        error: '/connexion',
+        signIn: '/connexion'
+    },
     providers: [
         GoogleProvider({
             clientId: process.env.GOOGLE_ID,

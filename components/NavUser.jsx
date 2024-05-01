@@ -115,8 +115,8 @@ const Nav = () => {
                 <AiOutlineMenu size={45} className='text-sky-300' />
             </div>
             <aside
-                className={openMenu ? 'fixed z-20 top-0 right-0 bottom-0 max-w-[350px] w-[70%] lg:hidden duration-200 p-2 bg-black ease-out justify-center flex-col flex items-center'
-                    : 'fixed z-20 top-0 right-[-101%] bottom-0 max-w-[400px] w-[70%] lg:hidden duration-300 p-2 bg-black ease-out justify-center flex-col flex items-center'}
+                className={openMenu ? 'fixed z-20 top-0 right-0 bottom-0 max-w-[350px] w-[70%] lg:hidden duration-200 p-2 bg-black ease-out justify-around flex-col flex items-center'
+                    : 'fixed z-20 top-0 right-[-101%] bottom-0 max-w-[400px] w-[70%] lg:hidden duration-300 p-2 bg-black ease-out justify-around flex-col flex items-center'}
             >
                 <Link
                     onClick={handleNav}
@@ -125,7 +125,7 @@ const Nav = () => {
                     <Image
                         src={session?.user.image}
                         alt='Photo de profile'
-                        width={50}
+                        width={60}
                         height={50}
                         className='block hover:scale-110 duration-200 rounded-[100%] mr-2'
                     />
