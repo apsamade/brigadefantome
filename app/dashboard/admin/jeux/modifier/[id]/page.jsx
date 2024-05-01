@@ -7,6 +7,8 @@ const ModifierJeu = ({ params }) => {
   const [jeu, setJeu] = useState({});
   const [submitting, setSubmitting] = useState(false);
   const [erreur, setErreur] = useState('')
+  const [message, setMessage] = useState('Modifier')
+
 
   useEffect(() => {
     const fetchJeu = async () => {
@@ -37,43 +39,53 @@ const ModifierJeu = ({ params }) => {
   const modifierJeu = async (e) => {
     e.preventDefault();
     setSubmitting(true);
-
+    setMessage('Modification en cours ...');
+  
     const image = e.target.image.files[0];
     const formData = new FormData();
-    formData.append('image', image);
-
-    console.log('Le request body : ', requestBody.image)
-
+  
     try {
-      const imgBbResponse = await fetch('https://api.imgbb.com/1/upload?key=e237e8cd5a4f302b941cf8c6eff045b5', {
-        method: 'POST',
-        body: formData,
-      });
-
-      const imgData = await imgBbResponse.json();
-      console.log('Image data : ', imgData)
-
-      if (imgData.success) {
-        requestBody.image = imgData.data.url;
-        setJeu(requestBody)
-
-        const response = await fetch(`/api/admin/jeux/${params.id}`, {
-          method: 'PATCH',
-          body: JSON.stringify(requestBody)
-        })
-
-        const data = await response.json()
-
-        console.log('la réponse : ', response)
-        console.log('les datas : ', data)
-
-      } else {
-        setErreur('Une erreur est survenue lors du téléchargement de l\'image')
+      if (image) {
+        formData.append('image', image);
+  
+        const imgBbResponse = await fetch('https://api.imgbb.com/1/upload?key=e237e8cd5a4f302b941cf8c6eff045b5', {
+          method: 'POST',
+          body: formData,
+        });
+        const imgData = await imgBbResponse.json();
+  
+        if (imgData.success) {
+          requestBody.image = imgData.data.url;
+          setJeu({image: imgData.data.url})
+        } else {
+          setErreur('Une erreur est survenue lors du téléchargement de l\'image');
+          return;  // Arrêter la fonction ici si l'image est obligatoire pour continuer
+        }
       }
+  
+      const response = await fetch(`/api/admin/jeux/${params.id}`, {
+        method: 'PATCH',
+        body: JSON.stringify(requestBody),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+  
+      const data = await response.json();
+      console.log(data)
+      setJeu(data.jeu)
+      if(response.ok) {
+        setMessage('Modification effectuée avec succès.');
+        setTimeout(()=>{setMessage('modifier'); setSubmitting(false)}, 5000)
+      } else {
+        setMessage('Erreur lors de la modification.');
+        setTimeout(()=>{setMessage('modifier'); setSubmitting(false)}, 5000)
+      }
+  
     } catch (error) {
-      console.log('Erreur lors de la modification du jeu :', error)
+      console.error('Erreur lors de la modification du jeu :', error);
+      setErreur('Erreur lors de la modification du jeu');
     }
-
   };
   if (jeu.erreur) {
     return (
@@ -132,7 +144,7 @@ const ModifierJeu = ({ params }) => {
               onChange={handleInputChange}
             />
           </div>
-          <button className="p-4 my-2 bg-sky-500 text-white rounded-md uppercase text-md hover:px-12 shadow-2xl duration-200 hover:bg-blue-700 font-light" type="submit">Modifier</button>
+          <button className={`p-4 my-2 ${submitting ? 'bg-green-600 cursor-default' : 'bg-sky-500 hover:bg-blue-700'}  text-white rounded-md uppercase text-md hover:px-12 shadow-2xl duration-200 font-light`} type="submit">{message}</button>
         </div>
       </form>
     </section>

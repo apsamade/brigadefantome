@@ -1,7 +1,6 @@
 import { connectToDB } from "@utils/connectToDB";
 import Jeu from "@models/jeu";
 import { NextResponse } from "next/server";
-import { redirect } from "next/navigation";
 
 export const GET = async (req, { params }) => {
 
