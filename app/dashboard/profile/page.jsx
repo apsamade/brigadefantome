@@ -38,7 +38,7 @@ const Profile = () => {
                 <section className="bg-black p-5 max-w-3xl mx-auto rounded-md shadow-2xl">
                     <h2 className="text-xl uppercase text-center py-4">Informations personnelles</h2>
                     <ul>
-                        <li className="py-3">Pseudo : <span className="text-sm sm:text-base sm:font-normal font-light">{session?.user.pseudo}</span></li>
+                        <li className="py-3">Pseudo : <span className="text-sm sm:text-base sm:font-normal font-light">{session?.user.pseudo}#{session?.user.hashtag}</span></li>
                         <li className="py-3">Email : <span className="text-sm sm:text-base sm:font-normal font-light">{session?.user.email}</span></li>
                     </ul>
                 </section>

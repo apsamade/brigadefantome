@@ -12,6 +12,8 @@ const CreateTeam = () => {
     const [pseudos, setPseudos] = useState({});
     const [submitting, setSubmitting] = useState(false)
     const [erreur, setErreur] = useState('')
+    const [message, setMessage] = useState('Créer une équipe')
+
     const [isOpen, setIsOpen] = useState(false);
     const {data: session} = useSession()
 
@@ -51,33 +53,40 @@ const CreateTeam = () => {
     const handleSubmitTeam = async (e) => {
         e.preventDefault()
         setSubmitting(true)
+        setMessage('Création d\'une équipe en cours ...')
 
         const nom = e.target.nom.value
         const mdp = e.target.mdp.value
         const mdpv = e.target.mdpv.value
-        setTimeout(() => { setSubmitting(false) }, 1500)
+        setTimeout(() => { setSubmitting(false), setMessage('Créer une équipe') }, 4000)
 
         try {
             const bodyRequest = {nom, teamSize}
-
-            bodyRequest.jeux = gameSelected.map((gameId) => {
-                return {
+            if (gameSelected.some((gameId) => pseudos[gameId] === undefined)) {
+                // Si au moins un jeu n'a pas de pseudo défini, affiche une erreur
+                return setErreur('Le pseudo pour chaque jeu sélectionné est requis.');
+            } else {
+                // Si tous les jeux ont un pseudo défini, continue avec la création de la demande de corps
+                bodyRequest.jeux = gameSelected.map((gameId) => ({
                     jeu_id: gameId,
                     players: [
                         {
                             user_id: session?.user._id,
                             chef: true,
-                            jeu_pseudo: pseudos[gameId] 
+                            jeu_pseudo: pseudos[gameId]
                         }
                     ]
-                };
-            });
+                }));
+            }
 
             if(mdp && mdpv && mdp == mdpv) {
                 bodyRequest.mdp = mdp
             }else if(mdp && mdpv && mdp != mdpv){
                 return setErreur('Mot de passe de confirmation différent.')
             }
+            if(bodyRequest.jeux < 1) return setErreur('Sélectionnez au moin un jeu.')
+
+            if(!teamSize) return setErreur('Sélectionnez la taille maximale de votre équipe.')
             const response = await fetch('/api/add-team', {
                 method: 'POST',
                 body: JSON.stringify(bodyRequest),
@@ -87,7 +96,11 @@ const CreateTeam = () => {
             })
             const data = await response.json()
             console.log(data.erreur)
-            if(data.erreur) setErreur(data.erreur)
+            if(data.erreur) {setErreur(data.erreur); setMessage('Créer une équipe')}
+            if(response.ok){
+                setErreur('')
+                setMessage('Équipe créer avec succès.')
+            }
 
         } catch (error) {
             console.log('une erreur est survenue', error)
@@ -110,7 +123,7 @@ const CreateTeam = () => {
                 />
                 <section className="my-12">
                     <p className="mr-auto ml-3 uppercase">Jeux jouer par votr équipe</p>
-                    <div className="basis-full flex items-center justify-center">
+                    <div className="basis-full flex-wrap flex items-center justify-center">
                         {jeux.map((jeu) => (
                             <Image
                                 onClick={() => addGame(jeu._id)}
@@ -184,8 +197,8 @@ const CreateTeam = () => {
                     placeholder='Confirmation mot de passe'
                     className="p-3 rounded-md shadow-xl focus:shadow-2xl grow basis-[250px] m-2 outline outline-1 duration-200 focus:outline-blue-500 outline-blue-100"
                 />
-                <button type="submit" className={submitting ? "grow basis-full p-4 bg-green-600 uppercase rounded-md text-white m-2 shadow-2xl mt-6" : "grow basis-full p-4 bg-black rounded-md text-white m-2 shadow-2xl mt-6 duration-200 hover:bg-sky-500 uppercase"}>
-                    {submitting ? 'Création de l\'équipe en cours ...' : 'Créer mon équipe'}
+                <button type="submit" className={submitting ? "grow basis-full p-4 bg-green-600 cursor-default uppercase rounded-md text-white m-2 shadow-2xl mt-6" : "grow basis-full p-4 bg-black rounded-md text-white m-2 shadow-2xl mt-6 duration-200 hover:bg-sky-500 uppercase"}>
+                    {message}
                 </button>
                 {erreur &&
                     <p className="text-red-600 message text-center p-3">{erreur}</p>

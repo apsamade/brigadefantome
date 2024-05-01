@@ -11,9 +11,13 @@ export const POST = async (req) =>{
     try {
         await connectToDB()
         // trouver si le joueur est deja dans une team
-        const existsTeam = await Team.findOne({ "jeux.players.user_id": session.user._id.toString() });
-
-        if(existsTeam) return NextResponse.json({erreur: 'Vous avez déjà une équipe. Quittez votre équipe actuelle avant d\'en créer ou rejoindre une nouvelle.'}, {status: 409})
+        const alreadyInTeam = await Team.findOne({ "jeux.players.user_id": session.user._id.toString() });
+        if(alreadyInTeam) return NextResponse.json({erreur: 'Vous avez déjà une équipe. Quittez votre équipe actuelle avant d\'en créer ou rejoindre une nouvelle.'}, {status: 409})
+        
+        // trouver si ce nom d'équipe existe déjà
+        const nameTeamExist = await Team.findOne({nom: body.nom})
+        if(nameTeamExist) return NextResponse.json({erreur: 'Ce nom d\'équipe déjà utilisé.'}, {status: 409})
+        
         const jeux = body.jeux.map(jeu => ({
             jeu_id: jeu.jeu_id,
             players: jeu.players.map(player => ({

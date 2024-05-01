@@ -10,17 +10,28 @@ const UserSchema = new Schema({
         lowercase: true
     },
     image: {
-        type: String
+        type: String,
+        trim: true,
+        required: [true, 'Un pseudo est obligatoire !']
     },
     pseudo: {
         type: String,
-        unique: true,
-        trim: true
+        trim: true,
+        required: [true, 'Un pseudo est obligatoire !'],
     },
     mdp: {
         type: String,
         trim: true
+    },
+    hashtag: {
+        type: String,
+        required: [true, 'Chaque utilisateur doit avoir un #']
+    },
+    admin: {
+        type: Boolean,
+        default: false
     }
+
 }, { timestamps: true })
 
 UserSchema.pre('save', async function(next) {

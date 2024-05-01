@@ -25,17 +25,31 @@ export const authOptions = {
                     await connectToDB();
                     const userExisting = await User.findOne({ email: credentials.email })
 
+                    function genererNumeroUnique() {
+                        return Math.floor(Math.random() * 10000); // Génère un numéro aléatoire entre 0 et 9999
+                    }
+
                     // si l'utilisateur existe pas
                     if (!userExisting && credentials.mdpv == credentials.mdp) {
+                        let pseudo = credentials.pseudo;
+                        let hashtag = genererNumeroUnique();
+
+                        let pseudoExistsWithHashtag = await User.findOne({ pseudo: pseudo, hashtag: hashtag });
+                        while (pseudoExistsWithHashtag) {
+                            // Si le pseudo avec ce hashtag existe déjà, génère un nouveau hashtag
+                            hashtag = genererNumeroUnique();
+                            pseudoExistsWithHashtag = await User.findOne({ pseudo: pseudo, hashtag: hashtag });
+                            console.log(pseudoExistsWithHashtag)
+                        }
+
                         const newUser = new User({
                             email: credentials.email,
-                            pseudo: credentials.pseudo,
+                            pseudo: pseudo,
                             image: credentials.image,
-                            mdp: credentials.mdp
+                            mdp: credentials.mdp,
+                            admin: credentials.email === process.env.MAILADMIN, // Vérifie si l'utilisateur a l'email de l'admin
+                            hashtag: hashtag
                         })
-                        if(newUser.email == process.env.MAILADMIN){
-                            newUser.admin = true;
-                        }
                         await newUser.save()
                         return newUser
                     }
@@ -56,23 +70,41 @@ export const authOptions = {
             await connectToDB();
             if (account.provider == 'google') {
                 try {
+                    function genererNumeroUnique() {
+                        return Math.floor(Math.random() * 10000); // Génère un numéro aléatoire entre 0 et 9999
+                    }
+
                     // check if user already exists
                     const userExists = await User.findOne({ email: profile.email });
 
                     // if not, create a new document and save user in MongoDB
                     if (!userExists) {
+                        let pseudo = profile.name;
+                        let hashtag = genererNumeroUnique();
+                
+                        console.log(pseudo)
+                        // Vérifie si le pseudo avec ce hashtag existe déjà
+                        let pseudoExistsWithHashtag = await User.findOne({ pseudo: pseudo, hashtag: hashtag });
+                        while (pseudoExistsWithHashtag) {
+                            // Si le pseudo avec ce hashtag existe déjà, génère un nouveau hashtag
+                            hashtag = genererNumeroUnique();
+                            pseudoExistsWithHashtag = await User.findOne({ pseudo: pseudo, hashtag: hashtag });
+                            console.log(pseudoExistsWithHashtag)
+                        }
+                
+                        // Crée un nouvel utilisateur avec le pseudo et le hashtag uniques
                         const newUser = new User({
                             email: profile.email,
-                            pseudo: profile.name,
+                            pseudo: pseudo,
                             image: profile.picture,
-                            admin: false
-                        })
-                        if(newUser.email == process.env.MAILADMIN){
-                            newUser.admin = true;
-                        }
-                        await newUser.save()
-                        console.log("user créer avec google !")
-                        return true
+                            admin: profile.email === process.env.MAILADMIN,
+                            hashtag: hashtag
+                        });
+                
+                        // Enregistre le nouvel utilisateur dans la base de données
+                        await newUser.save();
+                        console.log("Utilisateur créé avec succès !");
+                        return true;
                     }
                     if(userExists) return true
 
