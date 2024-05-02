@@ -8,6 +8,18 @@ const TeamSchema = new Schema({
         unique: [true, 'Nom déjà existant !'],
         trim: true,
     },
+    all_players: [
+        {
+            chef: {
+                type: Boolean,
+                default: false,
+            },
+            user_id: {
+                type: Schema.Types.ObjectId,
+                ref: 'User'
+            },
+        }
+    ],
     jeux: [
         {
             jeu_id: {
@@ -19,10 +31,6 @@ const TeamSchema = new Schema({
                     user_id: {
                         type: Schema.Types.ObjectId,
                         ref: 'User'
-                    },
-                    chef: {
-                        type: Boolean,
-                        default: false,
                     },
                     jeu_pseudo: {
                         type: String,

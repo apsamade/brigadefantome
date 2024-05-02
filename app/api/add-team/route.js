@@ -22,16 +22,15 @@ export const POST = async (req) =>{
             jeu_id: jeu.jeu_id,
             players: jeu.players.map(player => ({
                 user_id: player.user_id,
-                chef: player.chef,
                 jeu_pseudo: player.jeu_pseudo
             }))
         }));
-    
         // Créer un nouvel objet Team
         const newTeam = new Team({
             nom: body.nom,
             jeux: jeux,
             team_size: body.teamSize,
+            all_players : {user_id : session.user._id.toString(), chef: true} 
         });
         if(body.mdp){
             newTeam.mdp = body.mdp

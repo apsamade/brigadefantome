@@ -15,6 +15,7 @@ const notFound = ({ children }) => {
                     <main className='flex h-screen grow flex-col justify-center items-center'>
                         <p className='uppercase text-xl lg:text-2xl font-light text-center'>Erreur 404 | Ouppss page non trouvée éspèce de gros BEAU GOSSE</p>
                         <Image
+                            unoptimized
                             src="/assets/elements/tk-404.gif"
                             alt="oupsi 404 not found"
                             width={500}
