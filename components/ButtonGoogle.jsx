@@ -7,10 +7,10 @@ import { useState, useEffect } from "react";
 
 const ButtonGoogle = ({ type }) => {
     const [erreur, setErreur] = useState("")
-    const searchParams = useSearchParams();
-    const err = searchParams.get('error')
 
     useEffect(()=>{
+        const searchParams = useSearchParams();
+        const err = searchParams.get('error')
         if(err) setErreur('Une erreur est survenue lors de la connexion')
     console.log(err)
     })
