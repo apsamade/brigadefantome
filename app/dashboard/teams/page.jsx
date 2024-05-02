@@ -41,7 +41,7 @@ const Teams = () => {
                                 <p>Joueurs de l'équipe :</p>
                                 {t.all_players.map(ap =>
                                     <li key={ap._id} className={`${ap.chef ? 'text-orange-300' : 'text-white'} p-2 mt-2`}>
-                                        {ap.user_id.pseudo}
+                                        {ap.user_id.pseudo} #{ap.user_id.hashtag}
                                     </li>
                                 )}
                             </ul>
