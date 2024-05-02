@@ -22,3 +22,13 @@ export const GET = async (req, { params }) => {
         return NextResponse.json({ erreur: 'Une erreur est survenue lors de la récupération de l\'équipe' }, { status: 500 })
     }
 }
+export const DELETE = async (req, { params }) =>{
+    try {
+        await connectToDB()
+        await Team.findByIdAndDelete(params.id)
+        return NextResponse.json({message: 'Équipe supprimé avec succès.'})
+    } catch (error) {
+        console.log(error)
+        return NextResponse.json({erreur: 'Une erreur est survenue'}, {error}, {status: 500})
+    }
+}

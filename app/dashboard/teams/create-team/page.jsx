@@ -15,7 +15,7 @@ const CreateTeam = () => {
     const [message, setMessage] = useState('Créer une équipe')
 
     const [isOpen, setIsOpen] = useState(false);
-    const {data: session} = useSession()
+    const { data: session, update } = useSession()
 
     // récupération de tous nos jeux
     useEffect(() => {
@@ -58,7 +58,6 @@ const CreateTeam = () => {
         const nom = e.target.nom.value
         const mdp = e.target.mdp.value
         const mdpv = e.target.mdpv.value
-        setTimeout(() => { setSubmitting(false), setMessage('Créer une équipe') }, 4000)
 
         try {
             const bodyRequest = {nom, teamSize}
@@ -95,9 +94,17 @@ const CreateTeam = () => {
                 }
             })
             const data = await response.json()
-            console.log(data.erreur)
+            console.log(data)
             if(data.erreur) {setErreur(data.erreur); setMessage('Créer une équipe')}
             if(response.ok){
+                await update({
+                    ...session, 
+                    user: {
+                        ...session?.user,
+                        in_team: data.newTeam._id
+                    }
+                });
+                console.log(session?.user)
                 setErreur('')
                 setMessage('Équipe créer avec succès.')
             }
@@ -124,7 +131,7 @@ const CreateTeam = () => {
                 <section className="my-12">
                     <p className="mr-auto ml-3 uppercase">Jeux jouer par votr équipe</p>
                     <div className="basis-full flex-wrap flex items-center justify-center">
-                        {jeux.map((jeu) => (
+                        {jeux?.map((jeu) => (
                             <Image
                                 onClick={() => addGame(jeu._id)}
                                 key={jeu._id}
@@ -132,12 +139,12 @@ const CreateTeam = () => {
                                 alt={jeu.nom}
                                 width={110}
                                 height={50}
-                                className={`m-2 rounded-md shadow-xl duration-200 hover:shadow-2xl hover:scale-110 ${gameSelected.includes(jeu._id) ? 'outline outline-2 outline-offset-2 outline-green-700' : 'outline outline-2 outline-offset-2 outline-transparent'}`}
+                                className={`m-2 w-auto rounded-md shadow-xl duration-200 hover:shadow-2xl hover:scale-110 ${gameSelected.includes(jeu._id) ? 'outline outline-2 outline-offset-2 outline-green-700' : 'outline outline-2 outline-offset-2 outline-transparent'}`}
                             />
                         ))}
                     </div>
                     <div className="basis-full grow flex flex-wrap items-center justify-center">
-                        {gameSelected.map((gameId) => {
+                        {gameSelected?.map((gameId) => {
                             const selectedGame = jeux.find((jeu) => jeu._id === gameId);
                             return (
                                 <input
@@ -202,6 +209,9 @@ const CreateTeam = () => {
                 </button>
                 {erreur &&
                     <p className="text-red-600 message text-center p-3">{erreur}</p>
+                }
+                {message == 'Équipe créer avec succès.' && 
+                <p className="text-green-600 message text-center p-3">{message}</p>
                 }
             </div>
         </form>

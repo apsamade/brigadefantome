@@ -1,5 +1,6 @@
 import { connectToDB } from "@utils/connectToDB";
 import Team from "@models/team"
+import User from "@models/user";
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../auth/[...nextauth]/route";
@@ -35,6 +36,12 @@ export const POST = async (req) =>{
         if(body.mdp){
             newTeam.mdp = body.mdp
         }
+        await User.findByIdAndUpdate(session.user._id, {
+            $set:{
+                in_team: newTeam._id
+            }
+        })
+        session.user.in_team = newTeam._id;
         await newTeam.save();
         console.log('Équipe créée avec succès :', newTeam);
         

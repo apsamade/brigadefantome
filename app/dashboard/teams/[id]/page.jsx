@@ -3,8 +3,10 @@
 import { useState, useEffect } from "react"
 import Link from "next/link"
 import Image from "next/image"
+import { useSession } from "next-auth/react"
 
 const ThisTeam = ({ params }) => {
+    const { data: session, status } = useSession()
     const [erreur, setErreur] = useState('')
     const [team, setTeam] = useState({})
 
@@ -26,18 +28,17 @@ const ThisTeam = ({ params }) => {
     return (
         <main className="grow">
             <section className="p-4 rounded-md bg-fond-2 shadow-2xl">
-                {team.jeux &&
-                    <div>
-                        <h1 className="py-3 text-center mx-auto text-3xl">{team.nom}</h1>
-                        <div className="my-12">
-                            <p className="text-xl uppercase">Les jeux jouer :</p>
-                            <div className="flex items-center justify-center flex-wrap">
-                                {team.jeux.map(j =>
+                <div>
+                    <h1 className="py-3 text-center mx-auto text-3xl">{team.nom}</h1>
+                    <div className="my-12">
+                        <p className="text-xl uppercase">Les jeux jouer :</p>
+                        <div className="flex items-center justify-center flex-wrap">
+                            {team.jeux?.map(j =>
                                 <Link
                                     key={j.jeu_id._id}
                                     href={`/dashboard/jeux/${j.jeu_id._id}`}
                                 >
-                                
+
                                     <Image
                                         alt={j.jeu_id.nom}
                                         src={j.jeu_id.image}
@@ -46,23 +47,28 @@ const ThisTeam = ({ params }) => {
                                         className="rounded-md shadow-2xl m-3 hover:scale-110 duration-200"
                                     />
                                 </Link>
-                                )}
-                            </div>
-                        </div>
-                        <div>
-                            <p className="text-xl uppercase">Les joueurs :</p>
-                            <div className="flex items-center justify-center flex-col">
-                                {team.all_players.map(ap =>
-                                    <span className={`${ap.chef ? 'text-orange-500': 'text-white'}`} key={ap.user_id._id}>{ap.user_id.pseudo} #{ap.user_id.hashtag}</span>
-                                )}
-                            </div>
+                            )}
                         </div>
                     </div>
-                }
+                    <div>
+                        <p className="text-xl uppercase">Les joueurs :</p>
+                        <div className="flex items-center justify-center flex-col">
+                            {team?.all_players?.map(ap =>
+                                <span className={`${ap.chef ? 'text-orange-500' : 'text-white'}`} key={ap.user_id._id}>{ap.user_id.pseudo} #{ap.user_id.hashtag}</span>
+                            )}
+                        </div>
+                    </div>
+                </div>
                 {/* si l'user n'est pas de l'équipe, lui proposer les fonctionnalité pour rejoindre l'équipe */}
                 {/* si l'user est dans l'équipe lui proposer les fonctionnalité de modification à la limite du simple équipier */}
                 {/* si l'user est admin lui proposer toute les fonction admin de l'équipe */}
-                <button className="my-6 rounded-md shadow-2xl uppercase block w-full p-3 bg-black text-white hover:text-white hover:bg-green-600 duration-200" type="button">Rejoindre</button>
+                {!session?.user.in_team &&
+                    <button className="my-6 rounded-md shadow-2xl uppercase block w-full p-3 bg-black text-white hover:text-white hover:bg-green-600 duration-200" type="button">Rejoindre</button>
+                }
+                {team.all_players?.find(p => { p.user_id._id.toString() == session?.user._id }) &&
+                    <button className="my-6 rounded-md shadow-2xl uppercase block w-full p-3 bg-black text-white hover:text-white hover:bg-red-600 duration-200" type="button">Quittez</button>
+
+                }
             </section>
         </main>
     )

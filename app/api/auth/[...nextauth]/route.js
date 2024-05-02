@@ -81,7 +81,7 @@ export const authOptions = {
                     if (!userExists) {
                         let pseudo = profile.name;
                         let hashtag = genererNumeroUnique();
-                
+
                         console.log(pseudo)
                         // Vérifie si le pseudo avec ce hashtag existe déjà
                         let pseudoExistsWithHashtag = await User.findOne({ pseudo: pseudo, hashtag: hashtag });
@@ -91,7 +91,7 @@ export const authOptions = {
                             pseudoExistsWithHashtag = await User.findOne({ pseudo: pseudo, hashtag: hashtag });
                             console.log(pseudoExistsWithHashtag)
                         }
-                
+
                         // Crée un nouvel utilisateur avec le pseudo et le hashtag uniques
                         const newUser = new User({
                             email: profile.email,
@@ -100,13 +100,13 @@ export const authOptions = {
                             admin: profile.email === process.env.MAILADMIN,
                             hashtag: hashtag
                         });
-                
+
                         // Enregistre le nouvel utilisateur dans la base de données
                         await newUser.save();
                         console.log("Utilisateur créé avec succès !");
                         return true;
                     }
-                    if(userExists) return true
+                    if (userExists) return true
 
                     return false
                 } catch (error) {
@@ -135,19 +135,18 @@ export const authOptions = {
             }
 
         },
-        async session({ session }) {
-            // store the user id from MongoDB to session
-            await connectToDB();
-            const sessionUser = await User.findOne({ email: session.user.email });
-            if (sessionUser) {
-                session.user = sessionUser
-                session.user.id = sessionUser._id.toString()
-                return session;
+        async jwt({ token, user, trigger, session }) {
+            await connectToDB()
+            const userReturn = await User.findOne({ email: token.email })
+            if (userReturn) { token.user = userReturn; }
+            if (trigger === "update") {
+                return { ...token, ...session.user };
             }
-            if(!sessionUser){
-                console.log('erreur lors de l\'ouverture de la session .')
-                return null
-            }
+            return { ...token, ...user };
+        },
+        async session({ session, token }) {
+            session.user = token.user
+            return session;
         },
     }
 }

@@ -30,6 +30,10 @@ const UserSchema = new Schema({
     admin: {
         type: Boolean,
         default: false
+    },
+    in_team: {
+        type: Schema.Types.ObjectId,
+        ref: 'Team'
     }
 
 }, { timestamps: true })

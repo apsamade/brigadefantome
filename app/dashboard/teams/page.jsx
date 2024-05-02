@@ -26,18 +26,18 @@ const Teams = () => {
                 Créer une équipe
             </Link>
             <section className="mt-16">
-                {teams.map(t => (
+                {teams?.map(t => (
                     <div key={t._id} className="bg-black relative text-white p-4 rounded-md max-w-[400px]">
                         <h3 className="text-center py-2 text-2xl uppercase">{t.nom}</h3>
                         <div className="flex items center justify-center flex-wrap">
-                            {t.jeux.map(j => (
+                            {t.jeux?.map(j => (
                                 <p key={j.jeu_id._id} className="mr-2 text-red-500">
                                     {j.jeu_id.nom} <span className="text-white">/</span>
                                 </p>
                             ))}
                             <ul className="mr-auto mt-5 ml-3">
                                 <p>Joueurs de l'équipe :</p>
-                                {t.all_players.map(ap =>
+                                {t.all_players?.map(ap =>
                                     <li key={ap.user_id._id} className={`${ap.chef ? 'text-orange-300' : 'text-white'} p-2 mt-2`}>
                                         {ap.user_id.pseudo} #{ap.user_id.hashtag}
                                     </li>
