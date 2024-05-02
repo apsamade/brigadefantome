@@ -11,9 +11,7 @@ const Teams = () => {
             const response = await fetch('/api/teams', {
                 method: 'GET'
             })
-            console.log(response)
             const data = await response.json()
-            console.log(data)
             setTeams(data)
         }
         fetchTeams()
@@ -33,14 +31,14 @@ const Teams = () => {
                         <h3 className="text-center py-2 text-2xl uppercase">{t.nom}</h3>
                         <div className="flex items center justify-center flex-wrap">
                             {t.jeux.map(j => (
-                                <p key={j.jeu_id} className="mr-2 text-red-500">
+                                <p key={j.jeu_id._id} className="mr-2 text-red-500">
                                     {j.jeu_id.nom} <span className="text-white">/</span>
                                 </p>
                             ))}
                             <ul className="mr-auto mt-5 ml-3">
                                 <p>Joueurs de l'équipe :</p>
                                 {t.all_players.map(ap =>
-                                    <li key={ap._id} className={`${ap.chef ? 'text-orange-300' : 'text-white'} p-2 mt-2`}>
+                                    <li key={ap.user_id._id} className={`${ap.chef ? 'text-orange-300' : 'text-white'} p-2 mt-2`}>
                                         {ap.user_id.pseudo} #{ap.user_id.hashtag}
                                     </li>
                                 )}

@@ -33,17 +33,21 @@ const ThisTeam = ({ params }) => {
                             <p className="text-xl uppercase">Les jeux jouer :</p>
                             <div className="flex items-center justify-center flex-wrap">
                                 {team.jeux.map(j =>
+                                <Link
+                                    key={j.jeu_id._id}
+                                    href={`/dashboard/jeux/${j.jeu_id._id}`}
+                                >
+                                
                                     <Image
-                                        key={j.jeu_id._id}
                                         alt={j.jeu_id.nom}
                                         src={j.jeu_id.image}
                                         width={200}
                                         height={200}
                                         className="rounded-md shadow-2xl m-3 hover:scale-110 duration-200"
                                     />
+                                </Link>
                                 )}
                             </div>
-
                         </div>
                         <div>
                             <p className="text-xl uppercase">Les joueurs :</p>
