@@ -65,7 +65,7 @@ const ThisTeam = ({ params }) => {
                 {!session?.user.in_team &&
                     <button className="my-6 rounded-md shadow-2xl uppercase block w-full p-3 bg-black text-white hover:text-white hover:bg-green-600 duration-200" type="button">Rejoindre</button>
                 }
-                {team?._id == session?.user?.in_team.toString() &&
+                {team?._id == session?.user?.in_team?.toString() &&
                     <button className="my-6 rounded-md shadow-2xl uppercase block w-full p-3 bg-black text-white hover:text-white hover:bg-red-600 duration-200" type="button">Quittez</button>
 
                 }
