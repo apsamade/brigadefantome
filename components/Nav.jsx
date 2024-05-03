@@ -40,6 +40,14 @@ const Nav = () => {
                     </li>
                     <li>
                         <Link
+                            href='/blog'
+                            className='p-4 border-b border-transparent hover:border-white duration-200'
+                        >
+                            Blog
+                        </Link>
+                    </li>
+                    <li>
+                        <Link
                             href='/evenements'
                             className='p-4 border-b border-transparent hover:border-white duration-200'
                         >
@@ -118,6 +126,15 @@ const Nav = () => {
                             className='p-4 py-2 my-2 block border-b border-transparent hover:border-white duration-200'
                         >
                             Découvrir
+                        </Link>
+                    </li>
+                    <li>
+                        <Link
+                            onClick={handleNav}
+                            href='/blog'
+                            className='p-4 py-2 my-2 block border-b border-transparent hover:border-white duration-200'
+                        >
+                            Blog
                         </Link>
                     </li>
                     <li>
