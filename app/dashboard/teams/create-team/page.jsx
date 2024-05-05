@@ -60,7 +60,7 @@ const CreateTeam = () => {
         const mdpv = e.target.mdpv.value
 
         try {
-            const bodyRequest = {nom, teamSize}
+            const bodyRequest = { nom, teamSize }
             if (gameSelected.some((gameId) => pseudos[gameId] === undefined)) {
                 // Si au moins un jeu n'a pas de pseudo défini, affiche une erreur
                 return setErreur('Le pseudo pour chaque jeu sélectionné est requis.');
@@ -68,24 +68,22 @@ const CreateTeam = () => {
                 // Si tous les jeux ont un pseudo défini, continue avec la création de la demande de corps
                 bodyRequest.jeux = gameSelected.map((gameId) => ({
                     jeu_id: gameId,
-                    players: [
-                        {
-                            user_id: session?.user._id,
-                            chef: true,
-                            jeu_pseudo: pseudos[gameId]
-                        }
-                    ]
+                    players: {
+                        user_id: session?.user._id,
+                        chef: true,
+                        jeu_pseudo: pseudos[gameId]
+                    }
                 }));
             }
 
-            if(mdp && mdpv && mdp == mdpv) {
+            if (mdp && mdpv && mdp == mdpv) {
                 bodyRequest.mdp = mdp
-            }else if(mdp && mdpv && mdp != mdpv){
+            } else if (mdp && mdpv && mdp != mdpv) {
                 return setErreur('Mot de passe de confirmation différent.')
             }
-            if(bodyRequest.jeux < 1) return setErreur('Sélectionnez au moin un jeu.')
+            if (bodyRequest.jeux.length < 1) return setErreur('Sélectionnez au moin un jeu.')
 
-            if(!teamSize) return setErreur('Sélectionnez la taille maximale de votre équipe.')
+            if (!teamSize) return setErreur('Sélectionnez la taille maximale de votre équipe.')
             const response = await fetch('/api/add-team', {
                 method: 'POST',
                 body: JSON.stringify(bodyRequest),
@@ -95,10 +93,10 @@ const CreateTeam = () => {
             })
             const data = await response.json()
             console.log(data)
-            if(data.erreur) {setErreur(data.erreur); setMessage('Créer une équipe')}
-            if(response.ok){
+            if (data.erreur) { setErreur(data.erreur); setMessage('Créer une équipe') }
+            if (response.ok) {
                 await update({
-                    ...session, 
+                    ...session,
                     user: {
                         ...session?.user,
                         in_team: data.newTeam._id
@@ -210,8 +208,8 @@ const CreateTeam = () => {
                 {erreur &&
                     <p className="text-red-600 message text-center p-3">{erreur}</p>
                 }
-                {message == 'Équipe créer avec succès.' && 
-                <p className="text-green-600 message text-center p-3">{message}</p>
+                {message == 'Équipe créer avec succès.' &&
+                    <p className="text-green-600 message text-center p-3">{message}</p>
                 }
             </div>
         </form>

@@ -16,7 +16,6 @@ const ThisTeam = ({ params }) => {
     const [submitting, setSubmitting] = useState(false)
 
 
-
     // jeu sélectionné
     const addGame = (gameId) => {
         if (gameSelected.includes(gameId)) {
@@ -31,7 +30,9 @@ const ThisTeam = ({ params }) => {
     useEffect(() => {
         const fetchTeam = async () => {
             const response = await fetch(`/api/teams/${params.id}`, {
-                method: 'GET'
+                method: 'GET',
+                cache: 'no-store',
+                next: { revalidate: 0 }
             })
             const data = await response.json()
             setTeam(data)
@@ -41,6 +42,68 @@ const ThisTeam = ({ params }) => {
 
     // rejoindre une équipe 
     const openJoinTeam = () => setOpenFormJoinTeam(!openFormJoinTeam);
+
+    // formulaire pour rejoindre l'équipe//
+    const handleSubmitJoinTeam = async (e) => {
+        e.preventDefault()
+        setSubmitting(false)
+
+        let mdp;
+
+        try {
+            let bodyRequest = {}
+            if (gameSelected.some((gameId) => pseudos[gameId] === undefined)) {
+                // Si au moins un jeu n'a pas de pseudo défini, affiche une erreur
+                return setErreur('Le pseudo pour chaque jeu sélectionné est requis.');
+            } else {
+                // Si tous les jeux ont un pseudo défini, continue avec la création de la demande de corps
+                bodyRequest.jeux = gameSelected.map((gameId) => ({
+                    jeu_id: gameId,
+                    players: {
+                        user_id: session?.user._id,
+                        chef: false,
+                        jeu_pseudo: pseudos[gameId]
+                    }
+                }));
+            }
+
+            if (team.mdp) {
+                mdp = e.target.mdp.value
+                if (mdp) {
+                    bodyRequest.mdp = mdp
+                } else {
+                    return setErreur('Mot de passe de obligatoire.')
+                }
+            }
+            if (bodyRequest.gameSelected < 1) return setErreur('Sélectionnez au moin un jeu.')
+
+            if (team.team_size >= team.players) return setErreur('Équipe déjà complète.')
+            const response = await fetch(`/api/teams/${params.id}`, {
+                method: 'PATCH',
+                body: JSON.stringify(bodyRequest),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            const data = await response.json()
+            console.log(data)
+            if (data.erreur) { setErreur(data.erreur); setMessage('Créer une équipe') }
+            if (response.ok) {
+                await update({
+                    ...session,
+                    user: {
+                        ...session?.user,
+                        in_team: data.newTeam._id
+                    }
+                });
+                console.log(session?.user)
+                setErreur('')
+                setMessage('Équipe créer avec succès.')
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
 
     return (
         <main className="grow">
@@ -85,11 +148,14 @@ const ThisTeam = ({ params }) => {
                             className={`my-6 rounded-md shadow-2xl uppercase block w-full p-3 bg-black text-white hover:text-white ${openFormJoinTeam ? 'hover:bg-red-600' : 'hover:bg-green-600'}  duration-200`}
                             type="button"
                         >
-                            {openFormJoinTeam ? ('Fermer'): ('Rejoindre')}
+                            {openFormJoinTeam ? ('Fermer') : ('Rejoindre')}
                         </button>
                         {openFormJoinTeam &&
-                            <form className="flex rounded-md outline outline-gray-700 outline-1 p-4 items-center flex-wrap justify-center">
-                                
+                            <form
+                                onSubmit={handleSubmitJoinTeam}
+                                className="flex rounded-md outline outline-gray-700 outline-1 p-4 items-center flex-wrap justify-center"
+                            >
+
                                 <div className="grow basis-full flex p-4 items-center justify-center flex-wrap">
                                     <h3 className="uppercase text-2xl basis-full grow text-center my-3">Rejoindre {team.nom}</h3>
                                     {/* les jeux de l'équipe */}
@@ -129,12 +195,15 @@ const ThisTeam = ({ params }) => {
                                         name="mdp"
                                         id="mdp"
                                         placeholder="Mot de passe"
-                                        className="p-3 rounded-md shadow-xl focus:shadow-2xl grow basis-[300px] m-2 outline outline-1 duration-200 focus:outline-blue-500 outline-blue-100"
+                                        className="p-3 text-black rounded-md shadow-xl focus:shadow-2xl grow basis-[300px] m-2 outline outline-1 duration-200 focus:outline-blue-500 outline-blue-100"
                                     />
                                 }
                                 <button type="submit" className={submitting ? "grow basis-full p-4 bg-green-600 cursor-default uppercase rounded-md text-white m-2 shadow-2xl mt-6" : "grow basis-full p-4 bg-black rounded-md text-white m-2 shadow-2xl mt-6 duration-200 hover:bg-green-600 uppercase"}>
                                     Rejoindre l'équipe
                                 </button>
+                                {erreur &&
+                                    <p className="text-red-600 text-center py-4">{erreur}</p>
+                                }
                             </form>
                         }
                     </section>

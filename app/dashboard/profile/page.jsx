@@ -8,6 +8,7 @@ const Profile = () => {
     const { data: session } = useSession()
     const [submitting, setSubmitting] = useState(false)
     const [error, setError] = useState('')
+    const [openDelete, setOpenDelete] = useState(false)
 
     const deleteAccount = async (e) => {
         e.preventDefault()
@@ -53,8 +54,8 @@ const Profile = () => {
                         </ul>
                     ) : (
                         <div>
-                        <p>Vous êtes dans aucune équipe pour le moment.</p>
-                        <Link href="/dashboard/teams" className="bg-fond-3 p-3 text-white rounded-md shadow-2xl hover:bg-white hover:text-black duration-200 block w-full">Rejoindre une équipe</Link>
+                            <p className="my-3 p-1">Vous êtes dans aucune équipe pour le moment.</p>
+                            <Link href="/dashboard/teams" className="bg-fond-3 p-3 text-white rounded-md shadow-2xl hover:bg-white hover:text-black duration-200 block w-full">Rejoindre une équipe</Link>
                         </div>
                     )}
 
@@ -66,14 +67,37 @@ const Profile = () => {
                 >
                     Déconnexion
                 </button>
-                <form onSubmit={deleteAccount}>
-                    <button
-                        className="text-center min-w-[325px] my-5 block shadow-2xl mx-auto p-4 px-12 hover:px-16 hover:bg-red-700 duration-200 bg-red-500 rounded-lg"
-                        type="submit"
-                    >
-                        Supprimer mon compte
-                    </button>
-                </form>
+                <button
+                    onClick={() => { setOpenDelete(!openDelete) }}
+                    className={`text-center min-w-[325px] my-5 block shadow-2xl mx-auto p-4 px-12 hover:px-16 ${openDelete ? 'hover:bg-sky-700 bg-sky-500' : 'hover:bg-red-700 bg-red-500'} duration-200 rounded-lg`}
+                    type="button"
+                >
+                    {openDelete ? 'Annuler' : 'Supprimer mon compte'}
+                </button>
+                {openDelete &&
+                    <form onSubmit={deleteAccount} className="absolute top-0 left-0 right-0 bottom-0 bg-[#000000d6] z-50  flex items-center justify-center flex-col">
+                        <div className="bg-fond-3 m-3 p-6 rounded-md shadow-2xl">
+                            <p className="text-center">Êtes vous sur de vouloir supprimer votre compte ?</p>
+                            <div className="flex items-center justify-center flex-wrap">
+                                <button
+                                    className="text-center mx-2 min-w-[325px] my-5 block shadow-2xl p-4 px-12 hover:px-16 hover:bg-red-700 duration-200 bg-red-500 rounded-lg"
+                                    type="submit"
+                                >
+                                    Supprimer mon compte
+                                </button>
+                                <button
+                                    onClick={() => { setOpenDelete(!openDelete) }}
+                                    className={`text-center min-w-[325px] my-5 block shadow-2xl mx-2 p-4 px-12 hover:px-16 ${openDelete ? 'hover:bg-sky-700 bg-sky-500' : 'hover:bg-red-700 bg-red-500'} duration-200 rounded-lg`}
+                                    type="button"
+                                >
+                                    {openDelete ? 'Annuler' : 'Supprimer mon compte'}
+                                </button>
+                            </div>
+
+                        </div>
+                    </form>
+                }
+
             </section>
         </>
     )
