@@ -19,7 +19,12 @@ export const GET = async (req, { params }) => {
                 path: 'all_players.user_id',
                 model: User
             });
-        return NextResponse.json(team, { status: 200 })
+        if (team) {
+            return NextResponse.json(team, { status: 200 })
+        } else {
+            return NextResponse.json({ erreur: 'Une erreur est survenue lors de la récupération de l\'équipe' }, { status: 409 })
+        }
+
     } catch (error) {
         console.log(error)
         return NextResponse.json({ erreur: 'Une erreur est survenue lors de la récupération de l\'équipe' }, { status: 500 })
@@ -28,11 +33,22 @@ export const GET = async (req, { params }) => {
 export const DELETE = async (req, { params }) => {
     try {
         await connectToDB()
+        const myTeam = await Team.findById(params.id)
+        const session = await getServerSession(authOptions)
+
+        myTeam.all_players.forEach(async p => {
+            await User.findByIdAndUpdate(p.user_id, {
+                $unset: {
+                    in_team: 1
+                }
+            })
+        })
+        session.user.in_team = undefined;
         await Team.findByIdAndDelete(params.id)
-        return NextResponse.json({ message: 'Équipe supprimé avec succès.' })
+        return NextResponse.json({ message: 'Équipe supprimé avec succès.', supprimer: true }, {status: 200})
     } catch (error) {
         console.log(error)
-        return NextResponse.json({ erreur: 'Une erreur est survenue' }, { error }, { status: 500 })
+        return NextResponse.json({ erreur: 'Une erreur est survenue', error }, { status: 500 })
     }
 }
 export const PATCH = async (req, { params }) => {
@@ -74,13 +90,13 @@ export const PATCH = async (req, { params }) => {
             session.user.in_team = myTeam._id;
             await myTeam.save()
 
-            return NextResponse.json(myTeam , { status: 200 })
+            return NextResponse.json(myTeam, { status: 200 })
         }
         if (requestBody.leave) {
             const myTeam = await Team.findById(params.id)
-            if(myTeam._id.toString() != session.user.in_team.toString()) return NextResponse.json({erreur: 'Vous ne faite déjà plus partis de cette équipe.'}, {status: 409})
+            if (myTeam._id.toString() != session.user.in_team.toString()) return NextResponse.json({ erreur: 'Vous ne faite déjà plus partis de cette équipe.' }, { status: 409 })
             myTeam.all_players = myTeam.all_players.filter(player => player.user_id.toString() !== session.user._id.toString())
-
+            if (!myTeam.all_players.find(p => p.chef = true)) myTeam.all_players[0].chef = true
             // Retire le joueur de chaque jeu dans l'équipe
             myTeam.jeux.forEach(jeu => {
                 jeu.players = jeu.players.filter(player => player.user_id.toString() !== session.user._id.toString())
