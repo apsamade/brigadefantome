@@ -4,27 +4,23 @@ import { useState, useEffect } from "react"
 import Link from "next/link"
 import Image from "next/image"
 import { useSession } from "next-auth/react"
+import { Suspense } from "react"
+import { fetchData } from "next-auth/client/_utils"
 
 
 const ThisTeam = ({ params }) => {
-    const { data: session, status } = useSession()
+    const { data: session, update, status } = useSession()
     const [erreur, setErreur] = useState('')
+    // const rejoindre une équipe
     const [gameSelected, setGameSelected] = useState([]);
     const [pseudos, setPseudos] = useState({});
     const [team, setTeam] = useState({})
     const [openFormJoinTeam, setOpenFormJoinTeam] = useState(false)
+    // const quittez une équipe
+    const [openFormLeaveTeam, setOpenFormLeaveTeam] = useState(false)
+    // const supprimer cette équipe
+    const [openFormDeleteTeam, setOpenFormDeleteTeam] = useState(false)
     const [submitting, setSubmitting] = useState(false)
-
-
-    // jeu sélectionné
-    const addGame = (gameId) => {
-        if (gameSelected.includes(gameId)) {
-            setGameSelected(gameSelected.filter(id => id !== gameId));
-        } else {
-            setGameSelected([...gameSelected, gameId]);
-        }
-        console.log(gameSelected)
-    }
 
     // recupération de l'équipe en question
     useEffect(() => {
@@ -32,13 +28,22 @@ const ThisTeam = ({ params }) => {
             const response = await fetch(`/api/teams/${params.id}`, {
                 method: 'GET',
                 cache: 'no-store',
-                next: { revalidate: 0 }
-            })
+            });
             const data = await response.json()
             setTeam(data)
         }
         fetchTeam()
     }, [params.id])
+
+    ////////////////////////////////////////////////// CREATION //////////////////////////////////
+    // jeu sélectionné
+    const addGame = (gameId) => {
+        if (gameSelected.includes(gameId)) {
+            setGameSelected(gameSelected.filter(id => id !== gameId));
+        } else {
+            setGameSelected([...gameSelected, gameId]);
+        }
+    }
 
     // rejoindre une équipe 
     const openJoinTeam = () => setOpenFormJoinTeam(!openFormJoinTeam);
@@ -47,6 +52,7 @@ const ThisTeam = ({ params }) => {
     const handleSubmitJoinTeam = async (e) => {
         e.preventDefault()
         setSubmitting(false)
+        setOpenFormJoinTeam(!openFormJoinTeam)
 
         let mdp;
 
@@ -78,6 +84,7 @@ const ThisTeam = ({ params }) => {
             if (bodyRequest.gameSelected < 1) return setErreur('Sélectionnez au moin un jeu.')
 
             if (team.team_size >= team.players) return setErreur('Équipe déjà complète.')
+            bodyRequest.join = true;
             const response = await fetch(`/api/teams/${params.id}`, {
                 method: 'PATCH',
                 body: JSON.stringify(bodyRequest),
@@ -86,14 +93,18 @@ const ThisTeam = ({ params }) => {
                 }
             })
             const data = await response.json()
-            console.log(data)
-            if (data.erreur) { setErreur(data.erreur); setMessage('Créer une équipe') }
+            console.log('datas', data)
+            if (data.erreur) { 
+                setErreur(data.erreur); 
+                setMessage('Créer une équipe') 
+            }
             if (response.ok) {
+                setTeam({all_players: data.all_players})
                 await update({
                     ...session,
                     user: {
                         ...session?.user,
-                        in_team: data.newTeam._id
+                        in_team: data._id
                     }
                 });
                 console.log(session?.user)
@@ -105,6 +116,46 @@ const ThisTeam = ({ params }) => {
         }
     }
 
+    ////////////////////////////////////////////////// QUITTEZ //////////////////////////////////
+    const openLeaveTeam = () => setOpenFormLeaveTeam(!openFormLeaveTeam);
+
+    // formulaire pour quitter l'équipe
+    const handleSubmitLeaveTeam = async (e) => {
+        e.preventDefault()
+        setSubmitting(true)
+        setOpenFormLeaveTeam(!openFormLeaveTeam)
+
+        try {
+            const response = await fetch(`/api/teams/${params.id}`, {
+                method: 'PATCH',
+                body: JSON.stringify({ leave: true }),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+
+            const data = await response.json()
+            console.log('datas ', data)
+            if (data.erreur) { setErreur(data.erreur) }
+            if (response.ok) {
+                setTeam({all_players: data.all_players})
+                await update({
+                    ...session,
+                    user: {
+                        ...session?.user,
+                        in_team: undefined
+                    }
+                });
+                console.log(session?.user)
+                setErreur('')
+            }
+
+        } catch (error) {
+            console.log(error)
+            setErreur('Une erreur est survenue lors de la tentative pour quitter l\'équipe')
+        }
+    }
+    console.log('last team', team)
     return (
         <main className="grow">
             <section className="p-4 rounded-md bg-fond-2 shadow-2xl">
@@ -113,34 +164,35 @@ const ThisTeam = ({ params }) => {
                     <div className="my-12">
                         <p className="text-xl uppercase">Les jeux jouer :</p>
                         <div className="flex items-center justify-center flex-wrap">
-                            {team.jeux?.map(j =>
-                                <Link
-                                    key={j.jeu_id._id}
-                                    href={`/dashboard/jeux/${j.jeu_id._id}`}
-                                >
-                                    <Image
-                                        alt={j.jeu_id.nom}
-                                        src={j.jeu_id.image}
-                                        width={200}
-                                        height={200}
-                                        className="rounded-md shadow-2xl m-3 hover:scale-110 duration-200"
-                                    />
-                                </Link>
-                            )}
+                            <Suspense>
+                                {team?.jeux?.map(j =>
+                                    <Link
+                                        key={j.jeu_id._id}
+                                        href={`/dashboard/jeux/${j.jeu_id._id}`}
+                                    >
+                                        <Image
+                                            alt={j.jeu_id.nom}
+                                            src={j.jeu_id.image}
+                                            width={200}
+                                            height={200}
+                                            className="rounded-md shadow-2xl m-3 hover:scale-110 duration-200"
+                                        />
+                                    </Link>
+                                )}
+                            </Suspense>
                         </div>
                     </div>
                     <div>
                         <p className="text-xl uppercase">Les joueurs :</p>
                         <div className="flex items-center justify-center flex-col">
-                            {team?.all_players?.map(ap =>
-                                <span className={`${ap.chef ? 'text-orange-500' : 'text-white'}`} key={ap.user_id._id}>{ap.user_id.pseudo} #{ap.user_id.hashtag}</span>
-                            )}
+                            <Suspense>
+                                {team?.all_players?.map(ap =>
+                                    <span className={`${ap.chef ? 'text-orange-500' : 'text-white'}`} key={ap._id}>{ap.user_id.pseudo} #{ap.user_id.hashtag}</span>
+                                )}
+                            </Suspense>
                         </div>
                     </div>
                 </div>
-                {/* si l'user n'est pas de l'équipe, lui proposer les fonctionnalité pour rejoindre l'équipe */}
-                {/* si l'user est dans l'équipe lui proposer les fonctionnalité de modification à la limite du simple équipier */}
-                {/* si l'user est admin lui proposer toute les fonction admin de l'équipe */}
                 {!session?.user.in_team &&
                     <section>
                         <button
@@ -162,7 +214,7 @@ const ThisTeam = ({ params }) => {
                                     {team.jeux?.map((jeu) => (
                                         <Image
                                             onClick={() => addGame(jeu.jeu_id._id)}
-                                            key={jeu.jeu_id._id}
+                                            key={jeu._id}
                                             src={jeu.jeu_id.image}
                                             alt={jeu.jeu_id.nom}
                                             width={160}
@@ -173,6 +225,7 @@ const ThisTeam = ({ params }) => {
                                 </div>
                                 {/* les pseudos pour chaque jeu séléctionné */}
                                 <div className="basis-full grow flex flex-wrap items-center justify-center">
+
                                     {gameSelected?.map((gameId) => {
                                         const selectedGame = team?.jeux?.find((jeu) => jeu.jeu_id._id === gameId);
                                         return (
@@ -202,18 +255,40 @@ const ThisTeam = ({ params }) => {
                                     Rejoindre l'équipe
                                 </button>
                                 {erreur &&
-                                    <p className="text-red-600 text-center py-4">{erreur}</p>
+                                    <p className="text-red-500 text-center py-4">{erreur}</p>
                                 }
                             </form>
                         }
                     </section>
                 }
                 {team?._id == session?.user?.in_team?.toString() &&
+                    <>
+                        <button
+                            onClick={openLeaveTeam}
+                            className="my-6 rounded-md shadow-2xl uppercase block w-full p-3 bg-black text-white hover:text-white hover:bg-red-600 duration-200"
+                            type="button"
+                        >
+                            Quittez
+                        </button>
+                        {openFormLeaveTeam &&
+                            <form onSubmit={handleSubmitLeaveTeam} className="bg-[#000000A0] flex items-center justify-center absolute top-0 left-0 right-0 bottom-0">
+                                <div className="p-4 bg-fond-3 rounded-md">
+                                    <p className="text-center">Êtes vous sur de vouloir quitter votre équipe</p>
+                                    <div className="flex items-center justify-center flex-wrap my-3">
+                                        <button className="grow p-3 hover:bg-sky-600 duration-200 bg-sky-500 rounded-md m-1" onClick={openLeaveTeam} type="button">Annuler</button>
+                                        <button className="grow p-3 hover:bg-red-700 duration-200 bg-red-500 rounded-md m-1" type="submit">Quitter</button>
+                                    </div>
+                                </div>
+                            </form>
+                        }
+                    </>
+                }
+                {team?.all_players?.find(p => p.user_id._id === session?.user?._id && p.chef === true) &&
                     <button
                         className="my-6 rounded-md shadow-2xl uppercase block w-full p-3 bg-black text-white hover:text-white hover:bg-red-600 duration-200"
                         type="button"
                     >
-                        Quittez
+                        Supprimer cette équipe
                     </button>
                 }
             </section>
