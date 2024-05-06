@@ -18,6 +18,7 @@ const ThisJeu = ({ params }) => {
 
     return (
         <section className="grow">
+            {jeu != null ? (
             <section>
                 <Image
                     src={jeu.image}
@@ -29,6 +30,9 @@ const ThisJeu = ({ params }) => {
                 <p>{jeu.nom}</p>
                 <p>{jeu.description}</p>
             </section>
+        ) : (
+            <p className="text-center p-4 rounded-md bg-fond-2 shadow-2xl">Aucun jeu trouvé</p>
+        )}
         </section>
     );
 }
