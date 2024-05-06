@@ -4,8 +4,10 @@ import { useEffect, useState } from "react"
 import Image from "next/image"
 import { motion, AnimatePresence } from "framer-motion";
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 const CreateTeam = () => {
+    const router = useRouter()
     const [jeux, setJeux] = useState([])
     const [teamSize, setTeamSize] = useState("");  // Aucune taille sélectionnée par défaut
     const [gameSelected, setGameSelected] = useState([]);
@@ -92,19 +94,20 @@ const CreateTeam = () => {
                 }
             })
             const data = await response.json()
-            console.log(data)
+            console.log('datas : ', data._id)
             if (data.erreur) { setErreur(data.erreur); setMessage('Créer une équipe') }
             if (response.ok) {
                 await update({
                     ...session,
                     user: {
                         ...session?.user,
-                        in_team: data.newTeam._id
+                        in_team: data._id
                     }
                 });
                 console.log(session?.user)
                 setErreur('')
                 setMessage('Équipe créer avec succès.')
+                return router.push(`/dashboard/teams/${data._id}`)
             }
 
         } catch (error) {

@@ -46,7 +46,7 @@ export const POST = async (req) => {
         await newTeam.save();
         console.log('Équipe créée avec succès :', newTeam);
 
-        return NextResponse.json({ newTeam }, { status: 200 })
+        return NextResponse.json(newTeam, { status: 200 })
     } catch (error) {
         console.log(error)
         return NextResponse.json({ erreur: error }, { status: 500 })
