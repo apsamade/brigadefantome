@@ -3,16 +3,19 @@
 @tailwind components;
 @tailwind utilities;
 
-*{
+* {
     font-family: 'Montserrat', sans-serif;
 }
+
 /* Barre de défilement verticale */
 ::-webkit-scrollbar {
-    width: 8px; /* Largeur de la barre de défilement */
+    width: 8px;
+    /* Largeur de la barre de défilement */
 }
 
 ::-webkit-scrollbar-track {
-    background: #655ce081; /* Couleur de fond de la piste de défilement */
+    background: #655ce081;
+    /* Couleur de fond de la piste de défilement */
 }
 
 ::-webkit-scrollbar-thumb {
@@ -21,18 +24,21 @@
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: #1567ff; /* Couleur de la poignée de défilement au survol */
+    background: #1567ff;
+    /* Couleur de la poignée de défilement au survol */
 }
 
 /* message & erreur */
-.message{
+.message {
     animation: fadeIn 0.5s 0s ease forwards;
 }
-.btn-decouvrir{
+
+.btn-decouvrir {
     background-color: rgba(0, 0, 0, 0.2);
     box-shadow: 0 0 50px 50px rgba(0, 0, 0, 0.2);
 }
-.grid-teams{
+
+.grid-teams {
     display: grid;
     gap: 12px;
     grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
@@ -45,12 +51,14 @@
     box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.4);
 }
 
+
 @keyframes fadeIn {
-    0%{
+    0% {
         opacity: 0;
         transform: translateY(-100%);
     }
-    100%{
+
+    100% {
         opacity: 1;
         transform: none;
     }
