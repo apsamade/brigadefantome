@@ -5,7 +5,7 @@ import { FaCalendarAlt } from "react-icons/fa";
 import { motion, AnimatePresence } from "framer-motion";
 import React, { useState } from 'react';
 
-const DatePicker = () => {
+const DatePicker = ({ onDateSelect }) => {
     const [selectedDate, setSelectedDate] = useState('');
     const [showCalendar, setShowCalendar] = useState(false);
     const [currentDate, setCurrentDate] = useState(new Date());
@@ -39,6 +39,7 @@ const DatePicker = () => {
             const newDate = new Date(currentYear, currentMonth - 1, day);
             setSelectedDate(newDate.toLocaleDateString('fr-FR'));
             setShowCalendar(false);
+            onDateSelect(newDate)
         };
 
         return (
@@ -92,7 +93,7 @@ const DatePicker = () => {
                 <input
                     type="text"
                     value={selectedDate}
-                    placeholder="Select Date"
+                    placeholder="Choisir une date"
                     readOnly
                     onClick={toggleCalendar}
                     className="p-3 cursor-pointer rounded-md w-full block bg-transparent outline outline-1 focus:outline-sky-600 duration-200"

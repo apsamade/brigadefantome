@@ -4,15 +4,14 @@ import { useState, useEffect, Suspense } from "react"
 import { useSession } from "next-auth/react"
 import Image from "next/image"
 import Link from "next/link"
-import Calendrier from "@components/Calendrier"
+import DatePicker from "@components/DatePicker"
 
 const AddTournoi = () => {
     const { data: session } = useSession()
     const [submitting, setSubmitting] = useState(false)
     const [jeux, setJeux] = useState([])
     const [erreur, setErreur] = useState('')
-    const [selectedDate, setSelectedDate] = useState(null);
-    const [value, onChange] = useState(new Date());
+    const [selectedDate, setSelectedDate] = useState(new Date());
 
     useEffect(() => {
         const fetchData = async () => {
@@ -27,6 +26,11 @@ const AddTournoi = () => {
         }
         fetchData();
     }, [])
+
+    const handleDateSelect = (date) => {
+        setSelectedDate(date);
+        console.log('all good mf', selectedDate)
+    };
 
     const handleSubmitCreateTournoi = async (e) => {
         e.preventDefault()
@@ -48,9 +52,9 @@ const AddTournoi = () => {
                     className="grow basis-full p-3 rounded-md bg-transparent shadow-2xl block m-2 focus:outline-sky-600 duration-200 outline outline-1 outline-gray-400"
                 />
                 <div className="grow basis-[350px] m-2">
-                    <Calendrier />
+                    <DatePicker onDateSelect={handleDateSelect} />
                 </div>
-                
+
                 <div className="flex items-center justify-center flex-wrap p-2">
                     <Suspense>
                         {jeux?.map((j) =>
