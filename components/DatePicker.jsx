@@ -43,7 +43,7 @@ const DatePicker = ({ onDateSelect }) => {
         };
 
         return (
-            <table className="w-full block p-3 max-w-[350px] bg-white text-black rounded-md mt-3 absolute left-0 right-0 top-full z-50">
+            <section className="w-full block p-3 max-w-[350px] bg-white text-black rounded-md mt-3 absolute left-0 right-0 top-full z-50">
                 <div className="mx-auto flex items-center justify-center py-3">
                     <div
                         className="p-1 mx-3 bg-black hover:px-3 duration-200 text-white rounded-md"
@@ -59,31 +59,33 @@ const DatePicker = ({ onDateSelect }) => {
                         <AiOutlineRight />
                     </div>
                 </div>
-                <thead className="flex justify-center">
-                    <tr>
-                        <th className="p-2 font-medium">lun</th>
-                        <th className="p-2 font-medium">mar</th>
-                        <th className="p-2 font-medium">mer</th>
-                        <th className="p-2 font-medium">jeu</th>
-                        <th className="p-2 font-medium">ven</th>
-                        <th className="p-2 font-medium">sam</th>
-                        <th className="p-2 font-medium">dim</th>
-                    </tr>
-                </thead>
-                <tbody className="grid gap-2 grid-cols-7">
-                    {daysArray.map((day) => (
-                        <tr key={day} className="border border-gray-300 rounded-md">
-                            <td
-                                className={`p-2 cursor-pointer duration-200 text-center rounded-md flex items-center justify-center ${selectedDate === `${day}/${currentMonth}/${currentYear}` ? 'bg-gray-200' : ''
-                                    }`}
-                                onClick={() => handleDateClick(day)}
-                            >
-                                {day}
-                            </td>
+                <table>
+                    <thead className="flex justify-center">
+                        <tr>
+                            <th className="p-2 font-medium">lun</th>
+                            <th className="p-2 font-medium">mar</th>
+                            <th className="p-2 font-medium">mer</th>
+                            <th className="p-2 font-medium">jeu</th>
+                            <th className="p-2 font-medium">ven</th>
+                            <th className="p-2 font-medium">sam</th>
+                            <th className="p-2 font-medium">dim</th>
                         </tr>
-                    ))}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody className="grid gap-2 grid-cols-7">
+                        {daysArray.map((day) => (
+                            <tr key={day} className="border border-gray-300 rounded-md">
+                                <td
+                                    className={`p-2 cursor-pointer duration-200 text-center rounded-md flex items-center justify-center ${selectedDate === `${day}/${currentMonth}/${currentYear}` ? 'bg-gray-200' : ''
+                                        }`}
+                                    onClick={() => handleDateClick(day)}
+                                >
+                                    {day}
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </section>
         );
     };
 

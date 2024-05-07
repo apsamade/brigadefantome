@@ -111,19 +111,19 @@ const ModifierJeu = ({ params }) => {
           height={800}
           className="rounded-md object-contain xl:object-cover xl:h-[100%]"
         />
-        <div className="p-4 bg-white rounded-md my-5 text-black flex items-center justify-center flex-wrap">
+        <div className="p-4 bg-fond-3 rounded-md my-5 flex items-center justify-center flex-wrap">
           <input
             type="text"
             name="nom"
             id="nom"
             value={jeu.nom}
             onChange={handleInputChange}
-            className="grow basis-[300px] p-3 m-2 rounded-md shadow-2xl outline outline-1 duration-200 focus:outline-blue-500 outline-blue-100"
+            className="grow bg-transparent basis-[300px] p-3 m-2 rounded-md shadow-2xl outline outline-1 duration-200 focus:outline-blue-500 outline-blue-100"
           />
           <textarea
             name="description"
             id="description"
-            className="grow basis-full p-3 m-2 rounded-md shadow-2xl outline outline-1 duration-200 focus:outline-blue-500 outline-blue-100"
+            className="grow bg-transparent basis-full p-3 m-2 rounded-md shadow-2xl outline outline-1 duration-200 focus:outline-blue-500 outline-blue-100"
             value={jeu.description}
             onChange={handleInputChange}
           />
@@ -134,7 +134,7 @@ const ModifierJeu = ({ params }) => {
             className="grow basis-full p-3 m-2 rounded-md shadow-2xl outline outline-1 duration-200 focus:outline-blue-500 outline-blue-100"
           />
           <div className="flex items-center justify-leftgrow basis-full m-2">
-            <label htmlFor="top_jeu" className="shadow-2xl p-3 rounded-md outline outline-1 duration-200 hover:outline-blue-500 outline-blue-100">Jeu du moment</label>
+            <label htmlFor="top_jeu" className="shadow-2xl p-3 rounded-md outline outline-1 duration-200 hover:outline-blue-500 outline-transparent">Jeu du moment</label>
             <input
               type="checkbox"
               name="top_jeu"

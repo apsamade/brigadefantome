@@ -64,10 +64,10 @@ const AddGame = () => {
       <h1 className='text-center text-xl uppercase py-8'>Ajouter un jeux</h1>
       <form
         onSubmit={newGameSubmit}
-        className='bg-white w-full max-w-6xl flex items-center justify-center flex-wrap text-black shadow-2xl rounded-md p-4 mx-auto'
+        className='bg-fond-3 text-white w-full max-w-6xl flex items-center justify-center flex-wrap shadow-2xl rounded-md p-4 mx-auto'
       >
         <input
-          className="p-3 rounded-md shadow-xl focus:shadow-2xl grow basis-[250px] m-2 outline outline-1 duration-200 focus:outline-blue-500 outline-blue-100"
+          className="p-3 bg-transparent rounded-md shadow-xl focus:shadow-2xl grow basis-[250px] m-2 outline outline-1 duration-200 focus:outline-blue-500 outline-blue-100"
           type="text"
           name="nom"
           id="nom"
@@ -85,7 +85,7 @@ const AddGame = () => {
         </div>
 
         <textarea
-          className="p-3 rounded-md shadow-xl focus:shadow-2xl basis-full grow m-2 outline outline-1 duration-200 focus:outline-blue-500 outline-blue-100"
+          className="p-3 bg-transparent rounded-md shadow-xl focus:shadow-2xl basis-full grow m-2 outline outline-1 duration-200 focus:outline-blue-500 outline-blue-100"
           name="description"
           id="description"
           placeholder='Déscription du jeux'

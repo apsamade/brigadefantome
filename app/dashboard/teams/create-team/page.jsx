@@ -119,10 +119,10 @@ const CreateTeam = () => {
         <form className='grow' onSubmit={handleSubmitTeam}>
             <h1 className='text-center uppercase text-xl py-8'>Créer une équipe</h1>
             <div
-                className='bg-white text-black p-4 rounded-md flex items-center flex-wrap justify-center'
+                className='bg-fond-3 p-4 rounded-md flex items-center flex-wrap justify-center'
             >
                 <input
-                    className="p-3 rounded-md shadow-xl focus:shadow-2xl grow basis-full m-2 outline outline-1 duration-200 focus:outline-blue-500 outline-blue-100"
+                    className="p-3 bg-transparent rounded-md shadow-xl focus:shadow-2xl grow basis-full m-2 outline outline-1 duration-200 focus:outline-blue-500 outline-blue-100"
                     type="text"
                     name="nom"
                     id="nom"
@@ -156,7 +156,7 @@ const CreateTeam = () => {
                                     id={`pseudo-${selectedGame.nom}`}
                                     onChange={(e) => setPseudos({ ...pseudos, [gameId]: e.target.value })}
                                     placeholder={`Pseudo ${selectedGame.nom}`}
-                                    className="p-3 rounded-md shadow-xl focus:shadow-2xl grow basis-[300px] m-2 outline outline-1 duration-200 focus:outline-blue-500 outline-blue-100"
+                                    className="p-3 bg-transparent rounded-md shadow-xl focus:shadow-2xl grow basis-[300px] m-2 outline outline-1 duration-200 focus:outline-blue-500 outline-blue-100"
                                 />
                             );
                         })}
@@ -174,7 +174,7 @@ const CreateTeam = () => {
                                     animate={{ opacity: 1, height: 'auto' }}
                                     exit={{ opacity: 0, height: 0 }}
                                     transition={{ duration: 0.2 }}
-                                    className="p-3 rounded-md absolute left-0 top-full right-0 w-full bg-white shadow-2xl z-10"
+                                    className="p-3 rounded-md absolute left-[6px] top-full right-[6px] bg-white text-black shadow-2xl z-10"
                                 >
                                     {[3, 4, 5, 6, 7].map(size => (
                                         <motion.li
@@ -196,14 +196,14 @@ const CreateTeam = () => {
                     name="mdp"
                     id="mdp"
                     placeholder='Mot de passe'
-                    className="p-3 rounded-md shadow-xl focus:shadow-2xl grow basis-[250px] m-2 outline outline-1 duration-200 focus:outline-blue-500 outline-blue-100"
+                    className="p-3 bg-transparent rounded-md shadow-xl focus:shadow-2xl grow basis-[250px] m-2 outline outline-1 duration-200 focus:outline-blue-500 outline-blue-100"
                 />
                 <input
                     type="password"
                     name="mdpv"
                     id="mdpv"
                     placeholder='Confirmation mot de passe'
-                    className="p-3 rounded-md shadow-xl focus:shadow-2xl grow basis-[250px] m-2 outline outline-1 duration-200 focus:outline-blue-500 outline-blue-100"
+                    className="p-3 bg-transparent rounded-md shadow-xl focus:shadow-2xl grow basis-[250px] m-2 outline outline-1 duration-200 focus:outline-blue-500 outline-blue-100"
                 />
                 <button type="submit" className={submitting ? "grow basis-full p-4 bg-green-600 cursor-default uppercase rounded-md text-white m-2 shadow-2xl mt-6" : "grow basis-full p-4 bg-black rounded-md text-white m-2 shadow-2xl mt-6 duration-200 hover:bg-sky-500 uppercase"}>
                     {message}
