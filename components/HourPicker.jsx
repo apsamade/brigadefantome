@@ -22,6 +22,7 @@ const HourPicker = ({ onHeureSelect }) => {
     const handleHeureClick = (heure) => {
         setSelectedHeure(heure);
         setOpenHour(!openHour)
+        onHeureSelect(heure)
     };
 
     return (

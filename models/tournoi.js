@@ -41,7 +41,7 @@ const TournoiSchema = new Schema({
             }
         }
     ],
-    recompenses: {
+    recompense: {
         type: String,
         required: true
     },

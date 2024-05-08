@@ -39,7 +39,9 @@ const DatePicker = ({ onDateSelect }) => {
             const newDate = new Date(currentYear, currentMonth - 1, day);
             setSelectedDate(newDate.toLocaleDateString('fr-FR'));
             setShowCalendar(false);
-            onDateSelect(newDate)
+            const newDate2 = new Date(currentYear, currentMonth - 1, day + 1);
+            const formattedDate = newDate2.toISOString().slice(0, 10);
+            onDateSelect(formattedDate)
         };
 
         return (

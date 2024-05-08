@@ -14,9 +14,16 @@ const AddTournoi = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [tournoiSize, setTournoiSize] = useState("");
     const [jeux, setJeux] = useState([])
+    const [gameSelected, setGameSelected] = useState("")
     const [erreur, setErreur] = useState('')
-    const [selectedDate, setSelectedDate] = useState(new Date());
+    const [message, setMessage] = useState('')
 
+    const [selectedDate, setSelectedDate] = useState(new Date());
+    const [selectedHour, setSelectedHour] = useState("");
+
+
+
+    /////////////////// RECUPERATION DES JEUX
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -31,6 +38,7 @@ const AddTournoi = () => {
         fetchData();
     }, [])
 
+    /////////////////// SELECTION DU NOMBRE D'EQUIPE
     // ouverture du menue déroulant pour le nombre maximum de joueur
     const toggleDropdown = () => setIsOpen(!isOpen);
 
@@ -40,13 +48,64 @@ const AddTournoi = () => {
         setIsOpen(false);
     };
 
+
+    /////////////////// SELECTION DE LA DATE
     const handleDateSelect = (date) => {
         setSelectedDate(date);
+        console.log(date)
     };
 
+    /////////////////// SELECTION DE LA HOUR
+    const handleHourSelect = (hour) => {
+        setSelectedHour(hour);
+    };
+
+    // ajout de id de jeux
+    const addGame = (gameId) => {
+        setGameSelected(gameId);
+    }
+
+    /////////////////// ENVOIE DU FORMULAIRE
     const handleSubmitCreateTournoi = async (e) => {
         e.preventDefault()
         setSubmitting(true)
+
+        const nom = e.target.nom.value
+        const mode = e.target.mode.value
+        const recompense = e.target.recompense.value
+        const description = e.target.description.value
+
+        const bodyRequest = {
+            nom, 
+            selectedHour, 
+            selectedDate, 
+            gameSelected, 
+            tournoiSize, 
+            mode, 
+            recompense, 
+            description, 
+        }
+
+        console.log(bodyRequest)
+
+        try {
+            const response = await fetch('/api/admin/add-tournoi', {
+                method: 'POST',
+                body: JSON.stringify(bodyRequest)
+            })
+            const data = await response.json()
+            console.log(data)
+            console.log(response)
+
+            if(response.ok){
+                setMessage('Tournoi créer avec succès.')
+            }else{
+                setErreur('Une erreur est survenue lors de la création du tournoi.')
+            }
+        } catch (error) {
+            console.log(error)
+            setErreur('Une erreur est survenue lors de l\'envoie du formulaire.')
+        }
     }
 
     return (
@@ -63,23 +122,23 @@ const AddTournoi = () => {
                     placeholder="Nom du tournoi"
                     className="grow basis-full p-3 rounded-md bg-transparent shadow-2xl block m-2 focus:outline-sky-600 duration-200 outline outline-1 outline-gray-400"
                 />
-                <div className="grow basis-[350px] m-2">
+                <div className="basis-[350px] m-2">
                     <DatePicker onDateSelect={handleDateSelect} />
                 </div>
                 <div className="grow basis-[350px] m-2">
-                    <HourPicker />
+                    <HourPicker onHeureSelect={handleHourSelect} />
                 </div>
-
-                <div className="flex items-center justify-center flex-wrap p-2">
+                <div className="grid grid-cols-3 gap-3 p-2">
                     <Suspense>
                         {jeux?.map((j) =>
                             <Image
+                                onClick={() => addGame(j._id)}
                                 key={j._id}
                                 alt={j.nom}
                                 src={j.image}
                                 width={180}
                                 height={80}
-                                className="m-2 h-auto rounded-md shadow-2xl hover:scale-110 duration-200"
+                                className={`w-auto rounded-md shadow-xl duration-200 hover:shadow-2xl hover:scale-105 ${gameSelected.includes(j._id) ? 'outline outline-2 outline-offset-2 outline-green-700' : 'outline outline-2 outline-offset-2 outline-transparent'}`}
                             />
                         )}
                     </Suspense>
