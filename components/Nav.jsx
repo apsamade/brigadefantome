@@ -72,7 +72,7 @@ const Nav = () => {
                         {status === 'authenticated' && (
                             <Link
                                 onClick={handleNav}
-                                href='/dashboard/profile'
+                                href='/dashboard'
                             >
                                 <Image
                                     src={session?.user.image}
@@ -162,7 +162,7 @@ const Nav = () => {
                         {session?.user ? (
                             <Link
                                 onClick={handleNav}
-                                href='/dashboard/profile'
+                                href='/dashboard'
                                 className='rounded-md flex items-end justify-center hover:bg-white hover:text-black duration-200 p-2'
                             >
                                 <Image

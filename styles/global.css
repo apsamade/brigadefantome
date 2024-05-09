@@ -50,6 +50,12 @@
     padding: 15px;
     box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.4);
 }
+.grid-tournois {
+    display: grid;
+    gap: 12px;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    grid-template-rows: repeat(auto-fill, minmax(200px, 1fr));
+}
 
 
 @keyframes fadeIn {

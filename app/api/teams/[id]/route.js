@@ -19,12 +19,7 @@ export const GET = async (req, { params }) => {
                 path: 'all_players.user_id',
                 model: User
             });
-        if (team) {
-            return NextResponse.json(team, { status: 200 })
-        } else {
-            return NextResponse.json({ erreur: 'Une erreur est survenue lors de la récupération de l\'équipe' }, { status: 409 })
-        }
-
+        return NextResponse.json(team, { status: 200 })
     } catch (error) {
         console.log(error)
         return NextResponse.json({ erreur: 'Une erreur est survenue lors de la récupération de l\'équipe' }, { status: 500 })
@@ -45,7 +40,7 @@ export const DELETE = async (req, { params }) => {
         })
         session.user.in_team = undefined;
         await Team.findByIdAndDelete(params.id)
-        return NextResponse.json({ message: 'Équipe supprimé avec succès.', supprimer: true }, {status: 200})
+        return NextResponse.json({ message: 'Équipe supprimé avec succès.', supprimer: true }, { status: 200 })
     } catch (error) {
         console.log(error)
         return NextResponse.json({ erreur: 'Une erreur est survenue', error }, { status: 500 })

@@ -22,6 +22,7 @@ const ThisTeam = ({ params }) => {
     // const quittez une équipe
     const [openFormLeaveTeam, setOpenFormLeaveTeam] = useState(false)
     // const supprimer cette équipe
+    const [supprimer, setSupprimer] = useState(false)
     const [openFormDeleteTeam, setOpenFormDeleteTeam] = useState(false)
 
 
@@ -39,11 +40,6 @@ const ThisTeam = ({ params }) => {
                 if (response.ok) {
                     setTeam(data)
                 }
-                if (response.status === 409) {
-                    setErreur(data.erreur)
-                    setTeam({})
-                }
-                console.log(team)
             } catch (error) {
                 console.log(error)
                 setErreur('Une erreur est survenue lors de la récupération de l\'équipe.')
@@ -180,7 +176,6 @@ const ThisTeam = ({ params }) => {
     // formulaire pour supprimer l'équipe
     const handleSubmitDeleteTeam = async (e) => {
         e.preventDefault()
-        setSubmitting(true)
         setOpenFormDeleteTeam(!openFormDeleteTeam)
 
         try {
@@ -191,6 +186,7 @@ const ThisTeam = ({ params }) => {
             console.log(response)
             console.log(data)
             if (response.ok) {
+                setSupprimer(true)
                 await update({
                     ...session,
                     user: {
@@ -198,16 +194,14 @@ const ThisTeam = ({ params }) => {
                         in_team: undefined
                     }
                 });
-                setTeam({})
             }
-
         } catch (error) {
             console.log(error)
             setErreur('Une erreure est survenue lors de la tentative de suppression d\'équipe')
         }
     }
-
-    if (team != null) {
+    console.log(supprimer)
+    if (team) {
         return (
             <main className="grow">
                 <section className="p-4 rounded-md bg-fond-2 shadow-2xl">
@@ -358,18 +352,35 @@ const ThisTeam = ({ params }) => {
                             }
                         </>
                     }
-
                     {erreur &&
                         <p className="text-center text-red-500 p-4">{erreur}</p>
                     }
                 </section>
             </main>
         )
+    } else if (supprimer) {
+        return (
+            <section className="grow">
+                <div>
+                    <p className="my-4 p-3 shadow-2xl uppercase text-xl text-center w-full bg-fond-3 rounded-md">Tournoi Supprimer avec succès</p>
+                    <Link href='/dashboard/admin/tournois'>
+                        Retour
+                    </Link>
+                </div>
+            </section>
+        )
     } else {
         return (
-            <main className="grow">
-                <p className="text-center p-4 rounded-md bg-fond-2 shadow-2xl">Aucune équipe trouvé ...</p>
-            </main>
+            <section className="grow">
+                <p className="mx-auto text-center uppercase text-xl pt-32">Aucune équipe trouvée sur cette route mon frérot !</p>
+                <Image
+                    src="/assets/elements/tk-404.gif"
+                    alt="oupsi 404 not found"
+                    width={700}
+                    height={500}
+                    className='object-contain mx-auto block rounded-lg mt-24'
+                />
+            </section>
         )
     }
 
