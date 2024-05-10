@@ -89,9 +89,12 @@ export const PATCH = async (req, { params }) => {
         }
         if (requestBody.leave) {
             const myTeam = await Team.findById(params.id)
+
             if (myTeam._id.toString() != session.user.in_team.toString()) return NextResponse.json({ erreur: 'Vous ne faite déjà plus partis de cette équipe.' }, { status: 409 })
+            
             myTeam.all_players = myTeam.all_players.filter(player => player.user_id.toString() !== session.user._id.toString())
-            if (!myTeam.all_players.find(p => p.chef = true)) myTeam.all_players[0].chef = true
+
+            if (myTeam.all_players.length >= 1 && !myTeam.all_players.find(p => p.chef = true)) myTeam.all_players[0].chef = true
             // Retire le joueur de chaque jeu dans l'équipe
             myTeam.jeux.forEach(jeu => {
                 jeu.players = jeu.players.filter(player => player.user_id.toString() !== session.user._id.toString())
@@ -103,7 +106,13 @@ export const PATCH = async (req, { params }) => {
             })
             session.user.in_team = undefined;
             await myTeam.save()
-            return NextResponse.json(myTeam, { status: 200 })
+            if(myTeam.all_players <= 0){
+                await Team.findByIdAndDelete(params.id)
+                console.log('Supprimé car plus personnes dans l\'équipe ...')
+                return NextResponse.json({message: 'Équipe supprimer.'}, { status: 200 })
+            }else{
+                return NextResponse.json(myTeam, { status: 200 })
+            } 
         }
 
     } catch (error) {

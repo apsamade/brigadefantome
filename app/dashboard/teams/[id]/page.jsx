@@ -201,7 +201,18 @@ const ThisTeam = ({ params }) => {
         }
     }
     console.log(supprimer)
-    if (team) {
+    if (supprimer) {
+        return (
+            <section className="grow">
+                <div>
+                    <p className="my-4 p-3 shadow-2xl uppercase text-xl text-center w-full bg-fond-3 rounded-md">Tournoi Supprimer avec succès</p>
+                    <Link href='/dashboard/admin/tournois'>
+                        Retour
+                    </Link>
+                </div>
+            </section>
+        )
+    } else if (team) {
         return (
             <main className="grow">
                 <section className="p-4 rounded-md bg-fond-2 shadow-2xl">
@@ -357,17 +368,6 @@ const ThisTeam = ({ params }) => {
                     }
                 </section>
             </main>
-        )
-    } else if (supprimer) {
-        return (
-            <section className="grow">
-                <div>
-                    <p className="my-4 p-3 shadow-2xl uppercase text-xl text-center w-full bg-fond-3 rounded-md">Tournoi Supprimer avec succès</p>
-                    <Link href='/dashboard/admin/tournois'>
-                        Retour
-                    </Link>
-                </div>
-            </section>
         )
     } else {
         return (

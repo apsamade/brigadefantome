@@ -26,6 +26,10 @@ const TournoiSchema = new Schema({
         type: Number,
         required: [true, 'Nombre d\'équipe maximum obligatoire !']
     },
+    max_player_team: {
+        type: Number,
+        required: [true, 'Nombre de joueur par équipe maximum obligatoire !']
+    },
     mode: {
         type: String,
         required: [true, 'Mode de jeux obligatoire']
