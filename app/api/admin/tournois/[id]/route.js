@@ -37,9 +37,74 @@ export const PATCH = async (req, {params}) =>{
     const body = await req.json()
     try {
         await connectToDB()
+        if(body.gameSelected){
+            await Tournoi.findByIdAndUpdate(params.id, {
+                $set: {
+                    jeu: body.gameSelected
+                }
+            })
+        }
+        if(body.tournoiSize){
+            await Tournoi.findByIdAndUpdate(params.id, {
+                $set: {
+                    max_teams: body.tournoiSize
+                }
+            })
+        }
+        if(body.selectedDate){
+            await Tournoi.findByIdAndUpdate(params.id, {
+                $set: {
+                    date: body.selectedDate
+                }
+            })
+        }
+        if(body.selectedHour){
+            await Tournoi.findByIdAndUpdate(params.id, {
+                $set: {
+                    heure: body.selectedHour
+                }
+            })
+        }
+        if(body.nom){
+            await Tournoi.findByIdAndUpdate(params.id, {
+                $set: {
+                    nom: body.nom
+                }
+            })
+        }
+        if(body.mode){
+            await Tournoi.findByIdAndUpdate(params.id, {
+                $set: {
+                    mode: body.mode
+                }
+            })
+        }
+        if(body.recompense){
+            await Tournoi.findByIdAndUpdate(params.id, {
+                $set: {
+                    recompense: body.recompense
+                }
+            })
+        }
+        if(body.fin_inscription){
+            await Tournoi.findByIdAndUpdate(params.id, {
+                $set: {
+                    fin_inscription: body.fin_inscription
+                }
+            })
+        }
+        if(body.description){
+            await Tournoi.findByIdAndUpdate(params.id, {
+                $set: {
+                    description: body.description
+                }
+            })
+        }
+        console.log('le body : ', body)
         const tournoi = await Tournoi.findById(params.id)
-        console.log(body)
-        return NextResponse.json({ body, tournoi }, {status: 200})
+        console.log('le tournoi : ', tournoi)
+
+        return NextResponse.json(tournoi, {status: 200})
     } catch (error) {
         console.log(error)
         return NextResponse.json({erreur: 'Une erreur est survenue lors de la mise à jour du tournoi'}, {status: 500})

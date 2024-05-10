@@ -1,11 +1,17 @@
 'use client'
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion";
 
-const HourPicker = ({ onHeureSelect }) => {
+const HourPicker = ({ onHeureSelect, value }) => {
     const [selectedHeure, setSelectedHeure] = useState('');
     const [openHour, setOpenHour] = useState(false)
+
+    useEffect(() => {
+        if (value !== undefined) {
+            setSelectedHeure(value);
+        }
+    }, [value]);
 
     const heures = [];
     for (let h = 0; h < 24; h++) {
@@ -18,7 +24,7 @@ const HourPicker = ({ onHeureSelect }) => {
     const toggleOpenHour = () => {
         setOpenHour(!openHour)
     }
-
+    
     const handleHeureClick = (heure) => {
         setSelectedHeure(heure);
         setOpenHour(!openHour)

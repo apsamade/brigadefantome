@@ -5,7 +5,7 @@ import { FaCalendarAlt } from "react-icons/fa";
 import { motion, AnimatePresence } from "framer-motion";
 import React, { useState } from 'react';
 
-const DatePicker = ({ onDateSelect }) => {
+const DatePicker = ({ onDateSelect, value }) => {
     const [selectedDate, setSelectedDate] = useState('');
     const [showCalendar, setShowCalendar] = useState(false);
     const [currentDate, setCurrentDate] = useState(new Date());
@@ -13,7 +13,6 @@ const DatePicker = ({ onDateSelect }) => {
     const toggleCalendar = () => {
         setShowCalendar(!showCalendar);
     };
-
 
     const handlePrevMonth = () => {
         setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, 1));
@@ -45,7 +44,7 @@ const DatePicker = ({ onDateSelect }) => {
         };
 
         return (
-            <section className="w-full block p-3 max-w-[350px] bg-white text-black rounded-md mt-3 absolute left-0 right-0 top-full z-50">
+            <section className="w-full block p-3 max-w-[350px] bg-white text-black rounded-md mt-3 absolute left-0 right-0 top-full z-[60]">
                 <div className="mx-auto flex items-center justify-center py-3">
                     <div
                         className="p-1 mx-3 bg-black hover:px-3 duration-200 text-white rounded-md"
@@ -96,7 +95,7 @@ const DatePicker = ({ onDateSelect }) => {
             <div className="relative">
                 <input
                     type="text"
-                    value={selectedDate}
+                    value={value != undefined ? value : selectedDate}
                     placeholder="Choisir une date"
                     readOnly
                     onClick={toggleCalendar}
