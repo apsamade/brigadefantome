@@ -14,7 +14,8 @@ export const POST = async(req) =>{
                 mode: bodyRequest.mode,
                 description: bodyRequest.description,
                 recompense: bodyRequest.recompense,
-                max_teams: bodyRequest.tournoiSize
+                max_teams: bodyRequest.tournoiSize,
+                max_player_team: bodyRequest.teamSize
             })
             await newTournoi.save()
             console.log('Tournoi créer avec succès !')

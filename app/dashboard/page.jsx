@@ -75,20 +75,20 @@ const Dashboard = () => {
                     />
                 ))}
             </section>
-            <section className="h-[30vh]">
+            <section className="min-h-[30vh]">
                 <h2 className="uppercase text-2xl font-light mt-5 lg:p-0 p-4 pt-8">Prochain Tournois</h2>
-                <div className="h-[100%] flex items-center justify-center">
+                <div className="flex items-center justify-center">
                     {tournois?.length <= 0 ? (
-                        <p>Aucun tournois prévu pour le moment ...</p>
+                        <p className="lg:pt-32 pt-16">Aucun tournois prévu pour le moment ...</p>
                     ) : (
-                        <section className="pt-32 pb-8 flex items-center justify-center flex-wrap">
+                        <section className="pt-8 max-w-[1200px] w-full pb-8 flex items-center justify-center flex-wrap">
                             {tournois?.slice(0, 3)?.map(tournoi =>
-                                <Link href={`dashboard/tournois/${tournoi._id}`} className="relative overflow-hidden z-[1] p-4 min-w-[330px] w-[400px] min-h-[200px] bg-fond-3 rounded-md shadow-2xl flex flex-col items-center justify-center">
-                                    <h3 className="text-2xl pb-4">{tournoi.nom}</h3>
+                                <Link href={`dashboard/tournois/${tournoi._id}`} className="relative overflow-hidden m-3 z-[1] p-4 basis-[300px] grow min-h-[320px] bg-fond-3 rounded-md shadow-2xl flex flex-col items-center justify-center">
+                                    <h3 className="text-2xl pb-4 text-center">{tournoi.nom}</h3>
                                     <Image
                                         alt={tournoi.jeu.nom}
                                         src={tournoi.jeu.image}
-                                        width={800}
+                                        width={1200}
                                         height={50}
                                         className="rounded-md w-auto h-auto absolute top-0 left-0 right-0 bottom-0 z-[-1]"
                                     />

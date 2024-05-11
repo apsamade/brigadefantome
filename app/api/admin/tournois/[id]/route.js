@@ -51,6 +51,13 @@ export const PATCH = async (req, { params }) => {
                 }
             })
         }
+        if (body.teamSize) {
+            await Tournoi.findByIdAndUpdate(params.id, {
+                $set: {
+                    max_player_team: body.teamSize
+                }
+            })
+        }
         if (body.selectedDate) {
             await Tournoi.findByIdAndUpdate(params.id, {
                 $set: {

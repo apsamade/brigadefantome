@@ -3,22 +3,30 @@
 import { useState, useEffect, Suspense } from "react"
 import { useSession } from "next-auth/react"
 import { motion, AnimatePresence } from "framer-motion";
+import { useRouter } from "next/navigation";
+
 import Image from "next/image"
 import Link from "next/link"
 import DatePicker from "@components/DatePicker"
 import HourPicker from "@components/HourPicker"
 
 const AddTournoi = () => {
+    const router = useRouter()
     const { data: session } = useSession()
     const [submitting, setSubmitting] = useState(false)
+
     const [isOpen, setIsOpen] = useState(false);
     const [tournoiSize, setTournoiSize] = useState("");
+
+    const [isOpenPlayer, setIsOpenPlayer] = useState(false);
+    const [teamSize, setTeamSize] = useState("");
+
     const [jeux, setJeux] = useState([])
     const [gameSelected, setGameSelected] = useState("")
     const [erreur, setErreur] = useState('')
     const [message, setMessage] = useState('')
 
-    const [selectedDate, setSelectedDate] = useState(new Date());
+    const [selectedDate, setSelectedDate] = useState();
     const [selectedHour, setSelectedHour] = useState("");
 
 
@@ -46,6 +54,16 @@ const AddTournoi = () => {
     const selectTournoiSize = (size) => {
         setTournoiSize(size);
         setIsOpen(false);
+    };
+
+    /////////////////// SELECTION DU NOMBRE DE JOUEURS PAR ÉQUIPE
+    // ouverture du menue déroulant pour le nombre maximum de joueur
+    const toggleDropdownPlayer = () => setIsOpenPlayer(!isOpenPlayer);
+
+    // séléction du nombre de joueur max dans l'équipe
+    const selectTeamSize = (size) => {
+        setTeamSize(size);
+        setIsOpenPlayer(false);
     };
 
 
@@ -76,19 +94,28 @@ const AddTournoi = () => {
         const description = e.target.description.value
 
         const bodyRequest = {
-            nom, 
-            selectedHour, 
-            selectedDate, 
-            gameSelected, 
-            tournoiSize, 
-            mode, 
-            recompense, 
-            description, 
+            nom,
+            selectedHour,
+            selectedDate,
+            gameSelected,
+            tournoiSize,
+            teamSize,
+            mode,
+            recompense,
+            description,
         }
 
         console.log(bodyRequest)
 
         try {
+            console.log(bodyRequest.selectedDate)
+            if (!bodyRequest.nom) return setErreur('Vous devez un nom pour le tournoi.')
+            if (!bodyRequest.selectedHour) return setErreur('Vous devez choisir une heure.')
+            if (!bodyRequest.selectedDate) return setErreur('Vous devez choisir une date.')
+            if (!bodyRequest.tournoiSize) return setErreur('Vous devez choisir une quantité de team maximal.')
+            if (!bodyRequest.teamSize) return setErreur('Vous devez choisir une quantité de joueurs par équipe maximal.')
+            if (!bodyRequest.gameSelected) return setErreur('Vous devez choisir un jeu.')
+
             const response = await fetch('/api/admin/add-tournoi', {
                 method: 'POST',
                 body: JSON.stringify(bodyRequest)
@@ -97,9 +124,10 @@ const AddTournoi = () => {
             console.log(data)
             console.log(response)
 
-            if(response.ok){
+            if (response.ok) {
                 setMessage('Tournoi créer avec succès.')
-            }else{
+                router.push(`/dashboard/tournois/${data.newTournoi._id}`)
+            } else {
                 setErreur('Une erreur est survenue lors de la création du tournoi.')
             }
         } catch (error) {
@@ -171,6 +199,34 @@ const AddTournoi = () => {
                         </AnimatePresence>
                     </div>
                 </section>
+                <section className="relative basis-full grow p-2">
+                    <div onClick={toggleDropdownPlayer} className="p-3 rounded-md shadow-xl focus:shadow-2xl outline outline-1 duration-200 focus:outline-blue-500 outline-blue-100 cursor-pointer">
+                        <div className="flex justify-between items-center">
+                            {teamSize ? 'Nombre de joueurs par équipe maximum ' + teamSize : "Choisir la taille maximale de joueurs par équipe"}
+                        </div>
+                        <AnimatePresence>
+                            {isOpenPlayer && (
+                                <motion.div
+                                    initial={{ opacity: 0, height: 0 }}
+                                    animate={{ opacity: 1, height: 'auto' }}
+                                    exit={{ opacity: 0, height: 0 }}
+                                    transition={{ duration: 0.2 }}
+                                    className="p-3 grid grid-cols-12 gap-2 rounded-md absolute left-[6px] top-full right-[6px] bg-white text-black shadow-2xl z-[5]"
+                                >
+                                    {Array.from({ length: 7 }, (_, index) => index + 1).map(size => (
+                                        <motion.span
+                                            key={size}
+                                            className="p-2 outline outline-1 outline-sky-200 flex items-center justify-center hover:bg-sky-200 duration-200 rounded-md"
+                                            onClick={() => selectTeamSize(size)}
+                                        >
+                                            {size}
+                                        </motion.span>
+                                    ))}
+                                </motion.div>
+                            )}
+                        </AnimatePresence>
+                    </div>
+                </section>
                 <input
                     type="text"
                     name="mode"
@@ -192,6 +248,9 @@ const AddTournoi = () => {
                     className="p-3 rounded-md shadow-xl bg-transparent outline outline-1 outline-white focus:outline-sky-600 duration-200 basis-full grow m-2 my-5"
                 ></textarea>
                 <button type="submit" className="grow m-2 hover:bg-sky-500 duration-200 bg-black p-3 rounded-md shadow-2xl uppercase">Créer un tournoi</button>
+                {erreur &&
+            <p className="text-center grow basis-full text-red-500 py-4">{erreur}</p>
+            }
             </form>
         </main>
 

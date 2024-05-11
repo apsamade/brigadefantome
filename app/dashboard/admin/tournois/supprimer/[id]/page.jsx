@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react"
 import Image from "next/image"
+import Link from "next/link"
 
 const SupprimerTournoi = ({ params }) => {
     const [tournoi, setTournoi] = useState({})
@@ -33,10 +34,10 @@ const SupprimerTournoi = ({ params }) => {
             <section className="grow">
                 {supprimer ? (
                     <div>
-                    <p className="my-4 p-3 shadow-2xl uppercase text-xl text-center w-full bg-fond-3 rounded-md">Tournoi Supprimer avec succès</p>
-                    <Link href='/dashboard/admin/tournois'>
-                        Retour
-                    </Link>
+                        <p className="my-4 p-3 shadow-2xl uppercase text-xl text-center w-full bg-fond-3 rounded-md">Tournoi Supprimer avec succès</p>
+                        <Link href='/dashboard/admin/tournois' className="p-4 hover:px-[120px] hover:bg-green-700 duration-200 max-w-[300px] block bg-green-600 rounded-md">
+                            Retour
+                        </Link>
                     </div>
                 ) :
                     (

@@ -3,20 +3,26 @@
 import { useEffect, useState, Suspense } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
+
 import DatePicker from "@components/DatePicker"
 import HourPicker from "@components/HourPicker"
 
 const ModifierTournoi = ({ params }) => {
   const [tournoi, setTournoi] = useState({});
   const [submitting, setSubmitting] = useState(false);
+
   const [isOpen, setIsOpen] = useState(false);
   const [tournoiSize, setTournoiSize] = useState("");
+
+  const [isOpenPlayer, setIsOpenPlayer] = useState(false);
+  const [teamSize, setTeamSize] = useState("");
+
   const [gameSelected, setGameSelected] = useState("")
   const [jeux, setJeux] = useState([])
   const [erreur, setErreur] = useState('')
   const [message, setMessage] = useState('Modifier')
 
-  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [selectedDate, setSelectedDate] = useState();
   const [selectedHour, setSelectedHour] = useState("");
 
 
@@ -72,6 +78,15 @@ const ModifierTournoi = ({ params }) => {
     setIsOpen(false);
   };
 
+  /////////////////// SELECTION DU NOMBRE DE JOUEURS PAR ÉQUIPE
+  // ouverture du menue déroulant pour le nombre maximum de joueur
+  const toggleDropdownPlayer = () => setIsOpenPlayer(!isOpenPlayer);
+
+  // séléction du nombre de joueur max dans l'équipe
+  const selectTeamSize = (size) => {
+    setTeamSize(size);
+    setIsOpenPlayer(false);
+  };
 
   /////////////////// SELECTION DE LA DATE
   const handleDateSelect = (date) => {
@@ -101,6 +116,7 @@ const ModifierTournoi = ({ params }) => {
     const requestBody = {
       gameSelected,
       tournoiSize,
+      teamSize,
       selectedDate,
       selectedHour,
       nom,
@@ -109,21 +125,24 @@ const ModifierTournoi = ({ params }) => {
       fin_inscription,
       description
     }
-    
+
     try {
+      if (!requestBody.gameSelected) return setErreur('Vous devez choisir un jeu.')
+
       const response = await fetch(`/api/admin/tournois/${params.id}`, {
         method: 'PATCH',
-        body:JSON.stringify(requestBody)
+        body: JSON.stringify(requestBody)
       })
       const data = await response.json()
-      if(response.ok){
+      console.log(data)
+      if (response.ok) {
         setTournoi(data)
         setSubmitting(false)
-      }else{
+      } else {
         setErreur('Une erreur est survenue lors de la modification du tournoi')
         setSubmitting(false)
       }
-      
+
 
     } catch (error) {
       console.log(error)
@@ -215,6 +234,34 @@ const ModifierTournoi = ({ params }) => {
                 </AnimatePresence>
               </div>
             </section>
+            <section className="relative basis-full grow p-2">
+              <div onClick={toggleDropdownPlayer} className="p-3 rounded-md shadow-xl focus:shadow-2xl outline outline-1 duration-200 focus:outline-blue-500 outline-blue-100 cursor-pointer">
+                <div className="flex justify-between items-center">
+                  {teamSize ? 'Nombre de joueurs par équipe maximum ' + teamSize : "Choisir la taille maximale de joueurs par équipe"}
+                </div>
+                <AnimatePresence>
+                  {isOpenPlayer && (
+                    <motion.div
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: 'auto' }}
+                      exit={{ opacity: 0, height: 0 }}
+                      transition={{ duration: 0.2 }}
+                      className="p-3 grid grid-cols-12 gap-2 rounded-md absolute left-[6px] top-full right-[6px] bg-white text-black shadow-2xl z-[5]"
+                    >
+                      {Array.from({ length: 7 }, (_, index) => index + 1).map(size => (
+                        <motion.span
+                          key={size}
+                          className="p-2 outline outline-1 outline-sky-200 flex items-center justify-center hover:bg-sky-200 duration-200 rounded-md"
+                          onClick={() => selectTeamSize(size)}
+                        >
+                          {size}
+                        </motion.span>
+                      ))}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+            </section>
             <input
               type="text"
               name="mode"
@@ -251,6 +298,9 @@ const ModifierTournoi = ({ params }) => {
             />
             <button className={`p-4 my-2 w-[95%] ${submitting ? 'bg-green-600 cursor-default' : 'bg-sky-500 hover:bg-blue-700'}  text-white rounded-md uppercase text-md hover:w-full m-2 shadow-2xl duration-200 font-light`} type="submit">{message}</button>
           </div>
+          {erreur &&
+            <p className="text-center py-4 text-red-600">{erreur}</p>
+          }
         </form>
       }
     </section>
