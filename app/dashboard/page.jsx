@@ -83,19 +83,19 @@ const Dashboard = () => {
                     ) : (
                         <section className="pt-8 max-w-[1200px] w-full pb-8 flex items-center justify-center flex-wrap">
                             {tournois?.slice(0, 3)?.map(tournoi =>
-                                <Link href={`dashboard/tournois/${tournoi._id}`} className="relative overflow-hidden m-3 z-[1] p-4 basis-[300px] grow min-h-[320px] bg-fond-3 rounded-md shadow-2xl flex flex-col items-center justify-center">
-                                    <h3 className="text-2xl pb-4 text-center">{tournoi.nom}</h3>
+                                <Link href={`dashboard/tournois/${tournoi._id}`} className="relative overflow-hidden m-3 z-[1] p-4 basis-[300px] grow min-h-[320px] bg-fond-3 rounded-md shadow-2xl flex flex-col items-center justify-between">
+                                    <h3 className="text-2xl pt-4 text-center">{tournoi.nom}</h3>
                                     <Image
                                         alt={tournoi.jeu.nom}
                                         src={tournoi.jeu.image}
                                         width={1200}
                                         height={50}
-                                        className="rounded-md w-auto h-auto absolute top-0 left-0 right-0 bottom-0 z-[-1]"
+                                        className="rounded-md w-full object-cover h-full absolute top-0 left-0 right-0 bottom-0 z-[-1]"
                                     />
                                     <p className="py-3 text-orange-600 text-lg">{tournoi.recompense}</p>
                                     <span className="absolute top-[6px] right-[6px] z-20 text-black font-bold opacity-70">{tournoi.teams?.length} / {tournoi.max_teams}</span>
                                     <button type="button" className="w-full p-3 block bg-black shadow-2xl rounded-md text-center uppercase hover:bg-white duration-200 hover:text-black">Rejoindre</button>
-                                    <div className="absolute top-0 right-0 bottom-0 left-0 bg-black opacity-45 z-[-1]"></div>
+                                    <div className="absolute top-0 right-0 bottom-0 left-0 bg-black opacity-60 hover:opacity-20 duration-200 z-[-1]"></div>
                                 </Link>
                             )}
                         </section>
