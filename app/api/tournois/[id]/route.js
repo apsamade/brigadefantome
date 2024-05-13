@@ -30,9 +30,22 @@ export const GET = async(req, {params}) =>{
 }
 export const PATCH = async(req, {params}) =>{
     const body = await req.json()
+    console.log(body)
     try {
-        console.log(body)
-        return NextResponse.json({message: 'Tout est ok.'}, {status: 200})
+        if(body.playerSelected && body.tournoiId && body.teamId){
+            await Tournoi.findByIdAndUpdate(body.tournoiId, {
+                $addToSet: {
+                    'teams': {
+                        team_id: body.teamId,
+                        players: body.playerSelected
+                    }
+                }
+            })
+            console.log('Équipe inscrite avec succès.')
+            const tournoi = await Tournoi.findById(body.tournoiId)
+            return NextResponse.json({message: 'Équipe inscrite avec succès.', teams: tournoi.teams}, {status: 200})
+        }
+        return NextResponse.json({erreur: 'Une erreur est survenue lors de la tentative d\'inscription.'}, {satus: 409})
     } catch (error) {
         console.log(error)
         return NextResponse.json({erreur: 'Une erreur est survenue lors de la tentaive de mise à jour du tournoi.'}, {status: 500})

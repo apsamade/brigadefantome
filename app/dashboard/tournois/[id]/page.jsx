@@ -59,10 +59,16 @@ const Tournoi = ({ params }) => {
                 method: 'PATCH',
                 body: JSON.stringify({
                     playerSelected,
-                    myTeamId: myTeam._id
+                    tournoiId: tournoi._id,
+                    teamId: myTeam._id
                 })
             })
-            if (response.ok) setMessage('Votre équipe a été inscrite avec succès.')
+            if (response.ok) {
+                setMessage('Votre équipe a été inscrite avec succès.')
+                const data = await response.json()
+                setTournoi({ teams : data.teams })
+                console.log(tournoi)
+            }
         } catch (error) {
             console.log(error)
         }
@@ -112,6 +118,15 @@ const Tournoi = ({ params }) => {
                     </form>
                 }
             </section>
+            {tournoi?.teams?.length > 0 ? (
+                <section className="grid-tournois bg-fond-3 rounded-md mt-8 m-3 p-3">
+                    {tournoi?.teams?.map(team =>
+                        <p>{team.team_id.nom}</p>
+                    )}
+                </section>
+            ) : (
+                <p className="text-center pt-4 bg-fond-3 rounded-md mt-8 m-3 p-3">Aucune équipe inscrite pour le moment.</p>
+            )}
 
         </main>
     )

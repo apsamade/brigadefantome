@@ -40,9 +40,12 @@ const TournoiSchema = new Schema({
                 type: Schema.Types.ObjectId,
                 ref: 'Team'
             },
-            team_name: {
-                type: String
-            }
+            players: [
+                {
+                    type: Schema.Types.ObjectId,
+                    ref: 'Team'
+                }
+            ]
         }
     ],
     recompense: {
