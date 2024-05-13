@@ -43,7 +43,7 @@ export const PATCH = async(req, {params}) =>{
             })
             console.log('Équipe inscrite avec succès.')
             const tournoi = await Tournoi.findById(body.tournoiId)
-            return NextResponse.json({message: 'Équipe inscrite avec succès.', teams: tournoi.teams}, {status: 200})
+            return NextResponse.json({message: 'Équipe inscrite avec succès.', tournoi}, {status: 200})
         }
         return NextResponse.json({erreur: 'Une erreur est survenue lors de la tentative d\'inscription.'}, {satus: 409})
     } catch (error) {

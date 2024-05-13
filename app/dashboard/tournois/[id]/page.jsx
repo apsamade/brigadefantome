@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, Suspense } from "react"
 import Link from "next/link"
 import Image from "next/image"
 import { useSession } from "next-auth/react"
@@ -27,6 +27,7 @@ const Tournoi = ({ params }) => {
             const data = await response.json()
             setTournoi(data.tournoi)
             setMyTeam(data.myTeam)
+            console.log(data)
         }
         fetchTournoi()
     }, [params.id])
@@ -64,10 +65,10 @@ const Tournoi = ({ params }) => {
                 })
             })
             if (response.ok) {
-                setMessage('Votre équipe a été inscrite avec succès.')
                 const data = await response.json()
-                setTournoi({ teams : data.teams })
-                console.log(tournoi)
+
+                setMessage('Votre équipe a été inscrite avec succès.')
+                console.log(data)
             }
         } catch (error) {
             console.log(error)
@@ -119,10 +120,15 @@ const Tournoi = ({ params }) => {
                 }
             </section>
             {tournoi?.teams?.length > 0 ? (
-                <section className="grid-tournois bg-fond-3 rounded-md mt-8 m-3 p-3">
-                    {tournoi?.teams?.map(team =>
-                        <p>{team.team_id.nom}</p>
-                    )}
+                <section className="w-full my-4">
+                    <h2 className="pt-4 text-center text-2xl">Équipe inscrite</h2>
+                <section className="grid-team-inscrite">
+                    <Suspense>
+                        {tournoi?.teams?.map(team =>
+                            <Link href={`/dashboard/teams/${team.team_id._id}`} className="bg-fond-3 hover:bg-sky-900 duration-200 rounded-md mt-8 m-3 p-3" key={team._id}>{team.team_id.nom}</Link>
+                        )}
+                    </Suspense>
+                </section>
                 </section>
             ) : (
                 <p className="text-center pt-4 bg-fond-3 rounded-md mt-8 m-3 p-3">Aucune équipe inscrite pour le moment.</p>

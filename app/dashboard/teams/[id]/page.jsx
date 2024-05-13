@@ -149,7 +149,6 @@ const ThisTeam = ({ params }) => {
             })
 
             const data = await response.json()
-            console.log('datas ', data)
             if (data.erreur) { setErreur(data.erreur) }
             if (response.ok) {
                 setTeam({ all_players: data.all_players })
@@ -160,7 +159,6 @@ const ThisTeam = ({ params }) => {
                         in_team: undefined
                     }
                 });
-                console.log(session?.user)
                 setErreur('')
             }
 
