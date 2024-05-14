@@ -2,7 +2,7 @@ import User from "@models/user";
 import { connectToDB } from "@utils/connectToDB";
 import { NextResponse } from "next/server";
 
-export const POST = async (req) =>{
+export const DELETE = async (req) =>{
     const { userId } = await req.json()
     try {
         await connectToDB()

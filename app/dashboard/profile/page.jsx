@@ -15,7 +15,7 @@ const Profile = () => {
 
         try {
             const res = await fetch('/api/profile', {
-                method: 'POST',
+                method: 'DELETE',
                 body: JSON.stringify({ userId: session?.user._id })
             })
             console.log(res)
