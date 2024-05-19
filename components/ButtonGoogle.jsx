@@ -5,15 +5,16 @@ import { signIn } from 'next-auth/react';
 import { useRouter, useSearchParams } from "next/navigation"
 import { useState, useEffect, Suspense } from "react";
 
-function Search() {
-    const searchParams = useSearchParams();
-    const err = searchParams.get('error')
-    if (err) setErreur('Une erreur est survenue lors de la connexion')
-    console.log(err)
-}
+
 const ButtonGoogle = ({ type }) => {
     const [erreur, setErreur] = useState("")
-
+    
+    function Search() {
+        const searchParams = useSearchParams();
+        const err = searchParams.get('error')
+        if (err) return setErreur('Une erreur est survenue lors de la connexion')
+        console.log(err)
+    }
     const handleConnect = () => {
         signIn("google", { callbackUrl: '/dashboard', redirect: false })
     }
