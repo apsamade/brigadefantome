@@ -7,12 +7,15 @@ import { useRouter } from "next/navigation";
 
 import Image from "next/image"
 import Link from "next/link"
+import PuffLoader from "react-spinners/PuffLoader"
+
 import DatePicker from "@components/DatePicker"
 import HourPicker from "@components/HourPicker"
 
 const AddTournoi = () => {
     const router = useRouter()
     const { data: session } = useSession()
+    const [charged, setCharged] = useState(false)
     const [submitting, setSubmitting] = useState(false)
 
     const [isOpen, setIsOpen] = useState(false);
@@ -38,6 +41,7 @@ const AddTournoi = () => {
                 const response = await fetch('/api/admin/jeux')
                 const data = await response.json();
                 setJeux(data);
+                setCharged(true)
                 console.log(data)
             } catch (error) {
                 console.log(error)
@@ -156,21 +160,35 @@ const AddTournoi = () => {
                 <div className="grow basis-[350px] m-2">
                     <HourPicker onHeureSelect={handleHourSelect} />
                 </div>
-                <div className="grid grid-cols-3 gap-3 p-2">
-                    <Suspense>
-                        {jeux?.map((j) =>
-                            <Image
-                                onClick={() => addGame(j._id)}
-                                key={j._id}
-                                alt={j.nom}
-                                src={j.image}
-                                width={180}
-                                height={80}
-                                className={`w-auto rounded-md shadow-xl duration-200 hover:shadow-2xl hover:scale-105 ${gameSelected.includes(j._id) ? 'outline outline-2 outline-offset-2 outline-green-700' : 'outline outline-2 outline-offset-2 outline-transparent'}`}
-                            />
-                        )}
-                    </Suspense>
-                </div>
+                {charged ? (
+                    <div className="grid grid-cols-3 gap-3 p-2">
+                        <Suspense>
+                            {jeux?.map((j) =>
+                                <Image
+                                    onClick={() => addGame(j._id)}
+                                    key={j._id}
+                                    alt={j.nom}
+                                    src={j.image}
+                                    width={180}
+                                    height={80}
+                                    className={`w-auto rounded-md shadow-xl duration-200 hover:shadow-2xl hover:scale-105 ${gameSelected.includes(j._id) ? 'outline outline-2 outline-offset-2 outline-green-700' : 'outline outline-2 outline-offset-2 outline-transparent'}`}
+                                />
+                            )}
+                        </Suspense>
+                    </div>
+                ) : (
+                    <div className="mx-auto w-fit my-12">
+                        <PuffLoader
+                            cssOverride={{ display: 'block', margin: 'auto' }}
+                            color={"#123abc"}
+                            loading={true}
+                            size={150}
+                            speedMultiplier={2}
+                        />
+                    </div>
+                )}
+
+
                 <section className="relative basis-full grow p-2">
                     <div onClick={toggleDropdown} className="p-3 rounded-md shadow-xl focus:shadow-2xl outline outline-1 duration-200 focus:outline-blue-500 outline-blue-100 cursor-pointer">
                         <div className="flex justify-between items-center">
@@ -249,8 +267,8 @@ const AddTournoi = () => {
                 ></textarea>
                 <button type="submit" className="grow m-2 hover:bg-sky-500 duration-200 bg-black p-3 rounded-md shadow-2xl uppercase">Créer un tournoi</button>
                 {erreur &&
-            <p className="text-center grow basis-full text-red-500 py-4">{erreur}</p>
-            }
+                    <p className="text-center grow basis-full text-red-500 py-4">{erreur}</p>
+                }
             </form>
         </main>
 

@@ -2,9 +2,12 @@
 
 import { useEffect, useState } from "react"
 import Image from "next/image"
+import PuffLoader from "react-spinners/PuffLoader"
+
 
 const SupprimerJeu = ({ params }) => {
     const [jeu, setJeu] = useState({})
+    const [charged, setCharged] = useState(false)
     const [supprimer, setSupprimer] = useState(false)
 
     useEffect(() => {
@@ -14,6 +17,7 @@ const SupprimerJeu = ({ params }) => {
             })
             const data = await response.json()
             setJeu(data)
+            setCharged(true)
         }
         fetchJeu()
     }, [])
@@ -35,20 +39,31 @@ const SupprimerJeu = ({ params }) => {
                     <p>Jeu Supprimer avec succès</p>
                 ) :
                     (
-                        <form className="" onSubmit={deleteGame}>
-                            <Image
-                                src={jeu.image}
-                                alt={jeu.nom}
-                                width={800}
-                                height={800}
-                                className="rounded-md object-contain xl:object-cover xl:h-[100%]"
-                            />
-                            <div className="" onSubmit={deleteGame}>
-                                <h3 className="text-3xl">{jeu.nom}</h3>
-                                <p className="mt-1 mb-4 font-light text-ellipsis">{jeu.description}</p>
-                                <button className="p-4 my-2 bg-red-500 rounded-md uppercase text-md hover:px-12 shadow-2xl duration-200 hover:bg-red-600 font-light" type="submit">Supprimer</button>
+                        charged ? (
+                            <form className="" onSubmit={deleteGame}>
+                                <Image
+                                    src={jeu.image}
+                                    alt={jeu.nom}
+                                    width={800}
+                                    height={800}
+                                    className="rounded-md object-contain xl:object-cover xl:h-[100%]"
+                                />
+                                <div className="" onSubmit={deleteGame}>
+                                    <h3 className="text-3xl">{jeu.nom}</h3>
+                                    <p className="mt-1 mb-4 font-light text-ellipsis">{jeu.description}</p>
+                                    <button className="p-4 my-2 bg-red-500 rounded-md uppercase text-md hover:px-12 shadow-2xl duration-200 hover:bg-red-600 font-light" type="submit">Supprimer</button>
+                                </div>
+                            </form>
+                        ) : (
+                            <div className="mx-auto w-fit mt-12">
+                                <PuffLoader
+                                    color={"#123abc"}
+                                    loading={true}
+                                    size={150}
+                                    speedMultiplier={2}
+                                />
                             </div>
-                        </form>
+                        )
                     )}
 
             </section>

@@ -5,22 +5,24 @@ import Link from "next/link"
 import Image from "next/image"
 import { useSession } from "next-auth/react"
 import { Suspense } from "react"
-import { fetchData } from "next-auth/client/_utils"
-
+import { PuffLoader } from "react-spinners"
 
 const ThisTeam = ({ params }) => {
     const { data: session, update, status } = useSession()
     const [erreur, setErreur] = useState('')
     const [message, setMessage] = useState('')
-
     const [submitting, setSubmitting] = useState(false)
+    const [charged, setCharged] = useState()
+
     // const rejoindre une équipe
     const [gameSelected, setGameSelected] = useState([]);
     const [pseudos, setPseudos] = useState({});
     const [team, setTeam] = useState({})
     const [openFormJoinTeam, setOpenFormJoinTeam] = useState(false)
+
     // const quittez une équipe
     const [openFormLeaveTeam, setOpenFormLeaveTeam] = useState(false)
+
     // const supprimer cette équipe
     const [supprimer, setSupprimer] = useState(false)
     const [openFormDeleteTeam, setOpenFormDeleteTeam] = useState(false)
@@ -39,12 +41,12 @@ const ThisTeam = ({ params }) => {
                 const data = await response.json()
                 if (response.ok) {
                     setTeam(data)
+                    setCharged(true)
                 }
             } catch (error) {
                 console.log(error)
                 setErreur('Une erreur est survenue lors de la récupération de l\'équipe.')
             }
-
         }
         fetchTeam()
     }, [params.id])
@@ -66,6 +68,7 @@ const ThisTeam = ({ params }) => {
     const handleSubmitJoinTeam = async (e) => {
         e.preventDefault()
         setSubmitting(false)
+        setCharged(false)
         setOpenFormJoinTeam(!openFormJoinTeam)
 
         let mdp;
@@ -111,9 +114,11 @@ const ThisTeam = ({ params }) => {
             if (data.erreur) {
                 setErreur(data.erreur);
                 setMessage('Créer une équipe')
+                setCharged(true)
             }
             if (response.ok) {
                 setTeam({ all_players: data.all_players })
+                setCharged(true)
                 await update({
                     ...session,
                     user: {
@@ -127,6 +132,7 @@ const ThisTeam = ({ params }) => {
             }
         } catch (error) {
             console.log(error)
+            setCharged(true)
         }
     }
 
@@ -137,6 +143,7 @@ const ThisTeam = ({ params }) => {
     const handleSubmitLeaveTeam = async (e) => {
         e.preventDefault()
         setSubmitting(true)
+        setCharged(false)
         setOpenFormLeaveTeam(!openFormLeaveTeam)
 
         try {
@@ -149,7 +156,10 @@ const ThisTeam = ({ params }) => {
             })
 
             const data = await response.json()
-            if (data.erreur) { setErreur(data.erreur) }
+            if (data.erreur) {
+                setErreur(data.erreur);
+                setCharged(true)
+            }
             if (response.ok) {
                 setTeam({ all_players: data.all_players })
                 await update({
@@ -159,11 +169,13 @@ const ThisTeam = ({ params }) => {
                         in_team: undefined
                     }
                 });
+                setCharged(true)
                 setErreur('')
             }
 
         } catch (error) {
             console.log(error)
+            setCharged(true)
             setErreur('Une erreur est survenue lors de la tentative pour quitter l\'équipe')
         }
     }
@@ -214,40 +226,54 @@ const ThisTeam = ({ params }) => {
         return (
             <main className="grow">
                 <section className="p-4 rounded-md bg-fond-2 shadow-2xl">
-                    <div>
-                        <h1 className="py-3 text-center mx-auto text-3xl">{team.nom}</h1>
-                        <div className="my-12">
-                            <p className="text-xl uppercase">Les jeux jouer :</p>
-                            <div className="flex items-center justify-center flex-wrap">
-                                <Suspense>
-                                    {team?.jeux?.map(j =>
-                                        <Link
-                                            key={j.jeu_id._id}
-                                            href={`/dashboard/jeux/${j.jeu_id._id}`}
-                                        >
-                                            <Image
-                                                alt={j.jeu_id.nom}
-                                                src={j.jeu_id.image}
-                                                width={200}
-                                                height={200}
-                                                className="rounded-md shadow-2xl m-3 hover:scale-110 duration-200"
-                                            />
-                                        </Link>
-                                    )}
-                                </Suspense>
-                            </div>
-                        </div>
+                    {charged ? (
                         <div>
-                            <p className="text-xl uppercase">Les joueurs :</p>
-                            <div className="flex items-center justify-center flex-col">
-                                <Suspense>
-                                    {team?.all_players?.map(ap =>
-                                        <span className={`${ap.chef ? 'text-orange-500' : 'text-white'}`} key={ap._id}>{ap.user_id.pseudo} #{ap.user_id.hashtag}</span>
-                                    )}
-                                </Suspense>
+                            <h1 className="py-3 text-center mx-auto text-3xl">{team.nom}</h1>
+                            <div className="my-12">
+                                <p className="text-xl uppercase">Les jeux jouer :</p>
+                                <div className="flex items-center justify-center flex-wrap">
+                                    <Suspense>
+                                        {team?.jeux?.map(j =>
+                                            <Link
+                                                key={j.jeu_id._id}
+                                                href={`/dashboard/jeux/${j.jeu_id._id}`}
+                                            >
+                                                <Image
+                                                    alt={j.jeu_id.nom}
+                                                    src={j.jeu_id.image}
+                                                    width={200}
+                                                    height={200}
+                                                    className="rounded-md shadow-2xl m-3 hover:scale-110 duration-200"
+                                                />
+                                            </Link>
+                                        )}
+                                    </Suspense>
+                                </div>
+                            </div>
+                            <div>
+                                <p className="text-xl uppercase">Les joueurs :</p>
+                                <div className="flex items-center justify-center flex-col">
+                                    <Suspense>
+                                        {team?.all_players?.map(ap =>
+                                            <span className={`${ap.chef ? 'text-orange-500' : 'text-white'}`} key={ap._id}>{ap.user_id.pseudo} #{ap.user_id.hashtag}</span>
+                                        )}
+                                    </Suspense>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    ) : (
+                        <div className="mx-auto w-fit my-12">
+                            <p className="mb-6 text-center">Chargement de l'équipe en cours ...</p>
+                            <PuffLoader
+                                cssOverride={{ display: 'block', margin: 'auto' }}
+                                color={"#123abc"}
+                                loading={true}
+                                size={150}
+                                speedMultiplier={2}
+                            />
+                        </div>
+                    )}
+
                     {team._id &&
                         <>
                             {!session?.user.in_team &&

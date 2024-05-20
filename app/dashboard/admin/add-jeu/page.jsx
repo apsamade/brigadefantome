@@ -1,8 +1,10 @@
 'use client'
 
 import { useState } from "react"
+import { useRouter } from "next/navigation"
 
 const AddGame = () => {
+  const router = useRouter()
   const [submitting, setSubmitting] = useState(false)
   const [message, setMessage] = useState('Ajouter')
   const [erreur, setErreur] = useState('')
@@ -36,12 +38,7 @@ const AddGame = () => {
         })
 
         if (res.ok) {
-          e.target.reset();
-          setMessage('Jeu Ajouter !')
-          setTimeout(() => {
-            setSubmitting(false)
-            setMessage('Ajouter')
-          }, 12000)
+          router.push('/dashboard/admin/jeux')
         } else {
           setErreur(res.error)
           setSubmitting(false)

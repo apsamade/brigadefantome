@@ -3,18 +3,21 @@
 import { useEffect, useState } from "react"
 import Image from "next/image"
 import { motion, AnimatePresence } from "framer-motion";
+import { PuffLoader } from "react-spinners";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
 const CreateTeam = () => {
     const router = useRouter()
+    const [submitting, setSubmitting] = useState(false)
+    const [message, setMessage] = useState('Créer une équipe')
+    const [erreur, setErreur] = useState('')
+    const [charged, setCharged] = useState(false)
+
     const [jeux, setJeux] = useState([])
     const [teamSize, setTeamSize] = useState("");  // Aucune taille sélectionnée par défaut
     const [gameSelected, setGameSelected] = useState([]);
     const [pseudos, setPseudos] = useState({});
-    const [submitting, setSubmitting] = useState(false)
-    const [erreur, setErreur] = useState('')
-    const [message, setMessage] = useState('Créer une équipe')
 
     const [isOpen, setIsOpen] = useState(false);
     const { data: session, update } = useSession()
@@ -26,6 +29,7 @@ const CreateTeam = () => {
                 const response = await fetch('/api/jeux')
                 const data = await response.json();
                 setJeux(data);
+                setCharged(true)
             } catch (error) {
                 console.log(error)
             }
@@ -131,19 +135,33 @@ const CreateTeam = () => {
                 />
                 <section className="my-12">
                     <p className="mr-auto ml-3 uppercase">Jeux jouer par votr équipe</p>
-                    <div className="basis-full flex-wrap flex items-center justify-center">
-                        {jeux?.map((jeu) => (
-                            <Image
-                                onClick={() => addGame(jeu._id)}
-                                key={jeu._id}
-                                src={jeu.image}
-                                alt={jeu.nom}
-                                width={110}
-                                height={50}
-                                className={`m-2 w-auto rounded-md shadow-xl duration-200 hover:shadow-2xl hover:scale-110 ${gameSelected.includes(jeu._id) ? 'outline outline-2 outline-offset-2 outline-green-700' : 'outline outline-2 outline-offset-2 outline-transparent'}`}
+                    {charged ? (
+                        <div className="basis-full flex-wrap flex items-center justify-center">
+                            {jeux?.map((jeu) => (
+                                <Image
+                                    onClick={() => addGame(jeu._id)}
+                                    key={jeu._id}
+                                    src={jeu.image}
+                                    alt={jeu.nom}
+                                    width={110}
+                                    height={50}
+                                    className={`m-2 w-auto rounded-md shadow-xl duration-200 hover:shadow-2xl hover:scale-110 ${gameSelected.includes(jeu._id) ? 'outline outline-2 outline-offset-2 outline-green-700' : 'outline outline-2 outline-offset-2 outline-transparent'}`}
+                                />
+                            ))}
+                        </div>
+                    ) : (
+                        <div className="mx-auto w-fit my-12">
+                            <p className="mb-6 text-center">Chargement des jeux en cours ...</p>
+                            <PuffLoader
+                                cssOverride={{ display: 'block', margin: 'auto' }}
+                                color={"#123abc"}
+                                loading={true}
+                                size={150}
+                                speedMultiplier={2}
                             />
-                        ))}
-                    </div>
+                        </div>
+                    )}
+
                     <div className="basis-full grow flex flex-wrap items-center justify-center">
                         {gameSelected?.map((gameId) => {
                             const selectedGame = jeux.find((jeu) => jeu._id === gameId);
