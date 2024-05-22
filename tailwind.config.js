@@ -24,7 +24,8 @@ module.exports = {
         'profile-bg': "url('/assets/background/profile.png')",
         'profile-2-bg': "url('/assets/background/profile-3.png')",
         'decouvrir': "url('/assets/background/decouvrir.png')",
-        'bg-lol': "url('/assets/background/bg-lol.jpg')",      
+        'bg-lol': "url('/assets/background/bg-lol.jpg')",   
+        'fortnite-tournoi' : "url('/assets/background/fortnite-tournoi.jpg')"   
       }
     },
   },
