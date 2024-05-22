@@ -6,8 +6,10 @@ import Image from "next/image"
 import { useSession } from "next-auth/react"
 import { Suspense } from "react"
 import { PuffLoader } from "react-spinners"
+import { useRouter } from "next/navigation"
 
 const ThisTeam = ({ params }) => {
+    const router = useRouter()
     const { data: session, update, status } = useSession()
     const [erreur, setErreur] = useState('')
     const [message, setMessage] = useState('')
@@ -204,6 +206,7 @@ const ThisTeam = ({ params }) => {
                         in_team: undefined
                     }
                 });
+                router.push('/dashboard/teams')
             }
         } catch (error) {
             console.log(error)
@@ -211,202 +214,176 @@ const ThisTeam = ({ params }) => {
         }
     }
     console.log(supprimer)
-    if (supprimer) {
-        return (
-            <section className="grow">
-                <div>
-                    <p className="my-4 p-3 shadow-2xl uppercase text-xl text-center w-full bg-fond-3 rounded-md">Tournoi Supprimer avec succès</p>
-                    <Link href='/dashboard/admin/tournois'>
-                        Retour
-                    </Link>
-                </div>
-            </section>
-        )
-    } else if (team) {
-        return (
-            <main className="grow">
-                <section className="p-4 rounded-md bg-fond-2 shadow-2xl">
-                    {charged ? (
-                        <div>
-                            <h1 className="py-3 text-center mx-auto text-3xl">{team.nom}</h1>
-                            <div className="my-12">
-                                <p className="text-xl uppercase">Les jeux jouer :</p>
-                                <div className="flex items-center justify-center flex-wrap">
-                                    <Suspense>
-                                        {team?.jeux?.map(j =>
-                                            <Link
-                                                key={j.jeu_id._id}
-                                                href={`/dashboard/jeux/${j.jeu_id._id}`}
-                                            >
-                                                <Image
-                                                    alt={j.jeu_id.nom}
-                                                    src={j.jeu_id.image}
-                                                    width={200}
-                                                    height={200}
-                                                    className="rounded-md shadow-2xl m-3 hover:scale-110 duration-200"
-                                                />
-                                            </Link>
-                                        )}
-                                    </Suspense>
-                                </div>
-                            </div>
-                            <div>
-                                <p className="text-xl uppercase">Les joueurs :</p>
-                                <div className="flex items-center justify-center flex-col">
-                                    <Suspense>
-                                        {team?.all_players?.map(ap =>
-                                            <span className={`${ap.chef ? 'text-orange-500' : 'text-white'}`} key={ap._id}>{ap.user_id.pseudo} #{ap.user_id.hashtag}</span>
-                                        )}
-                                    </Suspense>
-                                </div>
-                            </div>
-                        </div>
-                    ) : (
-                        <div className="mx-auto w-fit my-12">
-                            <p className="mb-6 text-center">Chargement de l'équipe en cours ...</p>
-                            <PuffLoader
-                                cssOverride={{ display: 'block', margin: 'auto' }}
-                                color={"#123abc"}
-                                loading={true}
-                                size={150}
-                                speedMultiplier={2}
-                            />
-                        </div>
-                    )}
-
-                    {team._id &&
-                        <>
-                            {!session?.user.in_team &&
-                                <section>
-                                    <button
-                                        onClick={openJoinTeam}
-                                        className={`my-6 rounded-md shadow-2xl uppercase block w-full p-3 bg-black text-white hover:text-white ${openFormJoinTeam ? 'hover:bg-red-600' : 'hover:bg-green-600'}  duration-200`}
-                                        type="button"
-                                    >
-                                        {openFormJoinTeam ? ('Fermer') : ('Rejoindre')}
-                                    </button>
-                                    {openFormJoinTeam &&
-                                        <form
-                                            onSubmit={handleSubmitJoinTeam}
-                                            className="flex rounded-md outline outline-gray-700 outline-1 p-4 items-center flex-wrap justify-center"
+    return (
+        <main className="grow">
+            <section className="p-4 rounded-md bg-fond-2 shadow-2xl">
+                {charged ? (
+                    <div>
+                        <h1 className="py-3 text-center mx-auto text-3xl">{team.nom}</h1>
+                        <div className="my-12">
+                            <p className="text-xl uppercase">Les jeux jouer :</p>
+                            <div className="flex items-center justify-center flex-wrap">
+                                <Suspense>
+                                    {team?.jeux?.map(j =>
+                                        <Link
+                                            key={j.jeu_id._id}
+                                            href={`/dashboard/jeux/${j.jeu_id._id}`}
                                         >
+                                            <Image
+                                                alt={j.jeu_id.nom}
+                                                src={j.jeu_id.image}
+                                                width={200}
+                                                height={200}
+                                                className="rounded-md shadow-2xl m-3 hover:scale-110 duration-200"
+                                            />
+                                        </Link>
+                                    )}
+                                </Suspense>
+                            </div>
+                        </div>
+                        <div>
+                            <p className="text-xl uppercase">Les joueurs :</p>
+                            <div className="flex items-center justify-center flex-col">
+                                <Suspense>
+                                    {team?.all_players?.map(ap =>
+                                        <span className={`${ap.chef ? 'text-orange-500' : 'text-white'}`} key={ap._id}>{ap.user_id.pseudo} #{ap.user_id.hashtag}</span>
+                                    )}
+                                </Suspense>
+                            </div>
+                        </div>
+                    </div>
+                ) : (
+                    <div className="mx-auto w-fit my-12">
+                        <p className="mb-6 text-center">Chargement de l'équipe en cours ...</p>
+                        <PuffLoader
+                            cssOverride={{ display: 'block', margin: 'auto' }}
+                            color={"#123abc"}
+                            loading={true}
+                            size={150}
+                            speedMultiplier={2}
+                        />
+                    </div>
+                )}
 
-                                            <div className="grow basis-full flex p-4 items-center justify-center flex-wrap">
-                                                <h3 className="uppercase text-2xl basis-full grow text-center my-3">Rejoindre {team.nom}</h3>
-                                                {/* les jeux de l'équipe */}
-                                                {team.jeux?.map((jeu) => (
-                                                    <Image
-                                                        onClick={() => addGame(jeu.jeu_id._id)}
-                                                        key={jeu._id}
-                                                        src={jeu.jeu_id.image}
-                                                        alt={jeu.jeu_id.nom}
-                                                        width={160}
-                                                        height={50}
-                                                        className={`m-2 w-auto rounded-md shadow-xl duration-200 hover:shadow-2xl hover:scale-110 ${gameSelected.includes(jeu.jeu_id._id) ? 'outline outline-2 outline-offset-2 outline-green-700' : 'outline outline-2 outline-offset-2 outline-transparent'}`}
-                                                    />
-                                                ))}
-                                            </div>
-                                            {/* les pseudos pour chaque jeu séléctionné */}
-                                            <div className="basis-full grow flex flex-wrap items-center justify-center">
+                {team._id &&
+                    <>
+                        {!session?.user.in_team &&
+                            <section>
+                                <button
+                                    onClick={openJoinTeam}
+                                    className={`my-6 rounded-md shadow-2xl uppercase block w-full p-3 bg-black text-white hover:text-white ${openFormJoinTeam ? 'hover:bg-red-600' : 'hover:bg-green-600'}  duration-200`}
+                                    type="button"
+                                >
+                                    {openFormJoinTeam ? ('Fermer') : ('Rejoindre')}
+                                </button>
+                                {openFormJoinTeam &&
+                                    <form
+                                        onSubmit={handleSubmitJoinTeam}
+                                        className="flex rounded-md outline outline-gray-700 outline-1 p-4 items-center flex-wrap justify-center"
+                                    >
 
-                                                {gameSelected?.map((gameId) => {
-                                                    const selectedGame = team?.jeux?.find((jeu) => jeu.jeu_id._id === gameId);
-                                                    return (
-                                                        <input
-                                                            required
-                                                            key={gameId}
-                                                            type="text"
-                                                            name={`pseudo-${selectedGame.jeu_id.nom}`}
-                                                            id={`pseudo-${selectedGame.jeu_id.nom}`}
-                                                            onChange={(e) => setPseudos({ ...pseudos, [gameId]: e.target.value })}
-                                                            placeholder={`Pseudo ${selectedGame.jeu_id.nom}`}
-                                                            className="p-3 my-5 bg-transparent rounded-md shadow-xl focus:shadow-2xl grow basis-[300px] m-2 outline outline-1 duration-200 focus:outline-green-600 outline-blue-100"
-                                                        />
-                                                    );
-                                                })}
-                                            </div>
-                                            {team?.mdp &&
-                                                <input
-                                                    type="password"
-                                                    name="mdp"
-                                                    id="mdp"
-                                                    placeholder="Mot de passe"
-                                                    className="p-3 text-black rounded-md shadow-xl focus:shadow-2xl grow basis-[300px] m-2 outline outline-1 duration-200 focus:outline-blue-500 outline-blue-100"
+                                        <div className="grow basis-full flex p-4 items-center justify-center flex-wrap">
+                                            <h3 className="uppercase text-2xl basis-full grow text-center my-3">Rejoindre {team.nom}</h3>
+                                            {/* les jeux de l'équipe */}
+                                            {team.jeux?.map((jeu) => (
+                                                <Image
+                                                    onClick={() => addGame(jeu.jeu_id._id)}
+                                                    key={jeu._id}
+                                                    src={jeu.jeu_id.image}
+                                                    alt={jeu.jeu_id.nom}
+                                                    width={160}
+                                                    height={50}
+                                                    className={`m-2 w-auto rounded-md shadow-xl duration-200 hover:shadow-2xl hover:scale-110 ${gameSelected.includes(jeu.jeu_id._id) ? 'outline outline-2 outline-offset-2 outline-green-700' : 'outline outline-2 outline-offset-2 outline-transparent'}`}
                                                 />
-                                            }
-                                            <button type="submit" className={submitting ? "grow basis-full p-4 bg-green-600 cursor-default uppercase rounded-md text-white m-2 shadow-2xl mt-6" : "grow basis-full p-4 bg-black rounded-md text-white m-2 shadow-2xl mt-6 duration-200 hover:bg-green-600 uppercase"}>
-                                                Rejoindre l'équipe
-                                            </button>
-                                        </form>
-                                    }
-                                </section>
-                            }
-                            {team?._id == session?.user?.in_team?.toString() &&
-                                <>
-                                    <button
-                                        onClick={openLeaveTeam}
-                                        className="my-6 rounded-md shadow-2xl uppercase block w-full p-3 bg-black text-white hover:text-white hover:bg-red-600 duration-200"
-                                        type="button"
-                                    >
-                                        Quittez
-                                    </button>
-                                    {openFormLeaveTeam &&
-                                        <form onSubmit={handleSubmitLeaveTeam} className="bg-[#000000A0] flex items-center justify-center absolute top-0 left-0 right-0 bottom-0">
-                                            <div className="p-4 bg-fond-3 rounded-md">
-                                                <p className="text-center">Êtes vous sur de vouloir quitter votre équipe ?</p>
-                                                <div className="flex items-center justify-center flex-wrap my-3">
-                                                    <button className="grow p-3 hover:bg-sky-600 duration-200 bg-sky-500 rounded-md m-1" onClick={openLeaveTeam} type="button">Annuler</button>
-                                                    <button className="grow p-3 hover:bg-red-700 duration-200 bg-red-500 rounded-md m-1" type="submit">Quitter</button>
-                                                </div>
+                                            ))}
+                                        </div>
+                                        {/* les pseudos pour chaque jeu séléctionné */}
+                                        <div className="basis-full grow flex flex-wrap items-center justify-center">
+
+                                            {gameSelected?.map((gameId) => {
+                                                const selectedGame = team?.jeux?.find((jeu) => jeu.jeu_id._id === gameId);
+                                                return (
+                                                    <input
+                                                        required
+                                                        key={gameId}
+                                                        type="text"
+                                                        name={`pseudo-${selectedGame.jeu_id.nom}`}
+                                                        id={`pseudo-${selectedGame.jeu_id.nom}`}
+                                                        onChange={(e) => setPseudos({ ...pseudos, [gameId]: e.target.value })}
+                                                        placeholder={`Pseudo ${selectedGame.jeu_id.nom}`}
+                                                        className="p-3 my-5 bg-transparent rounded-md shadow-xl focus:shadow-2xl grow basis-[300px] m-2 outline outline-1 duration-200 focus:outline-green-600 outline-blue-100"
+                                                    />
+                                                );
+                                            })}
+                                        </div>
+                                        {team?.mdp &&
+                                            <input
+                                                type="password"
+                                                name="mdp"
+                                                id="mdp"
+                                                placeholder="Mot de passe"
+                                                className="p-3 text-black rounded-md shadow-xl focus:shadow-2xl grow basis-[300px] m-2 outline outline-1 duration-200 focus:outline-blue-500 outline-blue-100"
+                                            />
+                                        }
+                                        <button type="submit" className={submitting ? "grow basis-full p-4 bg-green-600 cursor-default uppercase rounded-md text-white m-2 shadow-2xl mt-6" : "grow basis-full p-4 bg-black rounded-md text-white m-2 shadow-2xl mt-6 duration-200 hover:bg-green-600 uppercase"}>
+                                            Rejoindre l'équipe
+                                        </button>
+                                    </form>
+                                }
+                            </section>
+                        }
+                        {team?._id == session?.user?.in_team?.toString() &&
+                            <>
+                                <button
+                                    onClick={openLeaveTeam}
+                                    className="my-6 rounded-md shadow-2xl uppercase block w-full p-3 bg-black text-white hover:text-white hover:bg-red-600 duration-200"
+                                    type="button"
+                                >
+                                    Quittez
+                                </button>
+                                {openFormLeaveTeam &&
+                                    <form onSubmit={handleSubmitLeaveTeam} className="bg-[#000000A0] flex items-center justify-center absolute top-0 left-0 right-0 bottom-0">
+                                        <div className="p-4 bg-fond-3 rounded-md">
+                                            <p className="text-center">Êtes vous sur de vouloir quitter votre équipe ?</p>
+                                            <div className="flex items-center justify-center flex-wrap my-3">
+                                                <button className="grow p-3 hover:bg-sky-600 duration-200 bg-sky-500 rounded-md m-1" onClick={openLeaveTeam} type="button">Annuler</button>
+                                                <button className="grow p-3 hover:bg-red-700 duration-200 bg-red-500 rounded-md m-1" type="submit">Quitter</button>
                                             </div>
-                                        </form>
-                                    }
-                                </>
-                            }
-                            {team?.all_players?.find(p => p.user_id._id === session?.user?._id && p.chef === true) &&
-                                <>
-                                    <button
-                                        onClick={openDeleteTeam}
-                                        className="my-6 rounded-md shadow-2xl uppercase block w-full p-3 bg-black text-white hover:text-white hover:bg-red-600 duration-200"
-                                        type="button"
-                                    >
-                                        Supprimer cette équipe
-                                    </button>
-                                    {openFormDeleteTeam &&
-                                        <form onSubmit={handleSubmitDeleteTeam} className="bg-[#000000A0] flex items-center justify-center absolute top-0 left-0 right-0 bottom-0">
-                                            <div className="p-4 bg-fond-3 rounded-md">
-                                                <p className="text-center">Êtes vous sur de vouloir supprimer votre équipe ?</p>
-                                                <div className="flex items-center justify-center flex-wrap my-3">
-                                                    <button className="grow p-3 hover:bg-sky-600 duration-200 bg-sky-500 rounded-md m-1" onClick={openDeleteTeam} type="button">Annuler</button>
-                                                    <button className="grow p-3 hover:bg-red-700 duration-200 bg-red-500 rounded-md m-1" type="submit">Supprimer</button>
-                                                </div>
+                                        </div>
+                                    </form>
+                                }
+                            </>
+                        }
+                        {team?.all_players?.find(p => p.user_id._id === session?.user?._id && p.chef === true) &&
+                            <>
+                                <button
+                                    onClick={openDeleteTeam}
+                                    className="my-6 rounded-md shadow-2xl uppercase block w-full p-3 bg-black text-white hover:text-white hover:bg-red-600 duration-200"
+                                    type="button"
+                                >
+                                    Supprimer cette équipe
+                                </button>
+                                {openFormDeleteTeam &&
+                                    <form onSubmit={handleSubmitDeleteTeam} className="bg-[#000000A0] flex items-center justify-center absolute top-0 left-0 right-0 bottom-0">
+                                        <div className="p-4 bg-fond-3 rounded-md">
+                                            <p className="text-center">Êtes vous sur de vouloir supprimer votre équipe ?</p>
+                                            <div className="flex items-center justify-center flex-wrap my-3">
+                                                <button className="grow p-3 hover:bg-sky-600 duration-200 bg-sky-500 rounded-md m-1" onClick={openDeleteTeam} type="button">Annuler</button>
+                                                <button className="grow p-3 hover:bg-red-700 duration-200 bg-red-500 rounded-md m-1" type="submit">Supprimer</button>
                                             </div>
-                                        </form>
-                                    }
-                                </>
-                            }
-                        </>
-                    }
-                    {erreur &&
-                        <p className="text-center text-red-500 p-4">{erreur}</p>
-                    }
-                </section>
-            </main>
-        )
-    } else {
-        return (
-            <section className="grow">
-                <p className="mx-auto text-center uppercase text-xl pt-32">Aucune équipe trouvée sur cette route mon frérot !</p>
-                <Image
-                    src="/assets/elements/tk-404.gif"
-                    alt="oupsi 404 not found"
-                    width={700}
-                    height={500}
-                    className='object-contain mx-auto block rounded-lg mt-24'
-                />
+                                        </div>
+                                    </form>
+                                }
+                            </>
+                        }
+                    </>
+                }
+                {erreur &&
+                    <p className="text-center text-red-500 p-4">{erreur}</p>
+                }
             </section>
-        )
-    }
+        </main>
+    )
 
 }
 
