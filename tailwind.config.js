@@ -25,7 +25,11 @@ module.exports = {
         'profile-2-bg': "url('/assets/background/profile-3.png')",
         'decouvrir': "url('/assets/background/decouvrir.png')",
         'bg-lol': "url('/assets/background/bg-lol.jpg')",   
-        'fortnite-tournoi' : "url('/assets/background/fortnite-tournoi.jpg')"   
+        'fortnite-tournoi' : "url('/assets/background/fortnite-tournoi.jpg')",
+        'partenaire' : "url('/assets/background/bg-partenaire.png')", 
+        'cashprize' : "url('/assets/background/bg-cashprize.png')", 
+        'discord' : "url('/assets/background/bg-discord.png')", 
+        'neon-run' : "url('/assets/background/neon-run.png')",
       }
     },
   },

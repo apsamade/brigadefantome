@@ -4,6 +4,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { useEffect, useState } from "react"
 import { PuffLoader } from "react-spinners"
+import BackgroundAnime from "@components/BackgroundAnime"
 
 const Home = () => {
     const [jeux, setJeux] = useState([])
@@ -80,8 +81,8 @@ const Home = () => {
                             />
                         </div>
                     )}
-
                 </div>
+
 
                 <section className="p-4 mt-16 bg-fortnite-tournoi bg-cover bg-left min-h-[50vh] relative z-0">
                     <div className="absolute top-0 left-0 right-0 bottom-0 bg-gradient-to-l to-black from-[#00000038] duration-200 hover:opacity-65 z-[-1]"></div>
@@ -90,37 +91,46 @@ const Home = () => {
                         <p className="leading-7 xl:text-left text-center">La Brigade Fantôme est une communauté passionnée de jeux vidéo qui a pour objectif de créer et d'organiser des tournois de jeux vidéo compétitifs sur les titres les plus populaires du moment. Nous nous engageons à offrir une expérience de jeu fair-play et amusante à tous les participants.</p>
                     </div>
                 </section>
+                <section className="relative">
+                    <BackgroundAnime />
+                    <section className="max-w-[1400px] mx-auto p-4">
+                        <div className="max-w-[800px] bg-neon-run bg-cover p-4 py-8 mr-auto rounded-md mt-12 z-0 xl:mt-32 shadow-2xl relative">
+                            <h2 className="my-4 text-2xl">Créez votre compte et rejoignez la communauté</h2>
+                            <p className="mb-8">Inscrivez-vous dès aujourd'hui pour créer votre compte, rejoindre une équipe ou participer à nos prochains tournois.</p>
+                            <Link href="#" className="p-4 uppercase bg-blue-600 rounded-md px-8 shadow-2xl block my-2 w-fit hover:px-24 duration-200">Inscription</Link>
+                            <div className="absolute top-0 right-0 left-0 bottom-0 bg-gradient-to-l -z-10 to-black from-transparent"></div>
+                        </div>
+                    </section>
 
-                <section className="max-w-[1400px] mx-auto p-4">
-                    <div className="max-w-[800px] bg-black p-4 py-8 mr-auto rounded-md mt-12 xl:mt-32 shadow-2xl">
-                        <h2 className="my-4 text-2xl">Créez votre compte et rejoignez la communauté</h2>
-                        <p className="mb-8">Inscrivez-vous dès aujourd'hui pour créer votre compte, rejoindre une équipe ou participer à nos prochains tournois.</p>
-                        <Link href="#" className="p-4 uppercase bg-blue-600 rounded-md px-8 shadow-2xl block my-2 w-fit hover:px-24 duration-200">Inscription</Link>
-                    </div>
+                    <section className="max-w-[1400px] mx-auto p-4">
+                        <div className="max-w-[800px] bg-discord bg-cover p-4 py-8 ml-auto rounded-md mt-12 xl:mt-32 shadow-2xl relative z-0">
+                            <div className="absolute top-0 right-0 left-0 bottom-0 bg-gradient-to-l -z-10 to-black from-transparent"></div>
+                            <h2 className="my-4 text-2xl">Rejoignez notre communauté Discord</h2>
+                            <p className="mb-8">Rejoignez notre communauté dynamique de joueurs sur Discord, trouvez des coéquipiers et préparez-vous à vivre des moments d'adrénaline pure. Inscrivez-vous dès aujourd'hui et découvrez un monde de compétition et de divertissement sans limites !</p>
+                            <Link href="https://discord.gg/brigLinkdefantome" className="p-4 uppercase bg-blue-600 rounded-md px-8 shadow-2xl block my-2 w-fit hover:px-24 duration-200">Rejoindre Discord</Link>
+                        </div>
+                    </section>
                 </section>
+                <section className="relative">
+                    <BackgroundAnime />
 
-                <section className="max-w-[1400px] mx-auto p-4">
-                    <div className="max-w-[800px] bg-black p-4 py-8 ml-auto rounded-md mt-12 xl:mt-32 shadow-2xl">
-                        <h2 className="my-4 text-2xl">Rejoignez notre communauté Discord</h2>
-                        <p className="mb-8">Rejoignez notre communauté dynamique de joueurs sur Discord, trouvez des coéquipiers et préparez-vous à vivre des moments d'adrénaline pure. Inscrivez-vous dès aujourd'hui et découvrez un monde de compétition et de divertissement sans limites !</p>
-                        <Link href="https://discord.gg/brigLinkdefantome" className="p-4 uppercase bg-blue-600 rounded-md px-8 shadow-2xl block my-2 w-fit hover:px-24 duration-200">Rejoindre Discord</Link>
-                    </div>
-                </section>
+                    <section className="max-w-[1400px] mx-auto p-4">
+                        <div className="max-w-[800px] bg-cashprize bg-cover p-4 py-8 mr-auto rounded-md mt-12 xl:mt-32 shadow-2xl relative z-0">
+                            <div className="absolute top-0 right-0 left-0 bottom-0 bg-gradient-to-l -z-10 to-black from-transparent"></div>
+                            <h2 className="my-4 text-2xl">Des prix incroyables pour les vainqueurs</h2>
+                            <p className="mb-8">Certains de nos tournois offrent des récompenses en cash pouvant aller jusqu'à 1000€ !</p>
+                            <Link href="/decouvrir" className="p-4 uppercase bg-blue-600 rounded-md px-8 shadow-2xl block my-2 w-fit hover:px-24 duration-200">Découvrir</Link>
+                        </div>
+                    </section>
 
-                <section className="max-w-[1400px] mx-auto p-4">
-                    <div className="max-w-[800px] bg-black p-4 py-8 mr-auto rounded-md mt-12 xl:mt-32 shadow-2xl">
-                        <h2 className="my-4 text-2xl">Des prix incroyables pour les vainqueurs</h2>
-                        <p className="mb-8">Certains de nos tournois offrent des récompenses en cash pouvant aller jusqu'à 1000€ !</p>
-                        <Link href="/decouvrir" className="p-4 uppercase bg-blue-600 rounded-md px-8 shadow-2xl block my-2 w-fit hover:px-24 duration-200">Découvrir</Link>
-                    </div>
-                </section>
-
-                <section className="max-w-[1400px] mx-auto mb-12 p-4">
-                    <div className="max-w-[800px] bg-black p-4 py-8 ml-auto rounded-md mt-12 xl:mt-32 shadow-2xl">
-                        <h2 className="my-4 text-2xl">Devenez partenaire ou sponsor</h2>
-                        <p className="mb-8">Si vous êtes intéressé par un partenariat ou un sponsoring avec La Brigade Fantôme, n'hésitez pas à nous contacter.</p>
-                        <Link href="/contact" className="p-4 uppercase bg-blue-600 rounded-md px-8 shadow-2xl block my-2 w-fit hover:px-24 duration-200">Contactez-nous</Link>
-                    </div>
+                    <section className="max-w-[1400px] mx-auto mb-12 p-4">
+                        <div className="max-w-[800px] bg-partenaire bg-cover p-4 py-8 ml-auto rounded-md mt-12 xl:mt-32 shadow-2xl relative z-0">
+                            <div className="absolute top-0 right-0 left-0 bottom-0 bg-gradient-to-l -z-10 to-black from-transparent"></div>
+                            <h2 className="my-4 text-2xl">Devenez partenaire ou sponsor</h2>
+                            <p className="mb-8">Si vous êtes intéressé par un partenariat ou un sponsoring avec La Brigade Fantôme, n'hésitez pas à nous contacter.</p>
+                            <Link href="/contact" className="p-4 uppercase bg-blue-600 rounded-md px-8 shadow-2xl block my-2 w-fit hover:px-24 duration-200">Contactez-nous</Link>
+                        </div>
+                    </section>
                 </section>
             </section>
         </>
